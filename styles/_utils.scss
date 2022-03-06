@@ -1,0 +1,22 @@
+$white: #fff;
+$off-white: #F4f4f4;
+$grey: #AFAFAF;
+$off-grey: #888888;
+$black: #000;
+$primary-light: #119DA4;
+$primary-light-shadow: #052a2c;
+$secondary-light: #EF8237;
+$secondary-light-shadow: #692b02;
+$primary-dark: #133D5B;
+$secondary-dark: #13505B;
+$off-color: #E0EDF0;
+
+$xx-small: 0.75rem; // 12px
+$x-small: 0.875rem; // 14px
+$default: 1rem; // 16px
+$x-big: 1.25rem; // 20px
+$xx-big: 1.5rem; // 24px
+$xxx-big: 1.875rem; // 30px
+
+$header-height: 60px;
+$main-height: calc(100vh - $header-height);

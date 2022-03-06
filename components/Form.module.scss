@@ -1,0 +1,72 @@
+@use "/styles/utils" as u;
+
+$formFieldHeight: 3rem;
+$formBorderRadius: 5px;
+$arrowSize: 0.5rem;
+
+.mainForm {
+  width: calc(30% + 10rem);
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+
+  .submit {
+    margin-top: 1rem;
+    padding: 0.75rem 3rem;
+    border-radius: 100px;
+    font-family: "Quicksand";
+    font-variation-settings: 'wght' 600;
+    background-color: u.$primary-light;
+    color: u.$white;
+    box-shadow: 0px 6px 24px rgba(u.$primary-light-shadow, 0.5);
+    align-self: center; // to set its width according to its horizontal padding without setting explicit width property
+  }
+
+}
+
+.mainFormField {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  margin: 0 0 1rem 0;
+  position: relative;
+
+  label {
+    color: u.$grey;
+    font-family: "Roboto-Bold";
+    font-size: u.$x-small;
+    margin-bottom: 0.25rem;
+  }
+
+  input, select {
+    font-size: u.$x-big;
+    height: $formFieldHeight;
+    width: 100%;
+    border-radius: $formBorderRadius;
+    text-align: center;
+    color: u.$black;
+    // -moz-appearance:none; /* Firefox */
+    // -webkit-appearance:none; /* Safari and Chrome */
+    appearance: none;
+  }
+
+  select {
+    padding-right: $formFieldHeight;
+    position: relative;
+    background: url("../public/arrow-down.svg");
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-position: calc(100% - ($formFieldHeight - $arrowSize) * 0.5);
+    z-index: 2;
+  }
+
+  .selectBg {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(90deg, u.$white calc(100% - $formFieldHeight * 1.1), u.$primary-dark calc(100% - $formFieldHeight * 1.1));
+    width: 100%;
+    height: $formFieldHeight;
+    border-radius: $formBorderRadius;
+    z-index: 1;
+  }
+}

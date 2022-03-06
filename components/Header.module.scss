@@ -1,0 +1,54 @@
+@use "/styles/utils" as u;
+// @font-face {
+//   font-family: "Poppins-Regular";
+//   src: url("/fonts/Poppins-Regular.ttf");
+//   font-display: fallback;
+// }
+
+
+// @font-face {
+//   font-family: 'Lato-Regular';
+//   src: url('styles/fonts/Lato-Regular.ttf') format("truetype");
+// }
+
+
+.header {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid u.$white;
+
+  .logoContainer {
+    width: 120px;
+    height: u.$header-height;
+    position: absolute; // to allow inline objectFit property on Image tag to take effect 
+    left: 0.5rem;
+  }
+  
+  .navContainer {
+    width: calc(20% + 12rem);
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    a {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 5px;
+      height: calc(u.$header-height * 0.55);
+      width: calc(20% + 3rem);
+      border: 1px solid u.$off-grey;
+      border-radius: 4px;
+      color: u.$white;
+      font-family: "Poppins-Regular";
+      font-size: u.$xx-small;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+  }
+}
+

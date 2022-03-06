@@ -1,0 +1,58 @@
+@import "./Page.module.scss";
+
+@font-face {
+  font-family: "Poppins-Regular";
+  src: url("fonts/Poppins-Regular.ttf") format("truetype");
+  /* font-display: fallback; */
+}
+
+@font-face {
+  font-family: "SegoeUI-Regular";
+  src: local("SegoeUI-Regular"), url("fonts/SegoeUI.woff") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto-Medium";
+  src: local("Roboto-Medium"), url("fonts/Roboto-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto-Bold";
+  src: local("Roboto-Bold"), url("fonts/Roboto-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('fonts/Quicksand-VariableFont_wght.ttf') format("woff2-variations");
+}
+
+html {
+  font-size: 16px;
+}
+
+html,
+body {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  font-family: "SegoeUI-Regular", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Reset default styles */
+
+input, button, textarea, select {
+  border: none;
+  outline: none;
+  font: inherit;
+}
