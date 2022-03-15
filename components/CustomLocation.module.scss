@@ -1,0 +1,29 @@
+@use "/styles/utils" as u;
+
+.customContainer {
+  display: flex;
+  // align-items: stretch;
+  justify-content: space-between;
+
+  .customInputContainer {
+    width: 65%;
+  }
+  .distanceResults {
+    display: inline-flex;
+
+    .distanceOutput {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: u.$x-big;
+      width: 3rem;
+      border-bottom: 1px solid blue;
+    }
+
+    .distanceMeasurement {
+      margin-left: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+}

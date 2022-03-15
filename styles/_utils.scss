@@ -17,6 +17,9 @@ $default: 1rem; // 16px
 $x-big: 1.25rem; // 20px
 $xx-big: 1.5rem; // 24px
 $xxx-big: 1.875rem; // 30px
+$xxxx-big: 2.25rem; // 36px
 
 $header-height: 60px;
 $main-height: calc(100vh - $header-height);
+$content-x-margin-default: 12%;
+$content-x-margin-small: 6%;

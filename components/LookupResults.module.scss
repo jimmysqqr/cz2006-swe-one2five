@@ -1,0 +1,6 @@
+@use "/styles/utils" as u;
+
+.lookupResultsContainer {
+  display: flex;
+  width: calc(100% - u.$content-x-margin-default * 2);
+}

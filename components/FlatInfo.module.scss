@@ -1,0 +1,148 @@
+@use "/styles/utils" as u;
+
+$container-padding: 1.5rem 1.75rem;
+$header-btm-margin: 1.25rem;
+$section-btm-margin: 1.25rem;
+$section-header-btm-margin: 0.5rem;
+
+$label-top-margin: 0.25rem;
+$price-line-top-margin: 0.5rem;
+
+$amenity-btm-margin: 0.25rem;
+
+.container {
+  padding: $container-padding;
+  width: 100%;
+  height: 100%;
+  
+  .header {
+    font-family: "Quicksand";
+    font-weight: 300;
+    font-size: u.$x-big;
+    color: u.$off-white;
+    margin-bottom: $header-btm-margin;
+  }
+
+  .section {
+    margin-bottom: $section-btm-margin;
+
+    .sectionHeader {
+      margin-bottom: $section-header-btm-margin;
+      font-family: "Roboto-Medium";
+    }
+    .sectionContent {
+      display: flex;
+      flex-flow: column;
+    }
+  }
+}
+
+.aggregate {
+  &.container {
+    background-color: rgba(u.$primary-dark, 0.85);
+  }
+  .sectionHeader {
+    color: u.$off-white;
+  }
+}
+.single {
+  &.container {
+    background-color: u.$off-white;
+  }
+  .sectionHeader {
+    color: u.$black;
+  }
+}
+
+.priceRangeNumberContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  .numberGroup:nth-child(1) {
+    text-align: left;
+  }
+  .numberGroup:nth-child(2) {
+    text-align: center;
+  }
+  .numberGroup:nth-child(3) {
+    text-align: right;
+  }
+}
+
+.priceRangeLineContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin-top: $price-line-top-margin;
+
+  .circle {
+    position: relative; // to place the circles above the line
+    border-radius: 100px;
+  }
+
+  .primary {
+    background: u.$off-white;
+    width: 1rem;
+    height: 1rem;
+  }
+  .secondary {
+    background: u.$grey;
+    width: 0.65rem;
+    height: 0.65rem;
+  }
+
+  .line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: u.$grey;
+  }
+}
+
+.priceFutureContainer {
+  .numberGroup > * {
+    text-align: center;
+  }
+}
+
+.numberGroup {
+  display: flex;
+  flex-direction: column;
+
+  .number {
+    font-family: "SegoeUI-Regular";
+    font-weight: 500;
+    color: u.$white;
+  }
+  .primary {
+    font-size: u.$xxxx-big;
+  }
+  .secondary {
+    font-size: u.$x-big;
+  }
+
+  .label {
+    margin-top: $label-top-margin;
+    color: u.$off-grey;
+    font-size: u.$x-small;
+  }
+}
+
+.amenityContainer {
+  display: flex;
+  flex-flow: column;
+
+  .amenityList {
+    display: flex;
+    flex-flow: column;
+  
+    .amenity {
+      font-size: u.$x-small;
+      margin-bottom: $amenity-btm-margin;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

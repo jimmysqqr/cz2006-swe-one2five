@@ -19,11 +19,16 @@
   align-items: center;
   border-bottom: 2px solid u.$white;
 
-  .logoContainer {
-    width: 120px;
-    height: u.$header-height;
+  .logoLinkContainer {
     position: absolute; // to allow inline objectFit property on Image tag to take effect 
     left: 0.5rem;
+
+    a {
+      display: block;
+      position: relative;
+      width: 120px;
+      height: u.$header-height;
+    }
   }
   
   .navContainer {

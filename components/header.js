@@ -6,7 +6,7 @@ import logo from "/public/logo.svg";
 export default function Header() {
   return (
     <header className={styles.header}>
-      <div className={styles.logoContainer}>
+      <div className={styles.logoLinkContainer}>
         <Link href="/">
           <a><Image src={logo} layout="fill" objectFit="contain" alt="rentigo"/></a>
         </Link>

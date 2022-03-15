@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 
-import Header from "/components/header.js";
-import {Form} from "/components/form.js";
+import Header from "/components/Header";
+import {Form} from "/components/Form";
 import bg from "/public/lookup_bg.jpg";
 
 export default function LookupPage() {
@@ -15,7 +15,7 @@ export default function LookupPage() {
           name="description"
           content="Already eyeing a flat listed elsewhere? Want to check if it might be above the market rate? Enter its address here and find out!"
         />
-        <link rel="icon" href="icon.png" />
+        <link rel="icon" href="/icon.png" />
       </Head>
 
       <div className="headerContainer">
@@ -24,7 +24,7 @@ export default function LookupPage() {
 
       <div className="mainContainer">
         <div className="bgContainer">
-          <Image src={bg} layout="fill" objectFit="cover" alt="A living room background" />
+          <Image src={bg} layout="fill" objectFit="cover" alt="A living room background" priority />
         </div>
         <main>
           <div className="pageTitleContainer">
