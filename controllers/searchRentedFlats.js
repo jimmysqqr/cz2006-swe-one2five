@@ -51,7 +51,7 @@ const searchRentedFlats = (req, res) => {
     }
 
     // Perform the search
-    RentedOutFlat.search(town, flatType, loPrBound, hiPrBound, amenityType, amenityDist, (err,data) => {
+    RentedOutFlat.search(town, flatType, loPrBound, hiPrBound, (err,data) => {
         if (err)
             res.status(500).json(
                 {

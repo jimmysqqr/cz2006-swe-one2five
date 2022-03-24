@@ -1,10 +1,10 @@
 const SavedFlat = require('../models/SavedFlat');
-const isHDB = require('../models/HDB');
+const getHDB = require('../models/HDB');
 
 // Get all saved flats
 const getAllSavedFlats = (req, res) => {
     // res.send('Get all saved flats');
-    SavedFlat.getAllSavedFlats((err, data) => {
+    SavedFlat.getAll((err, data) => {
         if (err) {
             res.status(500).json({
                 message: "Some error occurred while fetching saved flats"
@@ -35,7 +35,7 @@ const getSavedFlat = (req, res) => {
 }
 
 // Create a new saved flat
-const createSavedFlat = (req, res) => {
+const createSavedFlat = async (req, res) => {
     // es.json(req.body);
     if (!req.body) {
         res.status(400).json({
@@ -45,26 +45,27 @@ const createSavedFlat = (req, res) => {
     }
 
     // Check if the inputted HDB address is valid
-    isHDB(req.body.block, req.body.street_name, (err, result) => {
-        if (err) {
-            res.status(500).json({
-                message: `Error occurred while checking for valid HDB address`
-            });
-            return;
-        }
-        if (!result) {
-            res.status(400).json({
-                message: "Invalid HDB address!"
-            });
-            return;
-        }
+    const [rows, fields] = await getHDB(req.body.block, req.body.street_name).catch((err) => {
+        console.log(err);
+        res.status(500).json({
+            message: `Error occurred while checking for valid HDB address`
+        });
     });
-    console.log("dumb")
+    if (!rows.length) {
+        console.log(`Blk ${req.body.block} ${req.body.street_name} is an invalid HDB address`);
+        res.status(400).json({
+            message: "Invalid HDB address!"
+        });
+        return;
+    }
+    else {
+        console.log(`Blk ${req.body.block} ${req.body.street_name} is a valid HDB address`);
+    }
 
     // Create the new saved flat object
     const newSavedFlat = new SavedFlat({
         id: null,
-        town: null,
+        town: "random",
         block: req.body.block,
         street_name: req.body.street_name,
         flat_type: req.body.flat_type,
