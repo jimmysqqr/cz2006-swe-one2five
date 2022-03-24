@@ -42,10 +42,10 @@ RentedOutFlat.getAll = (result) => {
     })
 };
 
-// Method to search for rented-out flats based on town, flat_type, price, and nearby amenity
-RentedOutFlat.search = (town, flatType, loPrBound, hiPrBound, amenityType, amenityDist, result) => {
+// Method to search for rented-out flats based on town, flat_type, and price
+RentedOutFlat.search = (town, flatType, loPrBound, hiPrBound, result) => {
     let sql = "SELECT * FROM rentedoutflats";
-    if (town || flatType || loPrBound || hiPrBound || amenityType) {
+    if (town || flatType || loPrBound || hiPrBound) {
         sql += " WHERE";
     }
     else {
