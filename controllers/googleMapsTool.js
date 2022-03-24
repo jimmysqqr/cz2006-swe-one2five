@@ -15,7 +15,7 @@ const findCoords = (address) => {
 
 }
 
-// Method to find the road distance between PLace0 and Place1
+// Method to find the road distance between Place0 and Place1
 const calcDistance = (coords0, coords1) => {
 
 }
