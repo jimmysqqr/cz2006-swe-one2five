@@ -20,13 +20,16 @@ app.get('/', (req, res) => {
 app.use('/api/v1/searchRentedFlats', searchRentedFlats);
 app.use('/api/v1/savedFlats', savedFlats);
 
-// API
-// SearchRentedFlats api -- app.get('/api/v1/searchRentedFlats?town=A&flatType=B&numericFilters=price>2000,price<3000&amenityType=hospital&amentityDist=1000')
-// Get 1 single rented-out flat - app.get('/api/v1/searchRented/:id')
-// Get all saved flats - app.get('/api/v1/saved')
-// Get 1 single saved flat - app.get('/api/v1/saved/:id')
-// Create a new saved flat - app.post('/api/v1/saved')
-// Delete 1 saved flat - app.delete('/api/v1/saved/:id')
+// API endpoints
+// SearchRentedFlats api (without amenity filter, for now) -- app.get('/api/v1/searchRentedFlats?town=Punggol&flatType=3-room&numericFilters=price>=2000,price<=3000&amenityType=hospital&amenityDist=1000')
+// Get 1 single rented-out flat - app.get('/api/v1/searchRentedFlats/:id')
+// Get all rented-out flats - app.get('/api/v1/searchRentedFlats/')
+// Get all saved flats - app.get('/api/v1/savedFlats')
+// Get 1 single saved flat - app.get('/api/v1/savedFlats/:id')
+// Create a new saved flat - app.post('/api/v1/savedFlats')
+// Delete 1 saved flat - app.delete('/api/v1/savedFlats/:id')
+
+// NOT AVAILABLE YET
 // Get a flat's amenities - app.get('/api/v1/amenities)
 // Lookup 1 flat - app.get('/api/v1/lookup')
 // Check distance - app.get('/api/v1/distance?')

@@ -60,6 +60,7 @@ const searchRentedFlats = (req, res) => {
             );
         else res.status(200).json(data);
     })
+    // Search_by_amenity
 }
 
 

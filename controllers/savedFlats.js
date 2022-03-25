@@ -1,5 +1,4 @@
 const SavedFlat = require('../models/SavedFlat');
-const getHDB = require('../models/HDB');
 
 // Get all saved flats
 const getAllSavedFlats = (req, res) => {
@@ -36,38 +35,14 @@ const getSavedFlat = (req, res) => {
 
 // Create a new saved flat
 const createSavedFlat = async (req, res) => {
-    // es.json(req.body);
-    if (!req.body) {
-        res.status(400).json({
-            message: "Input cannot be empty!"
-        });
-        return;
-    }
-
-    // Check if the inputted HDB address is valid
-    const [rows, fields] = await getHDB(req.body.block, req.body.street_name).catch((err) => {
-        console.log(err);
-        res.status(500).json({
-            message: `Error occurred while checking for valid HDB address`
-        });
-    });
-    if (!rows.length) {
-        console.log(`Blk ${req.body.block} ${req.body.street_name} is an invalid HDB address`);
-        res.status(400).json({
-            message: "Invalid HDB address!"
-        });
-        return;
-    }
-    else {
-        console.log(`Blk ${req.body.block} ${req.body.street_name} is a valid HDB address`);
-    }
-
     // Create the new saved flat object
     const newSavedFlat = new SavedFlat({
         id: null,
-        town: "random",
+        town: req.body.town,
         block: req.body.block,
         street_name: req.body.street_name,
+        // latitude: null,
+        // longtitude: null,
         flat_type: req.body.flat_type,
         monthly_rent: null
     });
