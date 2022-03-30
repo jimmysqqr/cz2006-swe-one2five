@@ -56,12 +56,83 @@ const findAllNearbyAmenities = (flatCoords, amenityType = null, amenityDist = 10
 
 // Method to find the coordinates of a particular address
 const findCoords = (address) => {
+    geocoder = new google.maps.Geocoder();
 
+    // add marker?
+    /*marker = new google.maps.Marker({
+    	map,
+    });*/
+
+    coords = geocode({ address: address })[0].geometry.location;
+
+    return coords;
+
+    /*function geocode(request) {
+        clear();
+        geocoder
+            .geocode(request)
+            .then((result) => {
+                const { results } = result;
+    
+                //console.log(results[0]);
+                //map.setCenter(results[0].geometry.location);
+                marker.setPosition(results[0].geometry.location);
+                marker.setMap(map);
+                
+                return results;
+            })
+            .catch((e) => {
+                alert("Geocode was not successful for the following reason: " + e);
+            });
+    }*/
 }
 
 // Method to find the road distance between Place0 and Place1
 const calcDistance = (coords0, coords1) => {
+    function haversine_distance(coords0, coords1) {
+        var R = 6371.0710; // Radius of the Earth in km
+        var rlat1 = coords0.position.lat() * (Math.PI/180); // Convert degrees to radians
+        var rlat2 = coords1.position.lat() * (Math.PI/180); // Convert degrees to radians
+        var difflat = rlat2-rlat1; // Radian difference (latitudes)
+        var difflng = (mk2.position.lng()-mk1.position.lng()) * (Math.PI/180); // Radian difference (longitudes)
+    
+        var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflng/2)*Math.sin(difflng/2)));
+        return d;
+    }
 
+    var distance = haversine_distance(mk1, mk2);
+
+    // shows distance as message below map
+    document.getElementById('straight-line-dist-msg').innerHTML = "Distance between markers: " + distance.toFixed(2) + " km";
+
+    let directionsService = new google.maps.DirectionsService();
+    let directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
+
+    const route = {
+        origin: coords0,
+        destination: coords1,
+        travelMode: 'DRIVING' //or walking, bicycling
+    }
+
+    directionsService.route(route,
+        function(response, status) { // anonymous function to capture directions
+            if (status !== 'OK') {
+                window.alert('Directions request failed due to ' + status);
+                return;
+            } else {
+                //directionsRenderer.setDirections(response); // Add route to the map
+                var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
+                if (!directionsData) {
+                    window.alert('Directions request failed');
+                    return;
+                }
+                else {
+                    // shows distance as message below map
+                    document.getElementById('road-dist-msg').innerHTML += " Road distance is " + directionsData.distance.text + ".";
+                }
+            }
+        });
 }
 
 
