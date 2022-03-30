@@ -27,23 +27,42 @@ const percentileCalc = (flatList) => {
 };
 
 // Method to predict the future price of a specific flat based on rented-out flats that are similar to the Target Flat
-const predictPrice = (flatList) => {};
+const predictPrice = (flatList) => {
+	// find y when x = 13 (2022-01)
 
-/*
-rentedOutFlatList = [
-    { // NS
-        monthly_rent:3000,
-        lat:1.3471940782229364,
-        lng:103.68077682078855
-    },
-    { // Pioneer mall
-        monthly_rent:5000,
-        lat:1.3418851208330858, 
-        lng:103.69738694571976
-    }
-];
+	const estimate_coef = (x_arr, y_arr) => {
+		// number of points
+		const n = x_arr.length;
 
-console.log(avgCalc(rentedOutFlatList));
-console.log(percentileCalc(rentedOutFlatList));
+		// mean of x and y
+		const sum_x = x_arr.reduce((a, b) => a + b);
+		const sum_y = y_arr.reduce((a, b) => a + b);
+		const m_x = sum_x / n;
+		const m_y = sum_y / n;
 
-*/
+		// cross-deviation and deviation about x
+		const SS_xy =
+			x_arr
+				.map((x, i) => {
+					return x * y_arr[i];
+				})
+				.reduce((a, b) => a + b) -
+			n * m_y * m_x;
+		const SS_xx =
+			x_arr.map((x) => x * x).reduce((a, b) => a + b) - n * m_x * m_x;
+
+		// regression coefficients
+		const b_1 = SS_xy / SS_xx;
+		const b_0 = m_y - b_1 * m_x;
+
+		return [b_0, b_1];
+	};
+	const y = flatList.map((flat) => flat.monthly_rent);
+	const x = flatList.map((flat) =>
+		parseInt(flat.rental_approval_date.substring(5, 7))
+	);
+	const b = estimate_coef(x, y);
+	const y_pred = b[0] + b[1] * 13; // x = 13 meaning 2022-01-01
+
+	return y_pred;
+};
