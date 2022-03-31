@@ -36,6 +36,14 @@ const getSavedFlat = (req, res) => {
 
 // Create a new saved flat
 const createSavedFlat = async (req, res) => {
+    // Check if input is empty
+    if (!req.body) {
+        res.status(400).json({
+            message: "Input cannot be empty!"
+        });
+        return;
+    }
+    
     // Find the new saved flat's coordinates
     const result = await findFlatCoords(req.body.block, req.body.street_name).catch(err => {
         console.log(err);

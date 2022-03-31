@@ -1,30 +1,26 @@
 const {getHDB, town_legend} = require('../models/HDB');
+const findFlatCoords = require('../models/OneMap');
+const {findAllNearbyAmenities} = require('../controllers/googleMapsTool');
+const findSimilarFlats = require('./similarFlatFinder');
+const {avgCalc, percentileCalc, predictPrice} = require('./priceCalculator');
 
 const lookup = async (req, res) => {
-    // Check if input is empty
-    if (!req.body) {
-        res.status(400).json({
-            message: "Input cannot be empty!"
-        });
-        return;
-    }
-
     // Check if the inputted HDB address is valid
-    const [rows, fields] = await getHDB(req.body.block, req.body.street_name).catch((err) => {
+    const [rows, fields] = await getHDB(req.query.block, req.query.street_name).catch((err) => {
         console.log(err);
         res.status(500).json({
             message: `Error occurred while checking for valid HDB address`
         });
     });
     if (!rows.length) {
-        console.log(`Blk ${req.body.block} ${req.body.street_name} is an invalid HDB address`);
+        console.log(`Blk ${req.query.block} ${req.query.street_name} is an invalid HDB address`);
         res.status(400).json({
             message: "Invalid HDB address!"
         });
         return;
     }
     else {
-        console.log(`Blk ${req.body.block} ${req.body.street_name} is a valid HDB address`);
+        console.log(`Blk ${req.query.block} ${req.query.street_name} is a valid HDB address`);
     }
     
     // Getting the Target Flat's town
@@ -32,9 +28,68 @@ const lookup = async (req, res) => {
     const town = town_legend[town_code];
 
     // Getting the Target Flat's coors
+    let lat = null;
+    let lon = null;
+    const coords = await findFlatCoords(req.query.block, req.query.street_name).catch((err) => {
+        console.log(err);
+    });
+    if (coords.data.found == 0)
+        console.log("Cannot find the coordinates of the TargetFlat");
+    else {
+        lat = parseFloat(coords.data.results[0].LATITUDE);
+        lon = parseFloat(coords.data.results[0].LONGITUDE);
+    }
+
     // Getting nearby amenities of the Target Flat
-    // View aggregated price 
+    let amenities = [];
+    const amenitiesRes = await findAllNearbyAmenities(lat, lon).catch((err) => {
+        console.log(err);
+    });
+    if (amenitiesRes.data.status === 'OK'){
+        // console.log(response.data.results[0].types)
+        console.log(`No. of amenities found: ${amenitiesRes.data.results.length}`);
+        amenities = amenitiesRes.data.results;
+    }
+    else if (amenitiesRes.data.status === 'ZERO_RESULTS')
+        console.log("Not found any amenities...");
+    else
+        console.log(amenitiesRes.data.status);
+
+
+    // Find similar flats
+    const similarFlats = await findSimilarFlats(town, req.query.flatType).catch((err) => {
+        console.log(err);
+    });
+    if (similarFlats.length)
+        console.log(`Found ${similarFlats.length} similar flats`);
+    else
+        console.log(`No similar flats found...`);
+    
+    // Calc aggregated price of similar flats
+    const averagePrice = avgCalc(similarFlats);
+    const [tenPer, ninetyPer] = percentileCalc(similarFlats);
+    const predictedPrice = predictPrice(similarFlats);
+    
     // Pass all info back to frontend
+    res.status(200).json({
+        message: "Found Target Flat!",
+        data: {
+            targetFlat: {
+                town: town,
+                block: req.query.block,
+                street_name: req.query.street_name,
+                flat_type: req.query.flatType,
+                monthly_rent: null,
+                latitude: lat,
+                longitude: lon
+            },
+            avgPrice: averagePrice,
+            tenPer: tenPer,
+            ninetyPer: ninetyPer,
+            predictedPrice: predictedPrice,
+            amenities: amenities
+        }
+    })
 }
 
 module.exports = lookup;

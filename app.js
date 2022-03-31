@@ -8,6 +8,8 @@ const app = express();
 // Import routers
 const searchRentedFlats = require('./routes/searchRentedFlats');
 const savedFlats = require('./routes/savedFlats');
+const lookup = require('./routes/lookup');
+const compare = require('./routes/compare');
 
 // middleware
 app.use(express.json())
@@ -19,6 +21,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/searchRentedFlats', searchRentedFlats);
 app.use('/api/v1/savedFlats', savedFlats);
+app.use('/api/v1/lookup', lookup);
+app.use('/api/v1/compare', compare);
 
 // API endpoints
 // SearchRentedFlats api (without amenity filter, for now) -- app.get('/api/v1/searchRentedFlats?town=Punggol&flatType=3-room&numericFilters=price>=2000,price<=3000&amenityType=hospital&amenityDist=1000')
@@ -31,7 +35,7 @@ app.use('/api/v1/savedFlats', savedFlats);
 
 // NOT AVAILABLE YET
 // Get a flat's amenities - app.get('/api/v1/amenities)
-// Lookup 1 flat - app.get('/api/v1/lookup')
+// Lookup 1 flat - app.get('/api/v1/lookup?block=1&street_name=BEACH RD&flatType=3-room')
 // Check distance - app.get('/api/v1/distance?')
 
 // Fetch all rentedOutFlats

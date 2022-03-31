@@ -1,4 +1,5 @@
-const {findAllNA, findCoord} = require('../models/GoogleMaps')
+const GoogleMaps  = require('../models/GoogleMaps');
+const [findAllNA, findCoord] = [GoogleMaps.findAllNearbyAmenities, GoogleMaps.findCoords];
 
 // Method to search for rented-out flats based on a nearby amenity
 const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
@@ -13,7 +14,7 @@ const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
         });
         if (response.data.status === 'OK'){
             // console.log(response.data.results[0].types)
-            console.log(`Found! No. of amenities found: ${response.data.results.length}`)
+            console.log(`Found! No. of amenities found: ${response.data.results.length}`);
             filteredList.push(flat);
         }
         else if (response.data.status === 'ZERO_RESULTS')
@@ -29,12 +30,12 @@ const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
 
 
 // Method to find all nearby amenities (based on the defined list of amenities) of a particular flat
-const findAllNearbyAmenities = (flatCoords, amenityType = null, amenityDist = 1000) => { 
+const findAllNearbyAmenities = async (flatLat, flatLon, amenityType = null, amenityDist = 1000) => { 
     // flatCoords: longtitude and latitude
     // default amenityType = null, meaning find all nearby amenities
     // assume nearby is 1km => amenityDist = 1000
     // valid amenityType: stadium, gym, hospital, school, shopping_mall, restaurant, park, supermarket, gas_station ,library, bus_station, train_station
-    return findAllNA(flatCoords, amenityType, amenityDist);
+    return findAllNA(flatLat, flatLon, amenityType, amenityDist);
 }
 
 // Method to find the coordinates of a particular address

@@ -2,7 +2,7 @@
 const avgCalc = (flatList) => {
 	let sum = 0;
 	for (let flat of flatList) {
-		sum += flat.monthly_rent;
+		sum += parseInt(flat.monthly_rent);
 	}
 	return sum / flatList.length;
 };
@@ -10,7 +10,7 @@ const avgCalc = (flatList) => {
 // Method to calculate the 10th and 90th percentile price of a list of flats
 const percentileCalc = (flatList) => {
 	const asc = (arr) => arr.sort((a, b) => a - b); // sort array ascending
-	const priceList = asc(flatList.map((flat) => flat.monthly_rent));
+	const priceList = asc(flatList.map((flat) => parseInt(flat.monthly_rent)));
 
 	const pctl = (sorted, p) => {
 		const pos = (sorted.length - 1) * p;
@@ -57,12 +57,19 @@ const predictPrice = (flatList) => {
 
 		return [b_0, b_1];
 	};
-	const y = flatList.map((flat) => flat.monthly_rent);
-	const x = flatList.map((flat) =>
-		parseInt(flat.rental_approval_date.substring(5, 7))
-	);
+	const y = flatList.map((flat) => parseInt(flat.monthly_rent));
+	const x = flatList.map((flat) => {
+		const date = JSON.stringify(flat.rental_approval_date);
+		return parseInt(date.substring(5, 7));
+	});
 	const b = estimate_coef(x, y);
 	const y_pred = b[0] + b[1] * 13; // x = 13 meaning 2022-01-01
 
 	return y_pred;
+};
+
+module.exports = {
+	avgCalc,
+	percentileCalc,
+	predictPrice
 };
