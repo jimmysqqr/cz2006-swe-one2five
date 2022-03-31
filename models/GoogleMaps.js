@@ -15,10 +15,11 @@ const findAllNearbyAmenities = async (flatLat, flatLon, amenityType = null, amen
             (amenityType ? '&type=' + amenityType : '') +
             '&key=AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM';
 
-    // use axios to talk to G map api, only return AFTER receiving response
+    // use axios to talk to G map api
     return axios.get(url);
 }
 
+// Method to find the coordinates of a particular address
 const findCoords = async (address) => {
     const client = new Client({});
     return client.geocode({

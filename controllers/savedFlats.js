@@ -1,4 +1,5 @@
 const SavedFlat = require('../models/SavedFlat');
+const findFlatCoords = require('../models/OneMap');
 
 // Get all saved flats
 const getAllSavedFlats = (req, res) => {
@@ -35,16 +36,31 @@ const getSavedFlat = (req, res) => {
 
 // Create a new saved flat
 const createSavedFlat = async (req, res) => {
+    // Find the new saved flat's coordinates
+    const result = await findFlatCoords(req.body.block, req.body.street_name).catch(err => {
+        console.log(err);
+    });
+
+    let lat = null;
+    let lon = null;
+
+    if (result.data.found == 0)
+        console.log("Cannot find the coordinates of the new saved flat");
+    else {
+        lat = result.data.results[0].latitude;
+        lon = result.data.results[0].longitude;
+    }
+
     // Create the new saved flat object
     const newSavedFlat = new SavedFlat({
         id: null,
         town: req.body.town,
         block: req.body.block,
         street_name: req.body.street_name,
-        // latitude: null,
-        // longtitude: null,
         flat_type: req.body.flat_type,
-        monthly_rent: null
+        monthly_rent: null,
+        latitude: lat,
+        longitude: lon
     });
 
     // Save the new saved flat in the database
