@@ -9,6 +9,8 @@ const RentedOutFlat = (rentedoutflat) => {
     this.street_name = rentedoutflat.street_name;
     this.flat_type = rentedoutflat.flat_type;
     this.monthly_rent = rentedoutflat.monthly_rent;
+    this.latitude = rentedoutflat.latitude;
+    this.longitude = rentedoutflat.longitude;
 };
 
 // Method to get a rented-out flat by id
@@ -43,7 +45,8 @@ RentedOutFlat.getAll = (result) => {
 };
 
 // Method to search for rented-out flats based on town, flat_type, and price
-RentedOutFlat.search = (town, flatType, loPrBound, hiPrBound, result) => {
+RentedOutFlat.search = async (town, flatType, loPrBound, hiPrBound) => {
+    // Handle the search filters
     let sql = "SELECT * FROM rentedoutflats";
     if (town || flatType || loPrBound || hiPrBound) {
         sql += " WHERE";
@@ -66,15 +69,8 @@ RentedOutFlat.search = (town, flatType, loPrBound, hiPrBound, result) => {
     }
     sql = sql.replace("WHERE AND", "WHERE");
 
-    dbConn.query(sql, (err, res) => {
-        if (err) {
-            console.log(err);
-            result(err, null);
-            return;
-        }
-        console.log("Search performed!")
-        result(null, res);
-    });
+    // Perform the database query
+    return dbConn.promise().execute(sql);
 }
 
 module.exports = RentedOutFlat;

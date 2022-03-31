@@ -1,90 +1,46 @@
-const { response } = require('express');
+const {findAllNA, findCoord} = require('../models/GoogleMaps')
 
 // Method to search for rented-out flats based on a nearby amenity
-const searchByAmenity = (rentedOutFlatList, amenityType, amenityDist) => {
+const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
     /*Function that takes in a list of rented-out flats (json) and return the rented-out flats (json) in that list that has a 
-    nearby amenity of amenityType (e.g. hsopital, school, etc.) within amenityDist m/km (whichever suitable)
+    nearby amenity of amenityType (e.g. hospital, school, etc.) within amenityDist m/km (whichever suitable)
     */
-    
-    // only return AFTER finishing for loop & receiving results from findAllNearbyAmenities()
-    async function filterAsync(){
-        let filteredList = []; 
+    let filteredList = [];
 
-        for (let flat of rentedOutFlatList){
-            let response = await findAllNearbyAmenities(flat, amenityType, amenityDist);
-            if (response.status === 'OK'){
-                filteredList.push(flat);
-            } 
-        };
- 
-        return filteredList;
-    }
+    for (const flat of rentedOutFlatList){
+        let response = await findAllNA(flat.latitude, flat.longitude, amenityType, amenityDist).catch(err => {
+            console.log(err);
+        });
+        if (response.data.status === 'OK'){
+            // console.log(response.data.results[0].types)
+            console.log(`Found! No. of amenities found: ${response.data.results.length}`)
+            filteredList.push(flat);
+        }
+        else if (response.data.status === 'ZERO_RESULTS')
+            console.log("Not found...");
+        else
+            console.log(response.data.status);
+    };
 
-    // only return result AFTER filterList() is done
-    return filterAsync().then(data => { return data; })
-
+    return new Promise((resolve) => {
+        resolve(filteredList);
+    });
 }
+
 
 // Method to find all nearby amenities (based on the defined list of amenities) of a particular flat
 const findAllNearbyAmenities = (flatCoords, amenityType = null, amenityDist = 1000) => { 
-    // flatCoords: longtitude and latitude // assume nearby is 1km
-        /* im assuming it's 
-        flatCoords = {
-            lat:123,
-            lng:456
-        }
-        */
-
-    // actual url to call 
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?' +
-            'location=' + flatCoords.lat + '%2C' + flatCoords.lng +
-            '&radius=' + amenityDist +
-            (amenityType ? '&type=' + amenityType : '') +
-            '&key=AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM';
-
-    // use axios to talk to G map api, only return AFTER receiving response
-    var axios = require('axios');   
-    async function callApiAsync() {
-        const response = await axios.get(url)
-        return response.data
-    }
-
-    // only return result AFTER callAPI() is done
-    return callApiAsync().then(data => { return data; });
-
+    // flatCoords: longtitude and latitude
+    // default amenityType = null, meaning find all nearby amenities
+    // assume nearby is 1km => amenityDist = 1000
+    // valid amenityType: stadium, gym, hospital, school, shopping_mall, restaurant, park, supermarket, gas_station ,library, bus_station, train_station
+    return findAllNA(flatCoords, amenityType, amenityDist);
 }
 
 // Method to find the coordinates of a particular address
-const findCoords = (address) => {
-    geocoder = new google.maps.Geocoder();
-
-    // add marker?
-    /*marker = new google.maps.Marker({
-    	map,
-    });*/
-
-    coords = geocode({ address: address })[0].geometry.location;
-
-    return coords;
-
-    /*function geocode(request) {
-        clear();
-        geocoder
-            .geocode(request)
-            .then((result) => {
-                const { results } = result;
-    
-                //console.log(results[0]);
-                //map.setCenter(results[0].geometry.location);
-                marker.setPosition(results[0].geometry.location);
-                marker.setMap(map);
-                
-                return results;
-            })
-            .catch((e) => {
-                alert("Geocode was not successful for the following reason: " + e);
-            });
-    }*/
+const findCoords = async (address) => {
+    const response = await findCoord(address);
+    console.log(response.data.results[0]);
 }
 
 // Method to find the road distance between Place0 and Place1
@@ -136,52 +92,9 @@ const calcDistance = (coords0, coords1) => {
 }
 
 
-
-
-
-
-
-
-// DEBUG //
-
-/* 
-// test data
-rentedOutFlatList = [
-    { // NS
-        lat:1.3471940782229364,
-        lng:103.68077682078855
-    },
-    { // Pioneer mall
-        lat:1.3418851208330858, 
-        lng:103.69738694571976
-    }
-];
-
-amenityType = 'gym';
-amenityDist = '200' // meters
-*/
-
-/* 
-// (1) findAllNearbyAmenities
-
-async function test(){
-    const a = await findAllNearbyAmenities(rentedOutFlatList[0]);
-    console.log("the function returns:");
-    console.log(a);
-    return a;
+module.exports = {
+    searchByAmenity,
+    findAllNearbyAmenities,
+    findCoords,
+    calcDistance
 }
-
-test()
-*/
-
-/* 
-// (2) searchByAmenity
-
-async function test(){
-    const b = await searchByAmenity(rentedOutFlatList, amenityType, amenityDist);
-     console.log("the function returns:");
-     console.log(b);
-}
-
-test();
-*/

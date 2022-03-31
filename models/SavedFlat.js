@@ -8,6 +8,8 @@ const SavedFlat = function(savedflat) {
     this.street_name = savedflat.street_name;
     this.flat_type = savedflat.flat_type;
     this.monthly_rent = savedflat.monthly_rent;
+    this.latitude = savedflat.latitude;
+    this.longitude = savedflat.longitude;
 };
 
 // Method to get all saved flats

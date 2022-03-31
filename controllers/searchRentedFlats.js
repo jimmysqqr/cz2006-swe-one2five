@@ -1,7 +1,8 @@
 const RentedOutFlat = require('../models/RentedOutFlat');
+const {searchByAmenity} = require('./googleMapsTool');
 
 // Search for rented-out flats based on town, flat_type, price, and nearby amenity
-const searchRentedFlats = (req, res) => {
+const searchRentedFlats = async (req, res) => {
     const { town, flatType, numericFilters, amenityType, amenityDist } = req.query;
     // console.log(town, flatType, numericFilters, amenityType, amenityDist);
 
@@ -51,16 +52,56 @@ const searchRentedFlats = (req, res) => {
     }
 
     // Perform the search
-    RentedOutFlat.search(town, flatType, loPrBound, hiPrBound, (err,data) => {
-        if (err)
+    let [rows, fields] = await RentedOutFlat.search(town, flatType, loPrBound, hiPrBound).catch((err) => {
+        console.log(err);
+        res.status(500).json(
+            {
+                message: err.message || "Some errors occured while searching for rent-out flats according to user's filters"
+            }
+        );
+    });
+    console.log("Search performed!");
+    console.log(`${rows.length} results`);
+
+    // Check if amenityType param is null
+    if (!amenityType) { // Do not carry out searchByAmenity
+        if (rows.length) {
+            res.status(200).json({
+                statusText: "OK",
+                data: rows
+            });
+        }
+        else {
+            res.status(200).json({
+                statusText: "No rented-out flat satisfies the searching filters",
+                data: rows
+            });
+        }
+    }
+    else {
+        // Search_by_amenity
+        rows = await searchByAmenity(rows, amenityType, amenityDist).catch(err => {
             res.status(500).json(
                 {
                     message: err.message || "Some errors occured while searching for rent-out flats according to user's filters"
                 }
             );
-        else res.status(200).json(data);
-    })
-    // Search_by_amenity
+        });
+        console.log("SearchByAmenity performed!");
+        console.log(`${rows.length} results`);
+        if (rows.length) {
+            res.status(200).json({
+                statusText: "OK",
+                data: rows
+            });
+        }
+        else {
+            res.status(200).json({
+                statusText: "No rented-out flat satisfies the searching filters",
+                data: rows
+            });
+        }
+    }
 }
 
 
@@ -73,7 +114,10 @@ const getAllRentedFlats = (req, res) => {
                     message: err.message || "Some errors occured while fetching rent-out flats"
                 }
             );
-        else res.status(200).json(data);
+        else res.status(200).json({
+            statusText: "OK",
+            data: data
+        });
     })
 }
 
@@ -93,7 +137,10 @@ const getRentedFlat = (req, res) => {
                 });
             }
         }
-        else res.status(200).json(data);
+        else res.status(200).json({
+            statusText: "OK",
+            data: data
+        });
     });
 }
 

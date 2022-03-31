@@ -1,6 +1,6 @@
 const {getHDB, town_legend} = require('../models/HDB');
 
-const lookup = (req, res) => {
+const lookup = async (req, res) => {
     // Check if input is empty
     if (!req.body) {
         res.status(400).json({
