@@ -1,5 +1,6 @@
 const RentedOutFlat = require('../models/RentedOutFlat');
 const {searchByAmenity} = require('./googleMapsTool');
+const {avgCalc, percentileCalc, predictPrice} = require('./priceCalculator');
 
 // Search for rented-out flats based on town, flat_type, price, and nearby amenity
 const searchRentedFlats = async (req, res) => {
@@ -63,23 +64,8 @@ const searchRentedFlats = async (req, res) => {
     console.log("Search performed!");
     console.log(`${rows.length} results`);
 
-    // Check if amenityType param is null
-    if (!amenityType) { // Do not carry out searchByAmenity
-        if (rows.length) {
-            res.status(200).json({
-                statusText: "OK",
-                data: rows
-            });
-        }
-        else {
-            res.status(200).json({
-                statusText: "No rented-out flat satisfies the searching filters",
-                data: rows
-            });
-        }
-    }
-    else {
-        // Search_by_amenity
+    // Check if amenityType param is not null
+    if (amenityType) { // Search_by_amenity
         rows = await searchByAmenity(rows, amenityType, amenityDist).catch(err => {
             res.status(500).json(
                 {
@@ -89,18 +75,29 @@ const searchRentedFlats = async (req, res) => {
         });
         console.log("SearchByAmenity performed!");
         console.log(`${rows.length} results`);
-        if (rows.length) {
-            res.status(200).json({
-                statusText: "OK",
-                data: rows
-            });
-        }
-        else {
-            res.status(200).json({
-                statusText: "No rented-out flat satisfies the searching filters",
-                data: rows
-            });
-        }
+    }
+    // Calc aggregated price statistics
+    const avgPrice = avgCalc(rows);
+    const [tenPer, ninetyPer] = percentileCalc(rows);
+    const predictedPrice = predictPrice(rows);
+
+    // Handle the output
+    if (rows.length) {
+        res.status(200).json({
+            statusText: "OK",
+            data: {
+                avgPrice: avgPrice,
+                tenPer: tenPer,
+                ninetyPer: ninetyPer,
+                predictedPrice: predictedPrice,
+                filteredFlatList: rows
+            }
+        });
+    }
+    else {
+        res.status(200).json({
+            statusText: "No rented-out flat satisfies the searching filters"
+        });
     }
 }
 
