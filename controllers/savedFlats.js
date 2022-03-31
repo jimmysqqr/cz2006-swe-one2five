@@ -14,25 +14,25 @@ const getAllSavedFlats = (req, res) => {
     })
 }
 
-// Get saved flat by id
-const getSavedFlat = (req, res) => {
-    // res.json({ id:req.params.id });
-    SavedFlat.getById(req.params.id, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).json({
-                    message: `No saved flat with if ${req.params.id}`
-                });
-            }
-            else {
-                res.status(500).json({
-                    message: `Error occurred while fetching saved flat id ${req.params.id}`
-                });
-            }
-        }
-        else res.status(200).json(data);
-    })
-}
+// // Get saved flat by id
+// const getSavedFlat = (req, res) => {
+//     // res.json({ id:req.params.id });
+//     SavedFlat.getById(req.params.id, (err, data) => {
+//         if (err) {
+//             if (err.kind === "not_found") {
+//                 res.status(404).json({
+//                     message: `No saved flat with if ${req.params.id}`
+//                 });
+//             }
+//             else {
+//                 res.status(500).json({
+//                     message: `Error occurred while fetching saved flat id ${req.params.id}`
+//                 });
+//             }
+//         }
+//         else res.status(200).json(data);
+//     })
+// }
 
 // Create a new saved flat
 const createSavedFlat = async (req, res) => {
@@ -55,8 +55,8 @@ const createSavedFlat = async (req, res) => {
     if (result.data.found == 0)
         console.log("Cannot find the coordinates of the new saved flat");
     else {
-        lat = result.data.results[0].latitude;
-        lon = result.data.results[0].longitude;
+        lat = parseFloat(result.data.results[0].LATITUDE);
+        lon = parseFloat(result.data.results[0].LONGITUDE);
     }
 
     // Create the new saved flat object

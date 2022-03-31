@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Import controllers
-const compare = require('../controllers/compareMgr')
+const compare = require('../controllers/compareMgr');
 
 // Routes
 router.route('/').get(compare);

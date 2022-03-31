@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 // Import controllers
-const lookup = require('../controllers/lookupMgr');
+const viewFlatDetails = require('../controllers/viewFlatDetails');
 
 // Routes
-router.route('/').get(lookup);
+router.route('/').get(viewFlatDetails);
 
 module.exports = router;

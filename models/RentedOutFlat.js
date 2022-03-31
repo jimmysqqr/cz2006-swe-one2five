@@ -14,21 +14,8 @@ const RentedOutFlat = (rentedoutflat) => {
 };
 
 // Method to get a rented-out flat by id
-RentedOutFlat.getById = (id, result) => {
-    dbConn.query(`SELECT * FROM rentedoutflats WHERE id = ${id}`, (err, res) => {
-        if (err) {
-            console.log(err)
-            result(err, null);
-            return;
-        }
-        if (res.length) {
-            console.log("found rented-out flat: ", res);
-            result(null, res);
-            return;
-        }
-        console.log("No rented-out flat with id", id)
-        result({kind: "not_found"}, null);
-    })
+RentedOutFlat.getById = (id) => {
+    return dbConn.promise().execute(`SELECT * FROM rentedoutflats WHERE id = ${id}`);
 };
 
 // Method to get all rented-out flats

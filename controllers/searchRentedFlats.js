@@ -118,28 +118,28 @@ const getAllRentedFlats = (req, res) => {
     })
 }
 
-// Get a rented-out flat by id
-const getRentedFlat = (req, res) => {
-    // res.send('rented-out flat of id x');
-    RentedOutFlat.getById(req.params.id, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).json({
-                    message: `No rented-out flat with id ${req.params.id}`
-                });
-            }
-            else {
-                res.status(500).json({
-                    message: `Error occurred while fetching rented-out flat with id ${req.params.id}`
-                });
-            }
-        }
-        else res.status(200).json({
-            statusText: "OK",
-            data: data
-        });
-    });
-}
+// // Get a rented-out flat by id
+// const getRentedFlat = (req, res) => {
+//     // res.send('rented-out flat of id x');
+//     RentedOutFlat.getById(req.params.id, (err, data) => {
+//         if (err) {
+//             if (err.kind === "not_found") {
+//                 res.status(404).json({
+//                     message: `No rented-out flat with id ${req.params.id}`
+//                 });
+//             }
+//             else {
+//                 res.status(500).json({
+//                     message: `Error occurred while fetching rented-out flat with id ${req.params.id}`
+//                 });
+//             }
+//         }
+//         else res.status(200).json({
+//             statusText: "OK",
+//             data: data
+//         });
+//     });
+// }
 
 // Export controllers
 module.exports = {

@@ -14,11 +14,11 @@ const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
         });
         if (response.data.status === 'OK'){
             // console.log(response.data.results[0].types)
-            console.log(`Found! No. of amenities found: ${response.data.results.length}`);
+            console.log(`No. of amenities found: ${response.data.results.length}`);
             filteredList.push(flat);
         }
         else if (response.data.status === 'ZERO_RESULTS')
-            console.log("Not found...");
+            console.log("Not found amenities...");
         else
             console.log(response.data.status);
     };

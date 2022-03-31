@@ -10,6 +10,7 @@ const searchRentedFlats = require('./routes/searchRentedFlats');
 const savedFlats = require('./routes/savedFlats');
 const lookup = require('./routes/lookup');
 const compare = require('./routes/compare');
+const clickOnFlat = require('./routes/clickOnFlat');
 
 // middleware
 app.use(express.json())
@@ -23,6 +24,7 @@ app.use('/api/v1/searchRentedFlats', searchRentedFlats);
 app.use('/api/v1/savedFlats', savedFlats);
 app.use('/api/v1/lookup', lookup);
 app.use('/api/v1/compare', compare);
+app.use('/api/v1/clickOnFlat', clickOnFlat);
 
 // API endpoints
 // SearchRentedFlats api (without amenity filter, for now) -- app.get('/api/v1/searchRentedFlats?town=Punggol&flatType=3-room&numericFilters=price>=2000,price<=3000&amenityType=hospital&amenityDist=1000')

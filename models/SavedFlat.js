@@ -27,20 +27,7 @@ SavedFlat.getAll = (result) => {
 
 // Method to get a saved flat by id
 SavedFlat.getById = (id, result) => {
-    dbConn.query(`SELECT * FROM savedflats WHERE id = ${id}`, (err, res) => {
-        if (err) {
-            console.log(err)
-            result(err, null);
-            return;
-        }
-        if (res.length) {
-            console.log("found saved flat: ", res);
-            result(null, res);
-            return;
-        }
-        console.log("No saved flat with id", id)
-        result({kind: "not_found"}, null);
-    })
+    return dbConn.promise().execute(`SELECT * FROM savedflats WHERE id = ${id}`);
 };
 
 // Method to create a new saved flat
