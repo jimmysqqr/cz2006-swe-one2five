@@ -1,3 +1,4 @@
+@use "utils" as u;
 @import "./Page.module.scss";
 
 @font-face {
@@ -29,6 +30,10 @@
 
 html {
   font-size: 16px;
+  > ::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+  }
 }
 
 html,
@@ -50,10 +55,29 @@ a {
   margin: 0;
 }
 
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: u.$grey;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: u.$grey;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: u.$grey;
+}
+
 /* Reset default styles */
 
 input, button, textarea, select {
   border: none;
   outline: none;
   font: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

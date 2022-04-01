@@ -1,0 +1,214 @@
+@use "/styles/utils" as u;
+
+$header-row-spacing: 1rem;
+$in-between-column-spacing: 1.75rem;
+$text-extra-padding: 1rem;
+
+.compareTable {
+  height: 100%;
+  width: calc(100% - u.$content-x-margin-small * 2);
+
+  .compareTableBackground {
+    background: rgba(u.$black, 0.65);
+    height: 100%;
+    display: flex;
+    padding: 1rem 2rem 1rem 2rem;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: u.$secondary-dark;
+      border-radius: 100px;
+    }
+    // ::-webkit-scrollbar-thumb:hover {
+    //   background: #37ff00;
+    // }
+    &::-webkit-scrollbar-thumb:active {
+      background: u.$primary-light;
+    }
+    &::-webkit-scrollbar-track {
+      background: u.$off-white;
+      border-radius: 100px;
+    }
+    // ::-webkit-scrollbar-track:hover {
+    //   background: #f01414;
+    // }
+    // ::-webkit-scrollbar-track:active {
+    //   background: #000000;
+    // }
+    &::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+
+    .headerColumnContainer {
+      display: flex;
+    }
+    .flatColumnList {
+      display: flex;
+    }
+  }
+}
+
+.column {
+  display: flex;
+  flex-flow: column;
+
+  .headerSection {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  .contentSection {
+    display: flex;
+    flex-flow: column;
+    flex: 8.5;
+
+    .flatType {
+      flex: 0.75;
+      // background: green;
+      display: flex;
+      align-items: center;
+    }
+    .amenities {
+      flex: 4.5;
+      // background: red;
+    }
+    .customLocation {
+      flex: 1.25;
+      // background: green;
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+    }
+    .price {
+      flex: 2.25;
+      // background: red;
+    }
+    .estimate {
+      flex: 1.25;
+      // background: green;
+    }
+  }
+  .endSection {
+    flex: 0.5;
+  }
+}
+
+.header {
+  width: 8rem;
+
+  .rowHeader {
+    // text-align: right;
+    font-family: "Roboto-Bold";
+    letter-spacing: 0.25px;
+    font-size: u.$default;
+    color: u.$grey;
+    display: flex;
+    align-items: center;
+  }
+
+  .location {
+  }
+  .flatType {
+  }
+  .amenities {
+  }
+  .customLocation {
+  }
+  .price {
+  }
+  .estimate {
+  }
+  .actions {
+  }
+}
+
+.flat {
+  padding: 0 calc($in-between-column-spacing / 2);
+  width: 27.5rem;
+
+  .location {
+    font-family: "Roboto-Medium";
+    font-size: u.$xx-big;
+    line-height: 135%;
+    padding: 0 $text-extra-padding;
+    color: #fff;
+  }
+  .flatType {
+    padding: 0 $text-extra-padding;
+    font-size: u.$default;
+    color: #fff;
+  }
+  .amenities {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid u.$off-white;
+
+    .mapContainer {
+      width: 100%;
+      height: 65%;
+    }
+
+    .amenityList {
+      padding: 0.5rem $text-extra-padding 0 $text-extra-padding;
+      width: 100%;
+      height: 35%;
+      background: u.$off-white;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: u.$secondary-dark;
+        border-radius: 100px;
+      }
+      // ::-webkit-scrollbar-thumb:hover {
+      //   background: #37ff00;
+      // }
+      &::-webkit-scrollbar-thumb:active {
+        background: u.$primary-light;
+      }
+      &::-webkit-scrollbar-track {
+        background: u.$off-white;
+        border-radius: 100px;
+      }
+      // ::-webkit-scrollbar-track:hover {
+      //   background: #f01414;
+      // }
+      // ::-webkit-scrollbar-track:active {
+      //   background: #000000;
+      // }
+      &::-webkit-scrollbar-corner {
+        background: transparent;
+      }
+    }
+  }
+  .customLocation {
+    color: #fff;
+    padding: 0 $text-extra-padding;
+  }
+  .price {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    background: u.$primary-dark;
+    border-radius: 2px;
+    padding: 0 $text-extra-padding;
+  }
+  .estimate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: u.$primary-dark;
+  }
+  .actions {
+  }
+
+}

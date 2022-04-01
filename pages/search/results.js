@@ -1,29 +1,30 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 
 import Header from "/components/Header";
 import {Form} from "/components/Form";
 import { searchState } from "/components/data/initialisation";
+import { SearchResults } from "/components/SearchResults";
 import bg from "/public/search_bg.jpg";
 
-export default function SearchPage() {
+export default function SearchResultsPage() {
 
   const [form, setForm] = useState(searchState);
+
 
   function handleSubmit(event) {
     event.preventDefault();
     console.log(form);
   }
 
+
   return (
     <div className="pageContainer">
       <Head>
         <title>Rentigo - Search</title>
-        <meta
-          name="description"
-          content="Don't know which flat you want to rent? Want to know whether it is worth having more rooms? Use the filters below to narrow down your search!"
-        />
         <link rel="icon" href="/icon.png" />
       </Head>
 
@@ -37,12 +38,12 @@ export default function SearchPage() {
         </div>
         <main>
           <div className="pageTitleContainer">
-            <div className="pageTitle">Search Rented Flats</div>
-            <div className="pageSubtitle">Don't know which flat you want to rent? Want to know whether it is worth having more rooms?</div>
-            <div className="pageSubtitle">Use the filters below to narrow down your search!</div>
+            <div className="pageTitle">Search Results</div>
+            <div className="pageSubtitle">View the market rate and future estimate, or select a flat to view its details.</div>
+            <div className="pageSubtitle">Save a flat to compare later by clicking the <FontAwesomeIcon icon={faBookmark} style={{fontSize:"0.7rem"}}/>  icon! </div>
           </div>
           <div className="pageContentContainer">
-            <Form page="search" formState={form} setFormState={setForm} handleSubmit={handleSubmit}/>
+            <SearchResults formState={form} setFormState={setForm} handleSubmit={handleSubmit}/>
           </div>
         </main>
       </div>

@@ -16,8 +16,10 @@
     .bgContainer {
       z-index: -1;
       position: fixed;
-      height: 100%;
-      width: 100%;
+      left: -1%;
+      top: -1%;
+      height: 102%;
+      width: 102%;
       img {
         filter: blur(5px);
       }
@@ -43,20 +45,24 @@
         }
 
         .pageSubtitle {
-          font-size: u.$xx-small;
+          font-size: u.$x-small;
           color: u.$grey;
           line-height: 160%;
-          letter-spacing: 0.1px;
+          letter-spacing: 0.2px;
         }
       }
 
       .pageContentContainer {
         flex: 1; // to fill up the space not taken by pageTitleContainer
-        background: linear-gradient(180deg, rgba(u.$black, 0.6) 60%, rgba(u.$black, 0.8) 100%);
+        background: linear-gradient(180deg, rgba(u.$black, 0.65) 60%, rgba(u.$black, 0.8) 100%);
         display: flex;
         flex-flow: column;
         align-items: center;
         justify-content: center;
+
+        // & > * {
+        //   margin: 1rem 0 0 0;
+        // }
       }
     }
   }

@@ -1,28 +1,186 @@
 @use "/styles/utils" as u;
 
-.mainForm {
-  width: calc(30% + 10rem);
+@use 'FormInputs.module.scss' as fI;
+
+
+.button {
+  margin-top: 1.5rem;
+  padding: 1rem 3.5rem;
+  border-radius: 100px;
+  color: u.$white;
+  font-family: "Quicksand";
+  font-size: u.$default;
+  align-self: center; // to set its width according to its horizontal padding without setting explicit width property
+  cursor: pointer;
+}
+.primary {
+  font-variation-settings: 'wght' 700;
+  background-color: u.$primary-light;
+  box-shadow: 0px 6px 24px rgba(u.$primary-light-shadow, 0.5);
+}
+
+.secondary {
+  font-variation-settings: 'wght' 500;
+  background-color: rgba(u.$black, 0.15);
+  box-shadow: 0px 6px 24px rgba(u.$primary-light-shadow, 0.5);
+  border: 1px solid u.$white;
+}
+
+.form {
   display: flex;
   flex-flow: column;
   align-items: center;
 
-  .submit {
-    margin-top: 1rem;
-    padding: 0.75rem 3rem;
-    border-radius: 100px;
-    font-family: "Quicksand";
-    font-variation-settings: 'wght' 600;
-    background-color: u.$primary-light;
-    color: u.$white;
-    box-shadow: 0px 6px 24px rgba(u.$primary-light-shadow, 0.5);
-    align-self: center; // to set its width according to its horizontal padding without setting explicit width property
-    cursor: pointer;
+  &.lookupForm, &.searchForm {
+    width: calc(30% + 10rem);
+  }
+  &.searchResultsForm {
+    width: 100%;
   }
 
-  .mainFormFieldContainer {
+  .mainFormFieldContainer,
+  .smallFormFieldContainer {
     width: 100%;
-    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .formFieldText {
+      text-align: center;
+      color: u.$grey;
+    }
+
+    &.reducedWidth {
+      width: 75%;
+    }
+  }
+  .mainFormFieldContainer {
+    margin: 0 0 0.8rem 0;
+    .formFieldText {
+      font-size: u.$default;
+    }
+    &.priceRangeContainer .formFieldText {
+      font-size: u.$xxx-big;
+    }
+  }
+  .smallFormFieldContainer {
+    margin: 0 0 0.5rem 0;
+    .formFieldText {
+      font-size: u.$x-small;
+    }
+    &.priceRangeContainer .formFieldText {
+      font-size: u.$xx-big;
+    }
   }
 
 }
 
+.amenityContainer {
+  .selectAmenityContainer {
+    flex: 6;
+  }
+  .selectDistanceContainer {
+    flex: 2;
+  }
+  .formFieldText {
+    flex: 2;
+  }
+}
+
+.priceRangeContainer {
+  .lowerBoundContainer {
+    flex: 4;
+  }
+  .upperBoundContainer {
+    flex: 4;
+  }
+  .formFieldText {
+    flex: 2;
+  }
+}
+
+.searchContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+  .leftSearchContainer, .centerSearchContainer, .rightSearchContainer {
+    display: inline-flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+    .smallFormFieldContainer:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .leftSearchContainer {
+    flex: 4.5;
+    padding-right: 1.5rem;
+  }
+  .centerSearchContainer {
+    flex: 4.5;
+    padding-right: 1.5rem;
+  }
+  .rightSearchContainer {
+    flex: 1;
+
+    .primary {
+      flex: 3;
+      margin-top: 0.5rem;
+      border-radius: 6px;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    .secondary {
+      flex: 1;
+      margin-top: 0;
+      border-radius: 6px;
+      padding-top: 0.4rem;
+      padding-bottom: 0.4rem;
+      font-size: u.$x-small;
+    }
+  }
+
+}
+
+.lookupResultsInteraction {
+  display: flex;
+  justify-content: space-between;
+}
+
+.choicesInteraction {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summaryInteraction {
+  display: flex;
+  justify-content: center;
+  .button {
+    box-shadow: none;
+  }
+}
+
+.comparisonInteraction {
+  display: flex;
+  justify-content: center;
+
+  .button {
+    margin: 0;
+    padding: 0.5rem 1rem;
+    font-size: u.$xx-small;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+.labelInputNoWrap {
+  display: flex;
+  label {
+    width: 8rem
+  }
+}

@@ -1,6 +1,23 @@
 @use "/styles/utils" as u;
 
 .lookupResultsContainer {
+  width: calc(100% - u.$content-x-margin-small * 2);
+}
+
+.lookupResultsContent {
   display: flex;
-  width: calc(100% - u.$content-x-margin-default * 2);
+}
+
+.space1, .space2, .space3 {
+  display: flex;
+}
+
+.space1 {
+  flex: 3.75;
+}
+.space2 {
+  flex: 3.5;
+}
+.space3 {
+  flex: 2.75;
 }

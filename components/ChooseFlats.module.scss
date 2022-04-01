@@ -1,0 +1,101 @@
+@use "/styles/utils" as u;
+
+.chooseFlats {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin-top: 2rem;
+  width: calc(100% - u.$content-x-margin-default * 2);
+  position: relative; // parent of absolute-positioned choiceSummaryContainer
+  height: 100%;
+}
+
+.flatChoicesContainer {
+  // display: flex;
+  background: rgba(u.$black, 0.25);
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 4px;
+
+}
+
+.flatChoices {
+
+  .flatChoiceList {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: u.$secondary-dark;
+      border-radius: 100px;
+    }
+    // ::-webkit-scrollbar-thumb:hover {
+    //   background: #37ff00;
+    // }
+    &::-webkit-scrollbar-thumb:active {
+      background: u.$primary-light;
+    }
+    &::-webkit-scrollbar-track {
+      background: u.$off-white;
+      border-radius: 100px;
+    }
+    // ::-webkit-scrollbar-track:hover {
+    //   background: #f01414;
+    // }
+    // ::-webkit-scrollbar-track:active {
+    //   background: #000000;
+    // }
+    &::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+  }
+}
+
+.choiceSummaryContainer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.choiceSummary {
+  background: u.$white;
+  border-radius: 20px 20px 0px 0px;
+  padding: 1rem 1.75rem;
+
+  .header {
+    font-family: "Poppins-Regular";
+    font-weight: 800;
+    font-size: u.$xx-big;
+    letter-spacing: 0.2px;
+  }
+
+  .summaryList {
+    margin-top: 0.75rem;
+    display: flex;
+  }
+}
+
+.listItemSummary {
+  display: flex;
+  width: 30%;
+  margin-right: 1.5rem;
+
+  .flatName {
+    font-family: 'Quicksand';
+    font-size: u.$default;
+    font-weight: 600;
+    margin-right: 1rem;
+    text-align: center;
+  }
+  
+  .vs {
+    font-family: 'Quicksand';
+    font-size: u.$xx-big;
+    font-weight: 300;
+  }
+}

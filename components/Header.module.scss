@@ -54,6 +54,10 @@
       text-transform: uppercase;
       letter-spacing: 2px;
     }
+    a.active {
+      border: none;
+      background: u.$primary-light-off;
+    }
   }
 }
 

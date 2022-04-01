@@ -1,0 +1,84 @@
+@use "/styles/utils" as u;
+
+.searchResultsContainer {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: calc(100% - u.$content-x-margin-small * 2);
+  height: 100%;
+  background: rgba(u.$black, 0.25);
+  padding: 2rem 2rem;
+
+  .searchResultsView {
+    margin-top: 2rem;
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.listContainer {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  height: 100%;
+}
+
+.sizeLeft {
+  flex: 4;
+  position: relative; // scrollContainer takes reference from this
+  margin-right: 0.5rem;
+
+  .scrollContainer { // to make list take on the height of the flatInfo container and scrollable
+    position: absolute;
+    overflow: auto;
+    left: 0;
+    top: 0; 
+    right: 0;
+    bottom: 0;
+    // padding-right: rem;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: u.$secondary-dark;
+      border-radius: 100px;
+    }
+    // ::-webkit-scrollbar-thumb:hover {
+    //   background: #37ff00;
+    // }
+    &::-webkit-scrollbar-thumb:active {
+      background: u.$primary-light;
+    }
+    &::-webkit-scrollbar-track {
+      background: u.$off-white;
+      border-radius: 100px;
+    }
+    // ::-webkit-scrollbar-track:hover {
+    //   background: #f01414;
+    // }
+    // ::-webkit-scrollbar-track:active {
+    //   background: #000000;
+    // }
+    &::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+  }
+}
+
+.sizeRight {
+  flex: 6;
+  display: flex;
+  align-items: stretch;
+
+  .space1 {
+    flex: 1;
+    display: flex;
+  }
+  .space2 {
+    flex: 1;
+    display: flex;
+  }
+}

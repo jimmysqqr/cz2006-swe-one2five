@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 
@@ -6,6 +7,16 @@ import {Form} from "/components/Form";
 import bg from "/public/lookup_bg.jpg";
 
 export default function LookupPage() {
+
+  const [form, setForm] = useState({
+    targetAddr: "",
+    roomType: "",
+  });
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(form);
+  }
 
   return (
     <div className="pageContainer">
@@ -35,7 +46,7 @@ export default function LookupPage() {
             <div className="pageSubtitle">Enter its address here and find out!</div>
           </div>
           <div className="pageContentContainer">
-            <Form />
+            <Form page="lookup" formState={form} setFormState={setForm} handleSubmit={handleSubmit} />
           </div>
         </main>
       </div>

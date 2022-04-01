@@ -2,10 +2,10 @@ import Head from "next/head";
 import Image from "next/image";
 
 import Header from "/components/Header.js";
-import bg from "/public/lookup_bg.jpg";
-import { LookupResults } from "/components/LookupResults";
+import bg from "/public/compare_bg.jpg";
+import { CompareTable } from "/components/CompareTable";
 
-export default function LookupResultsPage() {
+export default function SideBySidePage() {
   return (
     <div className="pageContainer">
       <Head>
@@ -20,15 +20,11 @@ export default function LookupResultsPage() {
 
       <div className="mainContainer">
         <div className="bgContainer">
-          <Image src={bg} layout="fill" objectFit="cover" alt="A living room background" priority/>
+          <Image src={bg} layout="fill" objectFit="cover" alt="A picture of a group of flats from ground level" priority/>
         </div>
         <main>
-          <div className="pageTitleContainer">
-            <div className="pageTitle">Punggol Street 25 Block 24</div>
-            <div className="pageSubtitle">2-Room Flat</div>
-          </div>
           <div className="pageContentContainer">
-            <LookupResults />
+            <CompareTable />
           </div>
         </main>
       </div>

@@ -1,0 +1,94 @@
+@use "/styles/utils" as u;
+
+$list-item-content-spacing: 1rem;
+
+.listItemFlat {
+  background: u.$white;
+  display: flex;
+
+  &.search {
+    border-radius: 4px 0px 0px 4px;
+    padding: 1rem calc($list-item-content-spacing / 2);
+    margin-bottom: 0.2rem;
+  }
+  &.compare {
+    flex-flow: column;
+    justify-content: space-between;
+    border-radius: 2px 2px 0px 0px;
+    padding: calc($list-item-content-spacing / 2) 1rem;
+    margin-right: 0.5rem;
+    width: 22rem;
+    flex-shrink: 0;
+  }
+}
+
+.saveContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 calc($list-item-content-spacing / 2);
+  flex: 0.5;
+}
+
+.nameAmenityContainer {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  padding: 0 calc($list-item-content-spacing / 2);
+  flex: 7.2;
+  min-width: 0; // needed to make long names show ellipsis
+}
+
+.name {
+  font-family: 'Quicksand';
+  font-weight: 400;
+  font-size: u.$x-big;
+  margin-bottom: calc($list-item-content-spacing / 4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nameContainer {
+  padding-top: calc($list-item-content-spacing / 2);
+}
+
+.amenity, .isSaved {
+  font-size: u.$default;
+  color: u.$grey;
+}
+
+.isSavedTypePriceContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: calc($list-item-content-spacing / 2);
+}
+
+.isSavedContainer {
+}
+
+.typePriceContainer {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex: 2.3;
+
+  .roomType {
+    font-family: 'Quicksand';
+    font-weight: 200;
+    font-size: u.$default;
+  }
+
+  .price {
+    font-family: 'Quicksand';
+    font-weight: 400;
+    font-size: u.$xxx-big;
+  }
+}
+.search .typePriceContainer {
+  padding: 0 calc($list-item-content-spacing / 2);
+}
+.compare .typePriceContainer {
+}
