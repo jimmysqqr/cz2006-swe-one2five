@@ -84,6 +84,7 @@ const searchRentedFlats = async (req, res) => {
     // Handle the output
     if (rows.length) {
         res.status(200).json({
+            found: rows.length,
             data: {
                 avgPrice: avgPrice,
                 tenPer: tenPer,
@@ -111,6 +112,7 @@ const getAllRentedFlats = (req, res) => {
                 }
             );
         else res.status(200).json({
+            found: data.length,
             data: data
         });
     })

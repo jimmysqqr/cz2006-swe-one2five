@@ -11,6 +11,7 @@ const getAllSavedFlats = (req, res) => {
             })
         }
         else res.status(200).json({
+            found: data.length,
             data: data
         });
     })

@@ -83,6 +83,7 @@ const lookup = async (req, res) => {
                 latitude: lat,
                 longitude: lon
             },
+            similarFlatsFound: similarFlats.length,
             avgPrice: averagePrice,
             tenPer: tenPer,
             ninetyPer: ninetyPer,
