@@ -3,7 +3,7 @@ const RentedOutFlat = require('../models/RentedOutFlat');
 const SavedFlat = require('../models/SavedFlat');
 
 const viewFlatDetails = async (req, res) => {
-    if (req.query.type == "rentedOut") {
+    if (req.query.flatStatus == "rented-out") {
         const [rows, fields] = await RentedOutFlat.getById(req.query.id).catch(err => {
             console.log(err);
             res.status(500).json({
@@ -43,7 +43,7 @@ const viewFlatDetails = async (req, res) => {
             });
         }
     }
-    else if (req.query.type == "saved") {
+    else if (req.query.flatStatus == "saved") {
         const [rows, fields] = await SavedFlat.getById(req.query.id).catch(err => {
             console.log(err);
             res.status(500).json({
