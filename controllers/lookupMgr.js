@@ -41,19 +41,15 @@ const lookup = async (req, res) => {
     }
 
     // Getting nearby amenities of the Target Flat
-    let amenities = [];
-    const amenitiesRes = await findAllNearbyAmenities(lat, lon).catch((err) => {
+    let amenitiesRes = await findAllNearbyAmenities(lat, lon).catch((err) => {
         console.log(err);
     });
-    if (amenitiesRes.data.status === 'OK'){
-        // console.log(response.data.results[0].types)
-        console.log(`No. of amenities found: ${amenitiesRes.data.results.length}`);
-        amenities = amenitiesRes.data.results;
+    if (amenitiesRes.found > 0){
+        // console.log(amenitiesRes.amenityList[0].types)
+        console.log(`Total no. of amenities found: ${amenitiesRes.found}`);
     }
-    else if (amenitiesRes.data.status === 'ZERO_RESULTS')
+    else if (amenitiesRes.found == 0)
         console.log("Not found any amenities...");
-    else
-        console.log(amenitiesRes.data.status);
 
 
     // Find similar flats
@@ -88,7 +84,7 @@ const lookup = async (req, res) => {
             tenPer: tenPer,
             ninetyPer: ninetyPer,
             predictedPrice: predictedPrice,
-            amenities: amenities
+            amenities: amenitiesRes
         }
     })
 }

@@ -1,5 +1,5 @@
 const GoogleMaps  = require('../models/GoogleMaps');
-const [findAllNA, findCoord] = [GoogleMaps.findAllNearbyAmenities, GoogleMaps.findCoords];
+const [findNearbyAmenities, findCoord] = [GoogleMaps.findNearbyAmenities, GoogleMaps.findCoords];
 
 // Method to search for rented-out flats based on a nearby amenity
 const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
@@ -9,7 +9,7 @@ const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
     let filteredList = [];
 
     for (const flat of rentedOutFlatList){
-        let response = await findAllNA(flat.latitude, flat.longitude, amenityType, amenityDist).catch(err => {
+        let response = await findNearbyAmenities(flat.latitude, flat.longitude, amenityType, amenityDist).catch(err => {
             console.log(err);
         });
         if (response.data.status === 'OK'){
@@ -28,20 +28,55 @@ const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
     });
 }
 
+// valid amenityType: "supermarket", "school", "bus_station", "train_station", "doctor"
+const amenityTypeList = [
+    "supermarket",
+    "school",
+    "bus_station",
+    "train_station",
+    "doctor" // display as healthcare on frontend 
+]
 
 // Method to find all nearby amenities (based on the defined list of amenities) of a particular flat
-const findAllNearbyAmenities = async (flatLat, flatLon, amenityType = null, amenityDist = 1000) => { 
-    // flatCoords: longtitude and latitude
+const findAllNearbyAmenities = async (flatLat, flatLon, amenityDist = 1000) => { 
+    // flatLat: flat latitude and flatLon: flat longtitude
     // default amenityType = null, meaning find all nearby amenities
     // assume nearby is 1km => amenityDist = 1000
-    // valid amenityType: stadium, gym, hospital, school, shopping_mall, restaurant, park, supermarket, gas_station ,library, bus_station, train_station
-    return findAllNA(flatLat, flatLon, amenityType, amenityDist);
+    // valid amenityType: "supermarket", "school", "bus_station", "train_station", "doctor"
+    let master = [];
+        
+    for (let amenityType of amenityTypeList) {
+
+        let response = await findNearbyAmenities(flatLat, flatLon, amenityType, amenityDist);
+
+        if (response.data.status === 'OK') {
+            console.log(`No. of amenities found for type ${amenityType}: ${response.data.results.length}`);
+            master = master.concat(
+                (response.data.results.length > 4) ? response.data.results.slice(0, 4) : response.data.results
+            ); // take up to a max of 4 amenity instances of a type
+        }
+        else if (response.data.status === 'ZERO_RESULTS')
+            console.log(`Not found amenities for type ${amenityType}`);
+        else
+            console.log(response.data.status);
+    }
+
+    // console.log("Total amenity instances found: " + master.length);
+    return new Promise((resolve) => {
+        resolve({
+            found: master.length,
+            amenityList: master
+        });
+    });
 }
 
 // Method to find the coordinates of a particular address
 const findCoords = async (address) => {
     const response = await findCoord(address);
     console.log(response.data.results[0]);
+    return new Promise((resolve) => {
+        resolve(response.data.results[0]);
+    });
 }
 
 // Method to find the road distance between Place0 and Place1
