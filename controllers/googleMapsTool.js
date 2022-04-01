@@ -9,7 +9,7 @@ const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
     let filteredList = [];
 
     for (const flat of rentedOutFlatList){
-        let response = await findNearbyAmenities(flat.latitude, flat.longitude, amenityType, amenityDist).catch(err => {
+        const response = await findNearbyAmenities(flat.latitude, flat.longitude, amenityType, amenityDist).catch(err => {
             console.log(err);
         });
         if (response.data.status === 'OK'){
@@ -28,12 +28,12 @@ const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
     });
 }
 
-// valid amenityType: "supermarket", "school", "bus_station", "train_station", "doctor"
+// valid amenityType: "supermarket", "school", "bus_station", "subway_station", "doctor"
 const amenityTypeList = [
     "supermarket",
     "school",
     "bus_station",
-    "train_station",
+    "subway_station",
     "doctor" // display as healthcare on frontend 
 ]
 
@@ -42,7 +42,7 @@ const findAllNearbyAmenities = async (flatLat, flatLon, amenityDist = 1000) => {
     // flatLat: flat latitude and flatLon: flat longtitude
     // default amenityType = null, meaning find all nearby amenities
     // assume nearby is 1km => amenityDist = 1000
-    // valid amenityType: "supermarket", "school", "bus_station", "train_station", "doctor"
+    // valid amenityType: "supermarket", "school", "bus_station", "subway_station", "doctor"
     let master = [];
         
     for (let amenityType of amenityTypeList) {

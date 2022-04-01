@@ -86,7 +86,7 @@ const lookup = async (req, res) => {
             predictedPrice: predictedPrice,
             amenities: amenitiesRes
         }
-    })
+    });
 }
 
 module.exports = lookup;
