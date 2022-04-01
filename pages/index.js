@@ -9,7 +9,8 @@ import bg from "/public/lookup_bg.jpg";
 export default function LookupPage() {
 
   const [form, setForm] = useState({
-    targetAddr: "",
+    targetStreet: "",
+    targetBlock: "",
     roomType: "",
   });
 

@@ -23,11 +23,20 @@ export function Form(props) {
       <form className={`${styles.form} ${styles.lookupForm}`} onSubmit={props.handleSubmit}>
         <div className={styles.mainFormFieldContainer}>
           <InputText
-            label="Target Address"
-            name={"targetAddr"}
+            label="Target Street"
+            name={"targetStreet"}
             formValue={props.formState.targetAddr}
             onChange={handleClick}
-            placeholder={"eg. Bishan Street 23 Block 229"}
+            placeholder={"eg. Bishan Street 23"}
+          />
+        </div>
+        <div className={styles.mainFormFieldContainer}>
+          <InputText
+            label="Block Number"
+            name={"targetBlock"}
+            formValue={props.formState.targetBlock}
+            onChange={handleClick}
+            placeholder={"eg. 229"}
           />
         </div>
         <div className={`${styles.smallFormFieldContainer} ${styles.reducedWidth}`}>
