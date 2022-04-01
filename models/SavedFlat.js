@@ -26,7 +26,7 @@ SavedFlat.getAll = (result) => {
 };
 
 // Method to get a saved flat by id
-SavedFlat.getById = (id, result) => {
+SavedFlat.getById = async (id) => {
     return dbConn.promise().execute(`SELECT * FROM savedflats WHERE id = ${id}`);
 };
 

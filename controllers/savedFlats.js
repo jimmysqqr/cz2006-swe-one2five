@@ -10,29 +10,33 @@ const getAllSavedFlats = (req, res) => {
                 message: "Some error occurred while fetching saved flats"
             })
         }
-        else res.status(200).json(data);
+        else res.status(200).json({
+            data: data
+        });
     })
 }
 
-// // Get saved flat by id
-// const getSavedFlat = (req, res) => {
-//     // res.json({ id:req.params.id });
-//     SavedFlat.getById(req.params.id, (err, data) => {
-//         if (err) {
-//             if (err.kind === "not_found") {
-//                 res.status(404).json({
-//                     message: `No saved flat with if ${req.params.id}`
-//                 });
-//             }
-//             else {
-//                 res.status(500).json({
-//                     message: `Error occurred while fetching saved flat id ${req.params.id}`
-//                 });
-//             }
-//         }
-//         else res.status(200).json(data);
-//     })
-// }
+// Get saved flat by id
+const getSavedFlat = async (req, res) => {
+    const [rows, fields] = await SavedFlat.getById(req.params.id).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            message: `Error occurred while fetching saved flat id ${req.params.id}`
+        });
+    });
+    if (rows.length > 0) {
+        console.log(`Found rented-out flat id ${req.params.id}`);
+        res.status(200).json({
+            data: rows
+        });
+    }
+    else {
+        console.log(`No saved flat with id ${req.params.id}`);
+        res.status(404).json({
+            message: `No saved flat with id ${req.params.id}`
+        });
+    }
+}
 
 // Create a new saved flat
 const createSavedFlat = async (req, res) => {
@@ -92,7 +96,7 @@ const deleteSavedFlat = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).json({
-                    message: `No saved flat with if ${req.params.id}`
+                    message: `No saved flat with id ${req.params.id}`
                 });
             }
             else {

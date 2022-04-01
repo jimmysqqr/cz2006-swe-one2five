@@ -14,7 +14,7 @@ const RentedOutFlat = (rentedoutflat) => {
 };
 
 // Method to get a rented-out flat by id
-RentedOutFlat.getById = (id) => {
+RentedOutFlat.getById = async (id) => {
     return dbConn.promise().execute(`SELECT * FROM rentedoutflats WHERE id = ${id}`);
 };
 

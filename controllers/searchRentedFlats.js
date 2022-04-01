@@ -84,7 +84,6 @@ const searchRentedFlats = async (req, res) => {
     // Handle the output
     if (rows.length) {
         res.status(200).json({
-            statusText: "OK",
             data: {
                 avgPrice: avgPrice,
                 tenPer: tenPer,
@@ -95,8 +94,8 @@ const searchRentedFlats = async (req, res) => {
         });
     }
     else {
-        res.status(200).json({
-            statusText: "No rented-out flat satisfies the searching filters"
+        res.status(404).json({
+            message: "No rented-out flat satisfies the searching filters"
         });
     }
 }
@@ -112,34 +111,32 @@ const getAllRentedFlats = (req, res) => {
                 }
             );
         else res.status(200).json({
-            statusText: "OK",
             data: data
         });
     })
 }
 
-// // Get a rented-out flat by id
-// const getRentedFlat = (req, res) => {
-//     // res.send('rented-out flat of id x');
-//     RentedOutFlat.getById(req.params.id, (err, data) => {
-//         if (err) {
-//             if (err.kind === "not_found") {
-//                 res.status(404).json({
-//                     message: `No rented-out flat with id ${req.params.id}`
-//                 });
-//             }
-//             else {
-//                 res.status(500).json({
-//                     message: `Error occurred while fetching rented-out flat with id ${req.params.id}`
-//                 });
-//             }
-//         }
-//         else res.status(200).json({
-//             statusText: "OK",
-//             data: data
-//         });
-//     });
-// }
+// Get a rented-out flat by id
+const getRentedFlat = async (req, res) => {
+    const [rows, fields] = await RentedOutFlat.getById(req.params.id).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            message: `Error occurred while fetching rented-out flat with id ${req.params.id}`
+        });
+    });
+    if (rows.length > 0) {
+        console.log(`Found rented-out flat with id ${req.params.id}`);
+        res.status(200).json({
+            data: rows
+        });
+    }
+    else {
+        console.log(`No rented-out flat with id ${req.params.id}`);
+        res.status(404).json({
+            message: `No rented-out flat with id ${req.params.id}`
+        });
+    }
+}
 
 // Export controllers
 module.exports = {

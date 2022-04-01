@@ -11,7 +11,7 @@ const viewFlatDetails = async (req, res) => {
             });
         });
         if (rows.length) {
-            console.log(`found rented-out flat id ${req.query.id}`);
+            console.log(`Found rented-out flat id ${req.query.id}`);
             const lat = rows[0].latitude;
             const lon = rows[0].longitude;
             const amenitiesRes = await findAllNearbyAmenities(lat, lon).catch(err => {
@@ -23,14 +23,13 @@ const viewFlatDetails = async (req, res) => {
             if (amenitiesRes.data.status === 'OK'){
                 console.log(`No. of amenities found: ${amenitiesRes.data.results.length}`);
                 res.status(200).json({
-                    statusText: "OK",
                     data: amenitiesRes.data.results
                 });
             }
             else if (amenitiesRes.data.status === 'ZERO_RESULTS') {
                 console.log("Not found amenities...");
                 res.status(200).json({
-                    statusText: "No amenities found",
+                    message: "No amenities found",
                     data: []
                 });
             }
@@ -39,7 +38,7 @@ const viewFlatDetails = async (req, res) => {
         }   
         else {
             console.log(`No rented-out flat with id ${req.query.id}`);
-            res.status(400).json({
+            res.status(404).json({
                 message: `No rented-out flat with id ${req.query.id}`
             });
         }
@@ -52,7 +51,7 @@ const viewFlatDetails = async (req, res) => {
             });
         });
         if (rows.length) {
-            console.log(`found saved flat id ${req.query.id}`);
+            console.log(`Found saved flat id ${req.query.id}`);
             const lat = rows[0].latitude;
             const lon = rows[0].longitude;
             const amenitiesRes = await findAllNearbyAmenities(lat, lon).catch(err => {
@@ -64,14 +63,13 @@ const viewFlatDetails = async (req, res) => {
             if (amenitiesRes.data.status === 'OK'){
                 console.log(`No. of amenities found: ${amenitiesRes.data.results.length}`);
                 res.status(200).json({
-                    statusText: "OK",
                     data: amenitiesRes.data.results
                 });
             }
             else if (amenitiesRes.data.status === 'ZERO_RESULTS') {
                 console.log("Not found amenities...");
                 res.status(200).json({
-                    statusText: "No amenities found",
+                    message: "No amenities found",
                     data: []
                 });
             }
@@ -80,7 +78,7 @@ const viewFlatDetails = async (req, res) => {
         }   
         else {
             console.log(`No saved flat with id ${req.query.id}`);
-            res.status(400).json({
+            res.status(404).json({
                 message: `No saved flat with id ${req.query.id}`
             });
         }
