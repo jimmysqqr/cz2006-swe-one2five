@@ -11,6 +11,7 @@ const savedFlats = require('./routes/savedFlats');
 const lookup = require('./routes/lookup');
 const compare = require('./routes/compare');
 const clickOnFlat = require('./routes/clickOnFlat');
+const calcDist = require('./routes/calcDist');
 
 // middleware
 app.use(express.json())
@@ -25,6 +26,7 @@ app.use('/api/v1/savedFlats', savedFlats);
 app.use('/api/v1/lookup', lookup);
 app.use('/api/v1/compare', compare);
 app.use('/api/v1/clickOnFlat', clickOnFlat);
+app.use('/api/v1/distance', calcDist);
 
 // API endpoints
 
@@ -42,41 +44,8 @@ app.use('/api/v1/clickOnFlat', clickOnFlat);
 // Lookup 1 Target Flat - app.get('/api/v1/lookup?block=1&street_name=BEACH RD&flatType=3-room')
 // View Flat Details - app.get('/api/v1/clickOnFlat?flatStatus=rented-out&id=3788')
 // Compare Saved Flats - app.get('/api/v1/compare?ids=1,2,3')
+// Check distance - app.get('/api/v1/distance?flatLat=1.33943033543358&flatLng=103.853442790992&dst=Catholic Junior College')
 
-// NOT AVAILABLE YET
-// Check distance - app.get('/api/v1/distance?')
-
-// Fetch all rentedOutFlats
-// app.get('/api/v1/searcha', (req, res) => {
-//     let sql = 'SELECT * FROM rentedoutflats'
-//     db.query(sql, (err, results)=>{
-//         if(err) throw err;
-//         console.log("Fetch successful");
-//         res.send(results)
-//     })
-// })
-
-// // localhost:5000/api/v1/search?numericFilters=price>2000,price<3000
-
-// app.get('/api/v1/search', (req, res) => {
-//     const priceSearch = /price/g
-
-//     let  numericFilters = req.query.numericFilters
-//     if (numericFilters) {
-//         console.log(numericFilters)
-//     }
-//     numericFilters = numericFilters.replace(priceSearch, "monthly_rent")
-//     numericFilters = numericFilters.replace(',', ' AND ')
-//     console.log(numericFilters)
-
-//     let sql = `SELECT * FROM rentedoutflats WHERE ${numericFilters}`
-
-//     db.query(sql, (err, results)=>{
-//         if(err) throw err;
-//         console.log("Fetch successful");
-//         res.send(results)
-//     })
-// })
 
 const PORT = 5000;
 

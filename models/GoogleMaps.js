@@ -31,6 +31,16 @@ const findCoords = async (address) => {
     })
 };
 
+// Method to find the road distance between src (coords) and dst (address)
+const calcDistance = async (src, dst) => {
+    const url = 'https://maps.googleapis.com/maps/api/distancematrix/json?' +
+            'origins=' + src[0] + '%2C' + src[1] +
+            '&destinations=' + dst +
+            '&key=AIzaSyAW-ZULfCaxKjHOBkyCMLen528JeXpiKQk';
+
+    return axios.get(url);
+}
+
 /* nominatim api call
 const findCoords = async (blkNo, street) => {
     const url = `https://nominatim.openstreetmap.org/search?street=${blkNo}+${street}&country=singapore&format=json&limit=1`
@@ -45,5 +55,6 @@ const findCoords = async (blkNo, street) => {
 
 module.exports = {
     findNearbyAmenities,
-    findCoords
+    findCoords,
+    calcDistance
 }
