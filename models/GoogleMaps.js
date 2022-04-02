@@ -1,5 +1,6 @@
 const axios = require('axios');
 const {Client} = require("@googlemaps/google-maps-services-js");
+require('dotenv').config()
 
 // Method to find nearby amenities of a particular destination
 const findNearbyAmenities = async (flatLat, flatLon, amenityType = null, amenityDist = 1000) => { 
@@ -13,7 +14,7 @@ const findNearbyAmenities = async (flatLat, flatLon, amenityType = null, amenity
             '&radius=' + amenityDist +
             (amenityType ? '&type=' + amenityType : '') +
             '&rankby=prominence' +
-            '&key=AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM';
+            '&key=' + process.env.Amenities_GGMapsAPIKey;
 
     // use axios to talk to G map api
     return axios.get(url);
@@ -25,7 +26,7 @@ const findCoords = async (address) => {
     return client.geocode({
         params: {
             address: address,
-            key: "AIzaSyAW-ZULfCaxKjHOBkyCMLen528JeXpiKQk"
+            key: process.env.Dist_Coords_GGMapsAPIKey
         },
         timeout: 1000 //ms
     })
@@ -36,7 +37,7 @@ const calcDistance = async (src, dst) => {
     const url = 'https://maps.googleapis.com/maps/api/distancematrix/json?' +
             'origins=' + src[0] + '%2C' + src[1] +
             '&destinations=' + dst +
-            '&key=AIzaSyAW-ZULfCaxKjHOBkyCMLen528JeXpiKQk';
+            '&key=' + process.env.Dist_Coords_GGMapsAPIKey;
 
     return axios.get(url);
 }
