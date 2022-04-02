@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 // Import controllers
-const compare = require('../controllers/compareMgr');
+const calcDist = require('../controllers/distanceCalculator');
 
 // Routes
-router.route('/:userToken').get(compare);
+router.route('/').get(calcDist);
 
 module.exports = router;

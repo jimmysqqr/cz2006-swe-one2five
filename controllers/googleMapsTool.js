@@ -1,5 +1,5 @@
 const GoogleMaps  = require('../models/GoogleMaps');
-const [findNearbyAmenities, findCoord] = [GoogleMaps.findNearbyAmenities, GoogleMaps.findCoords];
+const [findNearbyAmenities, findCoord, calcDist] = [GoogleMaps.findNearbyAmenities, GoogleMaps.findCoords, GoogleMaps.calcDistance];
 
 // Method to search for rented-out flats based on a nearby amenity
 const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
@@ -79,52 +79,78 @@ const findCoords = async (address) => {
     });
 }
 
-// Method to find the road distance between Place0 and Place1
-const calcDistance = (coords0, coords1) => {
-    function haversine_distance(coords0, coords1) {
-        var R = 6371.0710; // Radius of the Earth in km
-        var rlat1 = coords0.position.lat() * (Math.PI/180); // Convert degrees to radians
-        var rlat2 = coords1.position.lat() * (Math.PI/180); // Convert degrees to radians
-        var difflat = rlat2-rlat1; // Radian difference (latitudes)
-        var difflng = (mk2.position.lng()-mk1.position.lng()) * (Math.PI/180); // Radian difference (longitudes)
+// Method to find the road distance between a flat [lat, lng] and a custom location (address, no need to be no. street_name)
+const calcDistance = async (flat, cusLoc) => {
+    const distRes = await calcDist(flat, cusLoc).catch(err => {
+        console.log(err);
+        if (distRes.data.status === 'INVALID_REQUEST') {
+            return new Promise(resolve => resolve({
+                status: 400
+            }));
+        }
+        else if (distRes.data.status === 'UNKNOWN_ERROR') {
+            return new Promise(resolve => resolve({
+                status: 500
+            }));
+        }
+        else {
+            return new Promise(resolve => resolve({
+                status: distRes.data.status
+            }));
+        }
+    });
+    if (distRes.data.status === 'OK') {
+        console.log('Successfully calculate distance!');
+        return new Promise(resolve => resolve({
+            status: 200,
+            data: distRes.data.rows[0].elements[0].distance
+        }));
+    }
     
-        var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflng/2)*Math.sin(difflng/2)));
-        return d;
-    }
+    // function haversine_distance(coords0, coords1) {
+    //     var R = 6371.0710; // Radius of the Earth in km
+    //     var rlat1 = coords0.position.lat() * (Math.PI/180); // Convert degrees to radians
+    //     var rlat2 = coords1.position.lat() * (Math.PI/180); // Convert degrees to radians
+    //     var difflat = rlat2-rlat1; // Radian difference (latitudes)
+    //     var difflng = (mk2.position.lng()-mk1.position.lng()) * (Math.PI/180); // Radian difference (longitudes)
+    
+    //     var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflng/2)*Math.sin(difflng/2)));
+    //     return d;
+    // }
 
-    var distance = haversine_distance(mk1, mk2);
+    // var distance = haversine_distance(mk1, mk2);
 
-    // shows distance as message below map
-    document.getElementById('straight-line-dist-msg').innerHTML = "Distance between markers: " + distance.toFixed(2) + " km";
+    // // shows distance as message below map
+    // document.getElementById('straight-line-dist-msg').innerHTML = "Distance between markers: " + distance.toFixed(2) + " km";
 
-    let directionsService = new google.maps.DirectionsService();
-    let directionsRenderer = new google.maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
+    // let directionsService = new google.maps.DirectionsService();
+    // let directionsRenderer = new google.maps.DirectionsRenderer();
+    // directionsRenderer.setMap(map);
 
-    const route = {
-        origin: coords0,
-        destination: coords1,
-        travelMode: 'DRIVING' //or walking, bicycling
-    }
+    // const route = {
+    //     origin: coords0,
+    //     destination: coords1,
+    //     travelMode: 'DRIVING' //or walking, bicycling
+    // }
 
-    directionsService.route(route,
-        function(response, status) { // anonymous function to capture directions
-            if (status !== 'OK') {
-                window.alert('Directions request failed due to ' + status);
-                return;
-            } else {
-                //directionsRenderer.setDirections(response); // Add route to the map
-                var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
-                if (!directionsData) {
-                    window.alert('Directions request failed');
-                    return;
-                }
-                else {
-                    // shows distance as message below map
-                    document.getElementById('road-dist-msg').innerHTML += " Road distance is " + directionsData.distance.text + ".";
-                }
-            }
-        });
+    // directionsService.route(route,
+    //     function(response, status) { // anonymous function to capture directions
+    //         if (status !== 'OK') {
+    //             window.alert('Directions request failed due to ' + status);
+    //             return;
+    //         } else {
+    //             //directionsRenderer.setDirections(response); // Add route to the map
+    //             var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
+    //             if (!directionsData) {
+    //                 window.alert('Directions request failed');
+    //                 return;
+    //             }
+    //             else {
+    //                 // shows distance as message below map
+    //                 document.getElementById('road-dist-msg').innerHTML += " Road distance is " + directionsData.distance.text + ".";
+    //             }
+    //         }
+    //     });
 }
 
 
@@ -134,3 +160,5 @@ module.exports = {
     findCoords,
     calcDistance
 }
+
+// calcDistance([1.33943033543358,103.853442790992], "Catholic Junior College")

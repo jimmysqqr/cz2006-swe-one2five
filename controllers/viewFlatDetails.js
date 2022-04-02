@@ -46,7 +46,7 @@ const viewFlatDetails = async (req, res) => {
         }
     }
     else if (req.query.flatStatus == "saved") {
-        const [rows, fields] = await SavedFlat.getById(req.query.id).catch(err => {
+        const [rows, fields] = await SavedFlat.getById(req.query.id, req.query.userToken).catch(err => {
             console.log(err);
             res.status(500).json({
                 message: `Error occurred while fetching saved flat with id ${req.query.id}`

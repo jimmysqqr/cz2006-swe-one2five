@@ -3,9 +3,9 @@ const {findAllNearbyAmenities} = require('../controllers/googleMapsTool');
 const findSimilarFlats = require('./similarFlatFinder');
 const {avgCalc, percentileCalc, predictPrice} = require('./priceCalculator');
 
-const compare1 = async (id) => {
+const compare1 = async (id, userToken) => {
     // Fetch the saved flats used for comparison
-    const [rows, fields] = await SavedFlat.getById(id).catch(err => {
+    const [rows, fields] = await SavedFlat.getById(id, userToken).catch(err => {
         console.log(err);
         // res.status(500).json({
         //     message: `Error occurred while fetching saved flat with id ${id}`
@@ -84,7 +84,7 @@ const compare = async (req, res) => {
     // For each flat for comparison, fetch it and find the relevant info
     let response = [];
     for (const id of ids) {
-        const flatInfo = await compare1(id);
+        const flatInfo = await compare1(id, req.params.userToken);
         if (flatInfo == -1) {
             response = response.push({
                 message: "Saved Flat not found...",
