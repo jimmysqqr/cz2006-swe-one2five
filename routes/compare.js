@@ -5,6 +5,6 @@ const router = express.Router();
 const compare = require('../controllers/compareMgr');
 
 // Routes
-router.route('/').get(compare);
+router.route('/:userToken').get(compare);
 
 module.exports = router;
