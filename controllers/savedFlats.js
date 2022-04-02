@@ -3,8 +3,7 @@ const findFlatCoords = require('../models/OneMap');
 
 // Get all saved flats
 const getAllSavedFlats = (req, res) => {
-    // res.send('Get all saved flats');
-    SavedFlat.getAll((err, data) => {
+    SavedFlat.getAll(req.params.userToken, (err, data) => {
         if (err) {
             res.status(500).json({
                 message: "Some error occurred while fetching saved flats"
@@ -19,7 +18,7 @@ const getAllSavedFlats = (req, res) => {
 
 // Get saved flat by id
 const getSavedFlat = async (req, res) => {
-    const [rows, fields] = await SavedFlat.getById(req.params.id).catch(err => {
+    const [rows, fields] = await SavedFlat.getById(req.params.id, req.params.userToken).catch(err => {
         console.log(err);
         res.status(500).json({
             message: `Error occurred while fetching saved flat id ${req.params.id}`
@@ -71,9 +70,11 @@ const createSavedFlat = async (req, res) => {
         block: req.body.block,
         street_name: req.body.street_name,
         flat_type: req.body.flat_type,
+        flat_status: 'saved',
         monthly_rent: null,
         latitude: lat,
-        longitude: lon
+        longitude: lon,
+        userToken: req.params.userToken
     });
 
     // Save the new saved flat in the database
@@ -93,7 +94,7 @@ const createSavedFlat = async (req, res) => {
 // Delete a saved flat
 const deleteSavedFlat = (req, res) => {
     // res.send('delete saved flat of id x');
-    SavedFlat.remove(req.params.id, (err, data) => {
+    SavedFlat.remove(req.params.id, req.params.userToken, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).json({

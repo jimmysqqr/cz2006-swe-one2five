@@ -36,10 +36,10 @@ app.use('/api/v1/distance', calcDist);
 // Get 1 single rented-out flat - app.get('/api/v1/searchRentedFlats/:id')
 
 // Saved Flats:
-// Get all saved flats - app.get('/api/v1/savedFlats')
-// Get 1 single saved flat - app.get('/api/v1/savedFlats/:id')
-// Create a new saved flat - app.post('/api/v1/savedFlats')
-// Delete 1 saved flat - app.delete('/api/v1/savedFlats/:id')
+// Get all saved flats - app.get('/api/v1/savedFlats/:userToken')
+// Get 1 single saved flat - app.get('/api/v1/savedFlats/:userToken/:id')
+// Create a new saved flat - app.post('/api/v1/savedFlats/:userToken')
+// Delete 1 saved flat - app.delete('/api/v1/savedFlats/:userToken/:id')
 
 // Lookup 1 Target Flat - app.get('/api/v1/lookup?block=1&street_name=BEACH RD&flatType=3-room')
 // View Flat Details - app.get('/api/v1/clickOnFlat?flatStatus=rented-out&id=3788')
