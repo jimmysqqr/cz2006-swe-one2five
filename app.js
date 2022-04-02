@@ -42,8 +42,9 @@ app.use('/api/v1/distance', calcDist);
 // Delete 1 saved flat - app.delete('/api/v1/savedFlats/:userToken/:id')
 
 // Lookup 1 Target Flat - app.get('/api/v1/lookup?block=1&street_name=BEACH RD&flatType=3-room')
-// View Flat Details - app.get('/api/v1/clickOnFlat?flatStatus=rented-out&id=3788')
-// Compare Saved Flats - app.get('/api/v1/compare?ids=1,2,3')
+// View Flat Details (rented-out flat) - app.get('/api/v1/clickOnFlat?flatStatus=rented-out&id=3788')
+// view Flat Details (saved flat) - app.get('/api/v1/clickOnFlat?flatStatus=saved&id=1&userToken=abcde')
+// Compare Saved Flats - app.get('/api/v1/compare/:userToken?ids=1,2,3')
 // Check distance - app.get('/api/v1/distance?flatLat=1.33943033543358&flatLng=103.853442790992&dst=Catholic Junior College')
 
 
