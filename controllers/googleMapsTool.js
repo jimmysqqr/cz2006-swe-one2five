@@ -1,5 +1,5 @@
 const GoogleMaps  = require('../models/GoogleMaps');
-const [findNearbyAmenities, findCoord, calcDist] = [GoogleMaps.findNearbyAmenities, GoogleMaps.findCoords, GoogleMaps.calcDistance];
+const [findNearbyAmenities, findCoord, calcDist, calcDistanceMD] = [GoogleMaps.findNearbyAmenities, GoogleMaps.findCoords, GoogleMaps.calcDistance, GoogleMaps.calcDistanceMD];
 
 // Method to search for rented-out flats based on a nearby amenity
 const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist) => {
@@ -44,7 +44,7 @@ const findAllNearbyAmenities = async (flatLat, flatLon, amenityDist = 1000) => {
     // assume nearby is 1km => amenityDist = 1000
     // valid amenityType: "supermarket", "school", "bus_station", "subway_station", "doctor"
     let master = [];
-        
+    let master_placeids = [];
     for (let amenityType of amenityTypeList) {
 
         let response = await findNearbyAmenities(flatLat, flatLon, amenityType, amenityDist);
@@ -59,6 +59,20 @@ const findAllNearbyAmenities = async (flatLat, flatLon, amenityDist = 1000) => {
             console.log(`Not found amenities for type ${amenityType}`);
         else
             console.log(response.data.status);
+    }
+    // Calculating road distance from Flat to each amenity
+    for (amenity of master) {
+        master_placeids.push(amenity.place_id);
+    }
+    const distRes = await calcDistanceMD([flatLat, flatLon], master_placeids).catch(err => {
+        console.log(err);
+    });
+    if (distRes.data.status === 'OK') {
+        console.log('Successfully calculate distance from Flat to each amenity!');
+    }
+    // Add the road distance info from Flat into each amenity
+    for (let i = 0; i < master.length; i++) {
+        master[i].dist_from_flat = distRes.data.rows[0].elements[i].distance;
     }
 
     // console.log("Total amenity instances found: " + master.length);
