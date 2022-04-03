@@ -9,7 +9,6 @@ export default function Header() {
   const router = useRouter();
   // let activeTab = router.asPath == "/"? "/" : router.asPath.slice(0,router.asPath.slice(1).indexOf("/")+1)
   let activeTab = router.asPath.slice(0, router.asPath.slice(1).indexOf("/") == -1? router.asPath.length:router.asPath.slice(1).indexOf("/")+1)
-  console.log(activeTab);
   let tabStyles = [{}, {}, {}]
   if (activeTab == "/" || activeTab == "/lookup") {
     tabStyles[0] = styles.active;

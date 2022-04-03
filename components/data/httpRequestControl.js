@@ -14,4 +14,18 @@ export function loadData(endpoint, data) {
   return fetch(address);
 }
 
+export function postData(endpoint, data) {
+  return fetch(endpoint, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function deleteData(endpoint, data) {
+  return fetch(endpoint, {
+    method: 'DELETE',
+    body: JSON.stringify(data),
+  });
+}
+
 // fetch("http://localhost:5000/api/v1/lookup?block=1&street_name=beach rd&flatType=3-room")

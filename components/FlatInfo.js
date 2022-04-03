@@ -8,7 +8,7 @@ import styles from "./FlatInfo.module.scss";
 export function AggregateInfo(props) {
   return (
     <div className={`${styles.aggregate} ${styles.container}`}>
-      <div className={styles.header}>Based on {props.similarCount} similar flats within 1km,</div>
+      <div className={styles.header}>Based on {props.similarCount} similar flat(s) in the same town,</div>
       <div className={styles.section}>
         <div className={styles.sectionHeader}>Calculated Market Price</div>
         <div className={styles.sectionContent}>
@@ -29,7 +29,7 @@ export function SingleInfo(props) {
   return (
     <div className={`${styles.single} ${styles.container}`}>
       <div className={styles.section}>
-        <div className={styles.sectionHeader}>Nearby Amenities (within 1km)</div>
+        <div className={styles.sectionHeader}>Nearby Amenities</div>
         <div className={styles.sectionContent}>
           <AmenityList amenities={props.amenities} />
         </div>
@@ -40,34 +40,45 @@ export function SingleInfo(props) {
           <FlatInfo_CustomLocation latLong={props.latLong} />
         </div>
       </div>
+      <div className={styles.footer}>{props.approvalDate}</div>
     </div>
   );
 }
 
 export function PriceRange(props) {
   return (
-    <div className={styles.priceRange}>
-      <div className={styles.priceRangeNumberContainer}>
-        <div className={styles.numberGroup}>
-          <div className={`${styles.number} ${styles.secondary}`}>$ {props.percentile10}</div>
-          <div className={styles.label}>10th percentile</div>
+    <>
+      {Math.round(props.percentile10) != Math.round(props.percentile90) ? (
+        <div className={styles.priceRange}>
+          <div className={styles.priceRangeNumberContainer}>
+            <div className={styles.numberGroup}>
+              <div className={`${styles.number} ${styles.secondary}`}>$ {Math.round(props.percentile10)}</div>
+              <div className={styles.label}>10th percentile</div>
+            </div>
+            <div className={styles.numberGroup}>
+              <div className={`${styles.number} ${styles.primary}`}>$ {Math.round(props.calPrice)}</div>
+              <div className={styles.label}>Average price</div>
+            </div>
+            <div className={styles.numberGroup}>
+              <div className={`${styles.number} ${styles.secondary}`}>$ {Math.round(props.percentile90)}</div>
+              <div className={styles.label}>90th percentile</div>
+            </div>
+          </div>
+          <div className={styles.priceRangeLineContainer}>
+            <div className={styles.line}></div>
+            <div className={`${styles.circle} ${styles.secondary}`}></div>
+            <div className={`${styles.circle} ${styles.primary}`}></div>
+            <div className={`${styles.circle} ${styles.secondary}`}></div>
+          </div>
         </div>
-        <div className={styles.numberGroup}>
-          <div className={`${styles.number} ${styles.primary}`}>$ {props.calPrice}</div>
-          <div className={styles.label}>Average price</div>
+      ) : (
+        <div className={styles.priceRange}>
+            <div className={styles.numberGroup}>
+              <div className={`${styles.number} ${styles.primary}`}>$ {Math.round(props.calPrice)}</div>
+            </div>
         </div>
-        <div className={styles.numberGroup}>
-          <div className={`${styles.number} ${styles.secondary}`}>$ {props.percentile90}</div>
-          <div className={styles.label}>90th percentile</div>
-        </div>
-      </div>
-      <div className={styles.priceRangeLineContainer}>
-        <div className={styles.line}></div>
-        <div className={`${styles.circle} ${styles.secondary}`}></div>
-        <div className={`${styles.circle} ${styles.primary}`}></div>
-        <div className={`${styles.circle} ${styles.secondary}`}></div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 
@@ -75,34 +86,33 @@ export function PriceFuture(props) {
   return (
     <div className={styles.priceFuture}>
       <div className={styles.numberGroup}>
-        <div className={`${styles.number}`}>$ {props.futureEst}</div>
-        <div className={styles.label}>next month</div>
+        {props.futureEst !== null ? (
+          <>
+            <div className={`${styles.number}`}>$ {Math.round(props.futureEst)}</div>
+            <div className={styles.label}>next month</div>
+          </>
+        ) : (
+          <div className={styles.label}>Not enough information</div>
+        )}
       </div>
     </div>
   );
 }
 
 export function AmenityList(props) {
-  console.log(props.amenities);
-  {
-    /* 
-      <li className={styles.amenity}>
-        <div className={styles.amenityName}>Petrol Station</div>
-        <div className={styles.amenityDistance}>230m</div>
-      </li>
-      <li className={styles.amenity}>
-        <div className={styles.amenityName}>Pasir Ris Community Club</div>
-        <div className={styles.amenityDistance}>350m</div>
-      </li> */
+
+  let arr = props.amenities;
+  if (arr.length) {
+    arr.sort((a, b) => a["dist_from_flat"]["value"] <= b["dist_from_flat"]["value"]? -1 : 1);
   }
 
   return (
     <ul className={styles.amenityList}>
-      {props.amenities.length ? (
-        props.amenities.map((value) => (
+      {arr.length ? (
+        arr.map((value) => (
           <li className={styles.amenity} key={value.place_id}>
             <div className={styles.amenityName}>{value.name}</div>
-            <div className={styles.amenityDistance}>{100}m</div> {/*TODO: amenity Distance*/}
+            <div className={styles.amenityDistance}>{value["dist_from_flat"]["value"] > 999 ? `${Math.round(value["dist_from_flat"]["value"]/100)/10}km` : `${value["dist_from_flat"]["value"]}m`}</div>
           </li>
         ))
       ) : (

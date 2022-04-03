@@ -21,6 +21,10 @@ $list-item-content-spacing: 1rem;
     flex-shrink: 0;
   }
 }
+.listItemFlat.highlight {
+  background: u.$primary-light-off;
+}
+
 
 .saveContainer {
   display: flex;
@@ -28,6 +32,14 @@ $list-item-content-spacing: 1rem;
   justify-content: center;
   padding: 0 calc($list-item-content-spacing / 2);
   flex: 0.5;
+  color: u.$black;
+}
+.highlight .saveContainer {
+  color: u.$off-white;
+}
+.saved.saveContainer,
+.highlight .saved.saveContainer {
+  color: u.$secondary-light;
 }
 
 .nameAmenityContainer {
@@ -48,6 +60,9 @@ $list-item-content-spacing: 1rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.highlight .name {
+  color: u.$white;
+}
 
 .nameContainer {
   padding-top: calc($list-item-content-spacing / 2);
@@ -55,6 +70,9 @@ $list-item-content-spacing: 1rem;
 
 .amenity, .isSaved {
   font-size: u.$default;
+  color: u.$grey;
+}
+.highlight .amenity, .highlight .isSaved {
   color: u.$grey;
 }
 
@@ -79,14 +97,21 @@ $list-item-content-spacing: 1rem;
     font-family: 'Quicksand';
     font-weight: 200;
     font-size: u.$default;
+    color: u.$black;
   }
 
   .price {
     font-family: 'Quicksand';
     font-weight: 400;
     font-size: u.$xxx-big;
+    color: u.$black;
   }
 }
+.highlight .roomType, .highlight .price {
+  color: u.$white;
+}
+
+
 .search .typePriceContainer {
   padding: 0 calc($list-item-content-spacing / 2);
 }

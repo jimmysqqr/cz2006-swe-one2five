@@ -90,9 +90,10 @@ export function Form(props) {
               name={"nearbyAmenityDistance"}
               formValue={props.formState.nearbyAmenityDistance}
               onChange={handleClick}
-              placeholder={"eg. 800m"}
+              placeholder={"eg. 800"}
             />
           </div>
+          <div className={styles.formFieldText}>metres</div>
         </div>
         <label className={styles.label} htmlFor="priceRangeContainer">
           Price range ($ per month)
@@ -169,9 +170,10 @@ export function Form(props) {
                     formValue={props.formState.nearbyAmenityDistance}
                     size={"small"}
                     onChange={handleClick}
-                    placeholder={"eg. 800m"}
+                    placeholder={"eg. 800"}
                   />
                 </div>
+                <div className={styles.formFieldText}>metres</div>
               </div>
             </div>
             <div className={styles.labelInputNoWrap}>
@@ -202,7 +204,6 @@ export function Form(props) {
             </div>
           </div>
           <div className={styles.rightSearchContainer}>
-            <button className={`${styles.button} ${styles.secondary}`} type="reset">Reset</button>
             <input className={`${styles.button} ${styles.primary}`} type="submit" value="Search" />
           </div>
         </div>

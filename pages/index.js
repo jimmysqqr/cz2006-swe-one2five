@@ -20,11 +20,11 @@ export default function LookupPage() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    console.log(form);
     router.push({
       pathname: `/lookup/results`,
       query: { ...form },
     });
-    console.log(form);
   }
 
   return (

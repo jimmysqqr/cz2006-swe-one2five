@@ -1,6 +1,7 @@
 @use "/styles/utils" as u;
 
 $container-padding: 1.75rem 1.75rem;
+$footer-padding: 0.75rem 1.75rem;
 $header-btm-margin: 1.25rem;
 $section-btm-margin: 1.75rem;
 $section-header-btm-margin: 1rem;
@@ -48,25 +49,29 @@ $amenity-btm-margin: 0.35rem;
 .single {
   &.container {
     background-color: u.$off-white;
+    position: relative; // so that 
   }
   .sectionHeader {
     color: u.$black;
   }
 }
 
-.priceRangeNumberContainer {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+.priceRange {
+  text-align: center;
+  .priceRangeNumberContainer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
 
-  .numberGroup:nth-child(1) {
-    text-align: left;
-  }
-  .numberGroup:nth-child(2) {
-    text-align: center;
-  }
-  .numberGroup:nth-child(3) {
-    text-align: right;
+    .numberGroup:nth-child(1) {
+      text-align: left;
+    }
+    .numberGroup:nth-child(2) {
+      text-align: center;
+    }
+    .numberGroup:nth-child(3) {
+      text-align: right;
+    }
   }
 }
 
@@ -191,4 +196,13 @@ $amenity-btm-margin: 0.35rem;
   .distanceResultsContainer {
     display: inline-flex;
   }
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: $footer-padding;
+  font-size: u.$xx-small;
+  color: u.$grey;
 }

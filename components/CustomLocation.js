@@ -35,11 +35,10 @@ export async function handleDistanceKeyPressHook(inputAddress, flatLatLong) {
     .then(
       (result) => {
         console.log("success", result);
-        let output = Math.round((result["distance"]["value"] / 1000) * 10) / 10;
-        return output;
+        return result["distance"] === undefined ? "-" : Math.round((result["distance"]["value"] / 1000) * 10) / 10;
       },
       (error) => {
-        console.log("success", error);
+        console.log("error", error);
         return "";
       }
     );

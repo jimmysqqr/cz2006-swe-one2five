@@ -19,7 +19,8 @@ export default function LookupResultsPage() {
     futureEst: "",
     map: "",
     amenities: "",
-    similarFlatsFound: ""
+    similarCount: "",
+    approvalDate: ""
   });
 
   const router = useRouter();
@@ -38,14 +39,14 @@ export default function LookupResultsPage() {
           setForm({
             address: capitalizeTheFirstLetterOfEachWord(data["targetFlat"]["street_name"]) + " Blk " + data["targetFlat"]["block"],
             roomType: data["targetFlat"]["flat_type"],
-            calPrice: Math.round(data["avgPrice"]),
-            percentile10: Math.round(data["ninetyPer"]),
-            percentile90: Math.round(data["tenPer"]),
-            futureEst: Math.round(data["predictedPrice"]),
+            calPrice: data["avgPrice"],
+            percentile10: data["tenPer"],
+            percentile90: data["ninetyPer"],
+            futureEst: data["predictedPrice"],
             latLong: [data["targetFlat"]["latitude"], data["targetFlat"]["longitude"]],
             amenities: data["amenities"]["amenityList"],
-            similarFlatsFound: data["similarFlatsFound"]
-          });
+            similarCount: data["similarFlatsFound"],
+          }); // does not have approval date as lookup flat does not return
         },
         (error) => {
           console.log(error);

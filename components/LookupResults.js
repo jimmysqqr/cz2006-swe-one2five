@@ -16,14 +16,14 @@ export function LookupResults(props) {
           <AggregateInfo similarCount={form.similarCount} calPrice={form.calPrice} percentile10={form.percentile10} percentile90={form.percentile90} futureEst={form.futureEst} />
         </div>
         <div className={styles.space2}>
-          <SingleInfo amenities={form.amenities} latLong={form.latLong} />
+          <SingleInfo amenities={form.amenities} latLong={form.latLong} approvalDate={form.approvalDate}/>
         </div>
         <div className={styles.space3}>
           <AmenityMap amenities={form.amenities} latLong={form.latLong} />
           {/* <Map /> */}
         </div>
       </div>
-      <Form page="lookupResults" formState={form} /> {/*TODO: What does the button need?*/}
+      <Form page="lookupResults" formState={form} /> {/*TODO: What does the save button need? It needs flatID*/}
     </div>
   );
 }

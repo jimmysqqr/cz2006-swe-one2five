@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from 'next/router'
 import Head from "next/head";
 import Image from "next/image";
 
@@ -11,11 +12,17 @@ import bg from "/public/search_bg.jpg";
 
 export default function SearchPage() {
 
+  const router = useRouter();
+
   const [form, setForm] = useState(searchState);
 
   function handleSubmit(event) {
     event.preventDefault();
     console.log(form);
+    router.push({
+      pathname: `/search/results`,
+      query: { ...form },
+    });
   }
 
   return (

@@ -1,4 +1,5 @@
 export var roomValuetoDisplay = [
+  ["", "No Preference"],
   ["1-room", "1-Room"],
   ["2-room", "2-Room"],
   ["3-room", "3-Room"],
@@ -6,10 +7,12 @@ export var roomValuetoDisplay = [
 ];
 
 export var amenityValueToDisplay = [
+  ["", "No Preference"],
   ["school", "School"],
-  ["patrolStation", "Patrol Station"],
-  ["communityclub", "Community Club"],
-  ["npc", "Police Post"],
+  ["bus_station", "Bus Stop"],
+  ["subway_station", "MRT Station"],
+  ["supermarket", "Supermarket"],
+  ["doctor", "Healthcare"],
 ];
 
 export function renderOptions(valueToDisplay) {
