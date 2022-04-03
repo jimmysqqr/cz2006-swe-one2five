@@ -9,6 +9,9 @@ export function LookupResults(props) {
 
   let form = props.formState;
 
+  // document.getElementById("mapIframe").src =
+  //       "https://www.google.com/maps/embed/v1/place?key=AIzaSyAW-ZULfCaxKjHOBkyCMLen528JeXpiKQk&q=Space+Needle,Seattle+WA";
+
   return (
     <div className={styles.lookupResultsContainer}>
       <div className={styles.lookupResultsContent}>
