@@ -2,34 +2,28 @@ import React, { useState } from "react";
 import styles from "./LookupResults.module.scss";
 
 import { AggregateInfo, SingleInfo, AmenityMap } from "/components/FlatInfo";
+// import { Map } from "/components/Map";
 import { Form } from "/components/Form";
 
-export function LookupResults() {
-  const [form, setForm] = useState({
-    address: "",
-    roomType: "",
-    calPrice: "",
-    percentile10: "",
-    percentile90: "",
-    futureEst: "",
-    map: "",
-    amenities: "",
-  });
+export function LookupResults(props) {
+
+  let form = props.formState;
 
   return (
     <div className={styles.lookupResultsContainer}>
       <div className={styles.lookupResultsContent}>
         <div className={styles.space1}>
-          <AggregateInfo />
+          <AggregateInfo similarCount={form.similarCount} calPrice={form.calPrice} percentile10={form.percentile10} percentile90={form.percentile90} futureEst={form.futureEst} />
         </div>
         <div className={styles.space2}>
-          <SingleInfo />
+          <SingleInfo amenities={form.amenities} latLong={form.latLong} />
         </div>
         <div className={styles.space3}>
-          <AmenityMap />
+          <AmenityMap amenities={form.amenities} latLong={form.latLong} />
+          {/* <Map /> */}
         </div>
       </div>
-      <Form page="lookupResults" formState={form} />
+      <Form page="lookupResults" formState={form} /> {/*TODO: What does the button need?*/}
     </div>
   );
 }

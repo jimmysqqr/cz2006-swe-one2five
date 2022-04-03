@@ -48,5 +48,6 @@ export default function SearchResultsPage() {
         </main>
       </div>
     </div>
+    
   );
 }

@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleMinus } from "@fortawesome/free-solid-svg-icons";
 
 import { InputText, InputNumber, Select } from "/components/FormInputs";
-import { roomValuetoDisplay, amenityValueToDisplay } from "./data/formOptions";
 import styles from "./Form.module.scss";
 
 export function Form(props) {
@@ -23,7 +22,7 @@ export function Form(props) {
       <form className={`${styles.form} ${styles.lookupForm}`} onSubmit={props.handleSubmit}>
         <div className={styles.mainFormFieldContainer}>
           <InputText
-            label="Target Street"
+            label="Target Street Name"
             name={"targetStreet"}
             formValue={props.formState.targetAddr}
             onChange={handleClick}
@@ -45,7 +44,7 @@ export function Form(props) {
             name={"roomType"}
             formValue={props.formState.roomType}
             size={"small"}
-            options={roomValuetoDisplay}
+            options={props.options.roomType}
             onChange={handleClick}
           />
         </div>
@@ -69,7 +68,7 @@ export function Form(props) {
             label="Room Type"
             name={"roomType"}
             formValue={props.formState.roomType}
-            options={roomValuetoDisplay}
+            options={props.options.roomType}
             onChange={handleClick}
           />
         </div>
@@ -81,7 +80,7 @@ export function Form(props) {
             <Select
               name={"nearbyAmenity"}
               formValue={props.formState.nearbyAmenity}
-              options={amenityValueToDisplay}
+              options={props.options.nearbyAmenity}
               onChange={handleClick}
             />
           </div>
@@ -142,7 +141,7 @@ export function Form(props) {
                 name={"roomType"}
                 formValue={props.formState.roomType}
                 size={"small"}
-                options={roomValuetoDisplay}
+                options={props.options.roomType}
                 onChange={handleClick}
                 wrap="nowrap"
               />
@@ -159,7 +158,7 @@ export function Form(props) {
                     name={"nearbyAmenity"}
                     formValue={props.formState.nearbyAmenity}
                     size={"small"}
-                    options={amenityValueToDisplay}
+                    options={props.options.nearbyAmenity}
                     onChange={handleClick}
                   />
                 </div>

@@ -3,7 +3,7 @@
 $container-padding: 1.75rem 1.75rem;
 $header-btm-margin: 1.25rem;
 $section-btm-margin: 1.75rem;
-$section-header-btm-margin: 0.5rem;
+$section-header-btm-margin: 1rem;
 
 $label-top-margin: 0.25rem;
 $price-line-top-margin: 0.5rem;
@@ -136,6 +136,36 @@ $amenity-btm-margin: 0.35rem;
 .amenityList {
   display: flex;
   flex-flow: column;
+  max-height: 12.5rem;
+  overflow-y: auto;
+  padding-right: 1rem;
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: u.$secondary-dark;
+    border-radius: 100px;
+  }
+  // ::-webkit-scrollbar-thumb:hover {
+  //   background: #37ff00;
+  // }
+  &::-webkit-scrollbar-thumb:active {
+    background: u.$primary-light;
+  }
+  &::-webkit-scrollbar-track {
+    background: u.$off-white;
+    border-radius: 100px;
+  }
+  // ::-webkit-scrollbar-track:hover {
+  //   background: #f01414;
+  // }
+  // ::-webkit-scrollbar-track:active {
+  //   background: #000000;
+  // }
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 
   .amenity {
     font-size: u.$x-small;

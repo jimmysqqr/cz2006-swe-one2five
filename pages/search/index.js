@@ -5,6 +5,8 @@ import Image from "next/image";
 import Header from "/components/Header";
 import {Form} from "/components/Form";
 import { searchState } from "/components/data/initialisation";
+import { amenityValueToDisplay, roomValuetoDisplay } from "/components/data/formOptions";
+
 import bg from "/public/search_bg.jpg";
 
 export default function SearchPage() {
@@ -42,7 +44,7 @@ export default function SearchPage() {
             <div className="pageSubtitle">Use the filters below to narrow down your search!</div>
           </div>
           <div className="pageContentContainer">
-            <Form page="search" formState={form} setFormState={setForm} handleSubmit={handleSubmit}/>
+            <Form page="search" formState={form} setFormState={setForm} handleSubmit={handleSubmit} options={{nearbyAmenity:amenityValueToDisplay, roomType: roomValuetoDisplay}}/>
           </div>
         </main>
       </div>

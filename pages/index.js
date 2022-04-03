@@ -1,21 +1,29 @@
 import React, { useState } from "react";
+import { useRouter } from 'next/router'
 import Head from "next/head";
 import Image from "next/image";
 
 import Header from "/components/Header";
 import {Form} from "/components/Form";
 import bg from "/public/lookup_bg.jpg";
+import { roomValuetoDisplay } from "/components/data/formOptions";
 
 export default function LookupPage() {
+
+  const router = useRouter();
 
   const [form, setForm] = useState({
     targetStreet: "",
     targetBlock: "",
-    roomType: "",
+    roomType: roomValuetoDisplay[0][0],
   });
 
   function handleSubmit(event) {
     event.preventDefault();
+    router.push({
+      pathname: `/lookup/results`,
+      query: { ...form },
+    });
     console.log(form);
   }
 
@@ -47,7 +55,7 @@ export default function LookupPage() {
             <div className="pageSubtitle">Enter its address here and find out!</div>
           </div>
           <div className="pageContentContainer">
-            <Form page="lookup" formState={form} setFormState={setForm} handleSubmit={handleSubmit} />
+            <Form page="lookup" formState={form} setFormState={setForm} handleSubmit={handleSubmit} options={{roomType: roomValuetoDisplay}}/>
           </div>
         </main>
       </div>
