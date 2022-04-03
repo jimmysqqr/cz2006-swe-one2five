@@ -28,6 +28,8 @@ const percentileCalc = (flatList) => {
 
 // Method to predict the future price of a specific flat based on rented-out flats that are similar to the Target Flat
 const predictPrice = (flatList) => {
+	// adapted from https://www.geeksforgeeks.org/linear-regression-python-implementation/
+
 	// find y when x = 13 (2022-01)
 
 	const estimate_coef = (x_arr, y_arr) => {
@@ -52,18 +54,18 @@ const predictPrice = (flatList) => {
 			x_arr.map((x) => x * x).reduce((a, b) => a + b) - n * m_x * m_x;
 
 		// regression coefficients
-		const b_1 = SS_xy / SS_xx;
-		const b_0 = m_y - b_1 * m_x;
+		const b_1 = SS_xy / SS_xx; // gradient
+		const b_0 = m_y - b_1 * m_x; // intercept
 
 		return [b_0, b_1];
 	};
 	const y = flatList.map((flat) => parseInt(flat.monthly_rent));
 	const x = flatList.map((flat) => {
-		const date = JSON.stringify(flat.rental_approval_date);
-		return parseInt(date.substring(5, 7));
+		return new Date(flat.rental_approval_date).getMonth();
 	});
 	const b = estimate_coef(x, y);
 	const y_pred = b[0] + b[1] * 13; // x = 13 meaning 2022-01-01
+	// console.log("Gradient: " + b[1] + "\nIntercept: " + b[0] + "\nPredicted y: "+ y_pred)
 
 	return y_pred;
 };

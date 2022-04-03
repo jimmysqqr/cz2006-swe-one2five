@@ -8,7 +8,7 @@ const image = {
   //anchor: new google.maps.Point(0,32),
 };
 
-export function Map() {
+export function initMap() {
   const middleSG = { lat: 1.34791, lng: 103.83288 };
 
   map = new google.maps.Map(document.getElementById("map"), {
