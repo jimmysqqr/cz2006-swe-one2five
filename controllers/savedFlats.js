@@ -42,8 +42,27 @@ const getSavedFlat = async (req, res) => {
 const createSavedFlat = async (req, res) => {
     // Check if input is empty
     if (!req.body) {
+        console.log("Input cannot be empty!");
         res.status(400).json({
             message: "Input cannot be empty!"
+        });
+        return;
+    }
+
+    // Check if input's block, street_name or flat_type field is empty
+    if (!req.body.block || !req.body.street_name || !req.body.flat_type) {
+        console.log("Lacking input fields!");
+        res.status(400).json({
+            message: "Lacking input fields!"
+        });
+        return;
+    }
+
+    // Check if input's rented_out_id is valid
+    if (req.body.rented_out_id && (req.body.rented_out_id < 1 || req.body.rented_out_id > 39569)) {
+        console.log("rented_out_id field is invalid!");
+        res.status(400).json({
+            message: "rented_out_id field is invalid!"
         });
         return;
     }
@@ -74,7 +93,8 @@ const createSavedFlat = async (req, res) => {
         monthly_rent: null,
         latitude: lat,
         longitude: lon,
-        userToken: req.params.userToken
+        userToken: req.params.userToken,
+        rented_out_id: req.body.rented_out_id
     });
 
     // Save the new saved flat in the database
