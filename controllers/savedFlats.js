@@ -49,6 +49,15 @@ const createSavedFlat = async (req, res) => {
         return;
     }
 
+    // Check if input's block, street_name or flat_type field is empty
+    if (!req.body.block || !req.body.street_name || !req.body.flat_type) {
+        console.log("Lacking input fields!");
+        res.status(400).json({
+            message: "Lacking input fields!"
+        });
+        return;
+    }
+
     // Check if input's rented_out_id is valid
     if (req.body.rented_out_id && (req.body.rented_out_id < 1 || req.body.rented_out_id > 39569)) {
         console.log("rented_out_id field is invalid!");
