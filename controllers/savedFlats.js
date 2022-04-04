@@ -74,7 +74,8 @@ const createSavedFlat = async (req, res) => {
         monthly_rent: null,
         latitude: lat,
         longitude: lon,
-        userToken: req.params.userToken
+        userToken: req.params.userToken,
+        rented_out_id: req.body.rented_out_id
     });
 
     // Save the new saved flat in the database

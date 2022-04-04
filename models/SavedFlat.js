@@ -1,6 +1,6 @@
 const dbConn = require('../config/dbConfig');
 
-// Attributes of RentedOutFlat object
+// Attributes of SavedFlat object
 const SavedFlat = function(savedflat) {
     this.id = savedflat.id;
     this.town = savedflat.town;
@@ -12,6 +12,7 @@ const SavedFlat = function(savedflat) {
     this.latitude = savedflat.latitude;
     this.longitude = savedflat.longitude;
     this.userToken = savedflat.userToken;
+    this.rented_out_id = savedflat.rented_out_id;
 };
 
 // Method to get all saved flats for a userToken
