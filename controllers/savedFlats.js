@@ -42,8 +42,18 @@ const getSavedFlat = async (req, res) => {
 const createSavedFlat = async (req, res) => {
     // Check if input is empty
     if (!req.body) {
+        console.log("Input cannot be empty!");
         res.status(400).json({
             message: "Input cannot be empty!"
+        });
+        return;
+    }
+
+    // Check if input's rented_out_id is valid
+    if (req.body.rented_out_id && (req.body.rented_out_id < 1 || req.body.rented_out_id > 39569)) {
+        console.log("rented_out_id field is invalid!");
+        res.status(400).json({
+            message: "rented_out_id field is invalid!"
         });
         return;
     }
