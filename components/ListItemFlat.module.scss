@@ -31,7 +31,7 @@ $list-item-content-spacing: 1rem;
   align-items: center;
   justify-content: center;
   padding: 0 calc($list-item-content-spacing / 2);
-  flex: 0.5;
+  flex: 0.75;
   color: u.$black;
 }
 .highlight .saveContainer {
@@ -42,12 +42,22 @@ $list-item-content-spacing: 1rem;
   color: u.$secondary-light;
 }
 
+.clickContainer {
+  display: flex;
+  flex: 9.25;
+  .nameAmenityContainer {
+    flex: 7.5
+  }
+  .typePriceContainer {
+    flex: 2.5;
+  }
+}
+
 .nameAmenityContainer {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
   padding: 0 calc($list-item-content-spacing / 2);
-  flex: 7.2;
   min-width: 0; // needed to make long names show ellipsis
 }
 
@@ -91,7 +101,6 @@ $list-item-content-spacing: 1rem;
   flex-flow: column;
   justify-content: flex-end;
   align-items: flex-end;
-  flex: 2.3;
 
   .roomType {
     font-family: 'Quicksand';

@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import { useRouter } from 'next/router'
 import Head from "next/head";
 import Image from "next/image";
+import { v4 } from "uuid";
 
 import Header from "/components/Header";
 import {Form} from "/components/Form";
+import { useLocalStorage } from "/components/data/localStorageControl";
 import { searchState } from "/components/data/initialisation";
 import { amenityValueToDisplay, roomValuetoDisplay } from "/components/data/formOptions";
 
 import bg from "/public/search_bg.jpg";
 
 export default function SearchPage() {
-
   const router = useRouter();
 
   const [form, setForm] = useState(searchState);
+  const [uuid, setUuid] = useLocalStorage("uuid", v4());
+
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -37,7 +40,7 @@ export default function SearchPage() {
       </Head>
 
       <div className="headerContainer">
-        <Header />
+        <Header uuid={uuid}/>
       </div>
 
       <div className="mainContainer">

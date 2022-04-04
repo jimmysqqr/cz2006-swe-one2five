@@ -24,23 +24,6 @@ export default function Header(props) {
     tabStyles[2] = styles.active;
   }
 
-  const [savedFlatCounter, setSavedFlatCounter] = useState(0);
-
-  useEffect(() => {
-    loadData(`/api/v1/savedFlats/${props.uuid}`, {})
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          console.log("getAllSavedFlats for header", result);
-          // let data = result["data"];
-          // setSavedFlatCounter(); // TODO: find out what is returned and set the count
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }, []);
-
   return (
     <header className={styles.header}>
       <div className={styles.logoLinkContainer}>
@@ -60,11 +43,40 @@ export default function Header(props) {
           </Link>
           <Link href="/compare">
             <a className={tabStyles[2]}>
-              Compare{savedFlatCounter ? <div className={styles.savedFlatCounter}>3</div> : ""}
+              Compare <SavedFlatCounter uuid={props.uuid} isSaved={props.isSaved} savedFlats={props.savedFlats} />
             </a>
           </Link>
         </nav>
       </div>
     </header>
   );
+}
+
+function SavedFlatCounter(props) {
+  const [savedFlatCounter, setSavedFlatCounter] = useState(0);
+
+  let valueToDisplay = 0;
+  let savedValue = props.isSaved ? 1 : 0;
+  if (savedFlatCounter + savedValue) {
+    valueToDisplay = savedFlatCounter + savedValue;
+  }
+  if (props.savedFlats) { // changes made on the client side take precedence over the api call when navigating to the current page
+    valueToDisplay = props.savedFlats.length;
+  }
+
+  useEffect(() => {
+    loadData(`/api/v1/savedFlats/${props.uuid}`, {})
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log("getAllSavedFlats for header", result);
+          setSavedFlatCounter(result["found"]);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, [props.uuid]);
+
+  return <>{valueToDisplay > 0 ? <div className={styles.savedFlatCounter}>{valueToDisplay}</div> : ""}</>;
 }

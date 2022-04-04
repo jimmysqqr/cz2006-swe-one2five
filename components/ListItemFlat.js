@@ -17,6 +17,17 @@ export function ListItemFlat(props) {
 
   function saveFlat_inter() {
     props.onSavedClick(props.flatID, {
+      town: props.town,
+      street: props.street,
+      block: props.block,
+      roomType: props.roomType,
+      isSaved: props.isSaved
+    });
+  }
+
+  function selectSavedFlat_inter() {
+    props.onClick(props.savedFlatID, {
+      latLong: props.latLong,
       index: props.index,
       street: props.street,
       block: props.block,
@@ -30,7 +41,7 @@ export function ListItemFlat(props) {
   }
   let savedIcon = faBookmark;
   let saved = "";
-  if (props.flatStatus == "saved") {
+  if (props.isSaved) {
     savedIcon = savedBookmark;
     saved = styles.saved;
   }
@@ -54,17 +65,19 @@ export function ListItemFlat(props) {
     //   </li>
 
     return (
-      <li className={`${styles.listItemFlat} ${styleType} ${highlight}`} onClick={selectFlat_inter}>
+      <li className={`${styles.listItemFlat} ${styleType} ${highlight}`}>
         <div className={`${styles.saveContainer} ${saved}`} onClick={saveFlat_inter}>
           <FontAwesomeIcon icon={savedIcon} style={{ fontSize: "1.1rem" }} />
         </div>
-        <div className={styles.nameAmenityContainer}>
-          <div className={styles.name}>{capitalizeTheFirstLetterOfEachWord(props.street) + " Blk " + props.block}</div>
-          <div className={styles.amenity}>{capitalizeTheFirstLetterOfEachWord(props.town)}</div>
-        </div>
-        <div className={styles.typePriceContainer}>
-          <div className={styles.roomType}>{capitalizeTheFirstLetterOfEachWord(props.roomType)}</div>
-          <div className={styles.price}>$ {Math.round(props.price)}</div>
+        <div className={styles.clickContainer} onClick={selectFlat_inter}>
+          <div className={styles.nameAmenityContainer}>
+            <div className={styles.name}>{capitalizeTheFirstLetterOfEachWord(props.street) + " Blk " + props.block}</div>
+            <div className={styles.amenity}>{capitalizeTheFirstLetterOfEachWord(props.town)}</div>
+          </div>
+          <div className={styles.typePriceContainer}>
+            <div className={styles.roomType}>{capitalizeTheFirstLetterOfEachWord(props.roomType)}</div>
+            <div className={styles.price}>$ {Math.round(props.price)}</div>
+          </div>
         </div>
       </li>
     );
@@ -73,17 +86,17 @@ export function ListItemFlat(props) {
     styleType = styles.compare;
 
     return (
-      <li className={`${styles.listItemFlat} ${styleType}`}>
+      <li className={`${styles.listItemFlat} ${styleType} ${highlight}`} onClick={selectSavedFlat_inter}>
         <div className={styles.nameContainer}>
-          <div className={styles.name}>Woodlands Crescent Block 787E</div>
+          <div className={styles.name}>{capitalizeTheFirstLetterOfEachWord(props.street) + " Blk " + props.block}</div>
         </div>
         <div className={styles.isSavedTypePriceContainer}>
           <div className={styles.isSavedContainer}>
-            <div className={styles.isSaved}>Existing Flat</div>
+            <div className={styles.isSaved}>{capitalizeTheFirstLetterOfEachWord(props.town)}</div>
           </div>
           <div className={styles.typePriceContainer}>
-            <div className={styles.roomType}>4-Room</div>
-            <div className={styles.price}>$ 2100</div>
+            <div className={styles.roomType}>{capitalizeTheFirstLetterOfEachWord(props.roomType)}</div>
+            <div className={styles.price}>$ {Math.round(props.price)}</div>
           </div>
         </div>
       </li>

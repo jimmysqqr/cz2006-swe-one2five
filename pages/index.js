@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useRouter } from 'next/router'
 import Head from "next/head";
 import Image from "next/image";
+import { v4 } from "uuid";
 
+import { useLocalStorage } from "/components/data/localStorageControl";
 import Header from "/components/Header";
 import {Form} from "/components/Form";
 import bg from "/public/lookup_bg.jpg";
 import { roomValuetoDisplay } from "/components/data/formOptions";
 
 export default function LookupPage() {
-
   const router = useRouter();
 
   const [form, setForm] = useState({
@@ -17,6 +18,8 @@ export default function LookupPage() {
     targetBlock: "",
     roomType: roomValuetoDisplay[0][0],
   });
+  const [uuid, setUuid] = useLocalStorage("uuid", v4());
+
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -39,7 +42,7 @@ export default function LookupPage() {
       </Head>
 
       <div className="headerContainer">
-        <Header />
+        <Header uuid={uuid}/>
       </div>
 
       <div className="mainContainer">

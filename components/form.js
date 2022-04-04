@@ -26,7 +26,7 @@ export function Form(props) {
             name={"targetStreet"}
             formValue={props.formState.targetAddr}
             onChange={handleClick}
-            placeholder={"eg. Bishan Street"}
+            placeholder={"eg. Bishan St / Tampines Rd"}
           />
         </div>
         <div className={styles.mainFormFieldContainer}>
@@ -230,8 +230,8 @@ export function Form(props) {
   } else if (props.page == "choiceAdd") {
     return (
       <div className={styles.choicesInteraction}>
-        <div className={`${styles.button} ${styles.secondary}`}>Unsave</div>
-        <input className={`${styles.button} ${styles.primary}`} type="submit" value="Add to Comparison" />
+        <div className={`${styles.button} ${styles.secondary}`} onClick={props.onUnsave} >Unsave</div>
+        <input className={`${styles.button} ${styles.primary}`} type="submit" value="Add to Comparison" onClick={props.onAdd}/>
       </div>
     );
   } else if (props.page == "choiceSubmit") {

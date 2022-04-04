@@ -66,6 +66,7 @@
   background: u.$white;
   border-radius: 20px 20px 0px 0px;
   padding: 1rem 1.75rem;
+  min-height: 12rem;
 
   .header {
     font-family: "Poppins-Regular";
@@ -77,25 +78,27 @@
   .summaryList {
     margin-top: 0.75rem;
     display: flex;
+    justify-content: center;
   }
 }
 
 .listItemSummary {
   display: flex;
   width: 30%;
-  margin-right: 1.5rem;
+  flex: 3;
+  justify-content: center;
+  align-items: center;
 
   .flatName {
     font-family: 'Quicksand';
     font-size: u.$default;
     font-weight: 600;
-    margin-right: 1rem;
-    text-align: center;
   }
-  
-  .vs {
-    font-family: 'Quicksand';
-    font-size: u.$xx-big;
-    font-weight: 300;
-  }
+}
+
+.vs {
+  flex: 0.3;
+  font-family: 'Quicksand';
+  font-size: u.$xx-big;
+  font-weight: 300;
 }

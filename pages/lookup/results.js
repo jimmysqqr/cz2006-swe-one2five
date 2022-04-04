@@ -83,7 +83,7 @@ export default function LookupResultsPage() {
           console.log(error);
         }
       );
-  }, []);
+  }, [router.query]);
 
   return (
     <div className="pageContainer">
@@ -93,7 +93,7 @@ export default function LookupResultsPage() {
       </Head>
 
       <div className="headerContainer">
-        <Header uuid={uuid}/>
+        <Header uuid={uuid} isSaved={isSaved}/>
       </div>
 
       <div className="mainContainer">

@@ -1,11 +1,20 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from 'next/router'
+import { v4 } from "uuid";
 
+import { useLocalStorage } from "/components/data/localStorageControl";
+import { loadData, postData } from "/components/data/httpRequestControl";
 import Header from "/components/Header.js";
 import bg from "/public/compare_bg.jpg";
 import { CompareTable } from "/components/CompareTable";
 
 export default function SideBySidePage() {
+  const router = useRouter();
+
+  const [uuid, setUuid] = useLocalStorage("uuid", v4());
+
+
   return (
     <div className="pageContainer">
       <Head>
@@ -15,7 +24,7 @@ export default function SideBySidePage() {
       
 
       <div className="headerContainer">
-        <Header />
+        <Header uuid={uuid}/>
       </div>
 
       <div className="mainContainer">

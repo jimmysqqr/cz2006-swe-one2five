@@ -119,18 +119,17 @@
     padding-right: 1.5rem;
   }
   .centerSearchContainer {
-    flex: 4.5;
+    flex: 4.75;
     padding-right: 1.5rem;
   }
   .rightSearchContainer {
-    flex: 1;
+    flex: 0.75;
 
     .primary {
       flex: 3;
-      margin-top: 0.5rem;
+      margin-top: 0;
       border-radius: 6px;
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
+      padding: 0.75rem 2rem;
     }
     .secondary {
       flex: 1;
