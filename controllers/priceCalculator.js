@@ -32,6 +32,8 @@ const predictPrice = (flatList) => {
 
 	// find y when x = 13 (2022-01)
 
+	if (flatList.length == 0) return 0;
+
 	const estimate_coef = (x_arr, y_arr) => {
 		// number of points
 		const n = x_arr.length;
