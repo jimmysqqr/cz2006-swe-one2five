@@ -2,16 +2,23 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
+import { v4 } from "uuid";
 
 import Header from "/components/Header.js";
-import { loadData } from "/components/data/httpRequestControl";
+import { loadData, postData } from "/components/data/httpRequestControl";
+import { useLocalStorage } from "/components/data/localStorageControl";
 import { capitalizeTheFirstLetterOfEachWord } from "/components/data/formOptions";
 import bg from "/public/lookup_bg.jpg";
 import { LookupResults } from "/components/LookupResults";
 
 export default function LookupResultsPage() {
+  const router = useRouter();
+  console.log(router.query);
+
   const [form, setForm] = useState({
-    address: "",
+    street: "",
+    block: "",
+    town: "",
     roomType: "",
     calPrice: "",
     percentile10: "",
@@ -20,11 +27,33 @@ export default function LookupResultsPage() {
     map: "",
     amenities: "",
     similarCount: "",
-    approvalDate: ""
+    approvalDate: "",
   });
+  const [uuid, setUuid] = useLocalStorage("uuid", v4());
+  const [isSaved, setIsSaved] = useState(false);
 
-  const router = useRouter();
-  console.log(router.query);
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (!isSaved) {
+      postData(`/api/v1/savedFlats/${uuid}`, {
+        block: form.block,
+        street_name: form.street,
+        town: form.town,
+        flat_type: form.roomType,
+      })
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            console.log("create saved flat", result);
+            setIsSaved(true);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
+  }
+
   useEffect(() => {
     loadData("/api/v1/lookup", {
       street_name: router.query.targetStreet,
@@ -37,7 +66,9 @@ export default function LookupResultsPage() {
           console.log(result);
           let data = result["data"];
           setForm({
-            address: capitalizeTheFirstLetterOfEachWord(data["targetFlat"]["street_name"]) + " Blk " + data["targetFlat"]["block"],
+            street: data["targetFlat"]["street_name"],
+            block: data["targetFlat"]["block"],
+            town: data["targetFlat"]["town"],
             roomType: data["targetFlat"]["flat_type"],
             calPrice: data["avgPrice"],
             percentile10: data["tenPer"],
@@ -46,7 +77,7 @@ export default function LookupResultsPage() {
             latLong: [data["targetFlat"]["latitude"], data["targetFlat"]["longitude"]],
             amenities: data["amenities"]["amenityList"],
             similarCount: data["similarFlatsFound"],
-          }); // does not have approval date as lookup flat does not return
+          }); // does not have approval date as lookup flat does not return it
         },
         (error) => {
           console.log(error);
@@ -62,7 +93,7 @@ export default function LookupResultsPage() {
       </Head>
 
       <div className="headerContainer">
-        <Header />
+        <Header uuid={uuid}/>
       </div>
 
       <div className="mainContainer">
@@ -71,11 +102,11 @@ export default function LookupResultsPage() {
         </div>
         <main>
           <div className="pageTitleContainer">
-            <div className="pageTitle">{form.address}</div>
-            <div className="pageSubtitle">{form.roomType} Flat</div>
+            <div className="pageTitle">{capitalizeTheFirstLetterOfEachWord(form.street) + " Blk " + form.block}</div>
+            <div className="pageSubtitle">{form.roomType} Flat in {capitalizeTheFirstLetterOfEachWord(form.town)}</div>
           </div>
           <div className="pageContentContainer">
-            <LookupResults formState={form} />
+            <LookupResults formState={form} handleSubmit={handleSubmit} isSaved={isSaved} />
           </div>
         </main>
       </div>

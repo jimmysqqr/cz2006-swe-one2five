@@ -5,7 +5,7 @@ import { CustomLocationInput, DistanceResults, handleDistanceKeyPressHook } from
 
 import styles from "./FlatInfo.module.scss";
 
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
+// import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 export function AggregateInfo(props) {
   return (
@@ -114,7 +114,7 @@ export function AmenityList(props) {
         arr.map((value) => (
           <li className={styles.amenity} key={value.place_id}>
             <div className={styles.amenityName}>{value.name}</div>
-            <div className={styles.amenityDistance}>{value["dist_from_flat"]["value"] > 999 ? `${Math.round(value["dist_from_flat"]["value"]/100)/10}km` : `${value["dist_from_flat"]["value"]}m`}</div>
+            <div className={styles.amenityDistance}>{value["dist_from_flat"]["value"] > 999 ? `${(Math.round(value["dist_from_flat"]["value"]/100)/10).toFixed(1)}km` : `${value["dist_from_flat"]["value"]}m`}</div>
           </li>
         ))
       ) : (
@@ -136,7 +136,7 @@ export function AmenityMap(props) {
 
   return (
     <div>
-      <iframe 
+      {/* <iframe 
         id="mapIframe"
         className={styles.mapContainer}
         frameborder="0"
@@ -145,7 +145,7 @@ export function AmenityMap(props) {
         referrerpolicy="no-referrer-when-downgrade"
         src={src}
       >
-      </iframe>
+      </iframe> */}
     </div>
   )
 

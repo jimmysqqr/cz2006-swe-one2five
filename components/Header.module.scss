@@ -53,6 +53,24 @@
       font-size: u.$xx-small;
       text-transform: uppercase;
       letter-spacing: 2px;
+      position: relative; // for the savedFlatCounter to position itself relative to its parent Compare tab
+    
+      .savedFlatCounter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: u.$white;
+        background-color: u.$secondary-light;
+        font-family: 'Quicksand';
+        font-weight: 400;
+        font-size: u.$xx-small;
+        position: absolute;
+        top: -0.625rem;
+        right: -0.625rem;
+        height: 1.25rem;
+        width: 1.25rem;
+      }
     }
     a.active {
       border: none;

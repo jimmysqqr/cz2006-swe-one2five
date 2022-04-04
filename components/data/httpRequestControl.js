@@ -15,15 +15,25 @@ export function loadData(endpoint, data) {
 }
 
 export function postData(endpoint, data) {
-  return fetch(endpoint, {
-    method: 'POST',
+  let address = SERVER_IP_PORT + endpoint;
+  return fetch(address, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
     body: JSON.stringify(data),
   });
 }
 
 export function deleteData(endpoint, data) {
-  return fetch(endpoint, {
-    method: 'DELETE',
+  let address = SERVER_IP_PORT + endpoint;
+  return fetch(address, {
+    method: "DELETE",
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
     body: JSON.stringify(data),
   });
 }

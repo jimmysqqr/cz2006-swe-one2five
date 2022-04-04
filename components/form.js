@@ -26,7 +26,7 @@ export function Form(props) {
             name={"targetStreet"}
             formValue={props.formState.targetAddr}
             onChange={handleClick}
-            placeholder={"eg. Bishan Street 23"}
+            placeholder={"eg. Bishan Street"}
           />
         </div>
         <div className={styles.mainFormFieldContainer}>
@@ -180,7 +180,10 @@ export function Form(props) {
               <label className={styles.label} htmlFor="priceRangeContainer">
                 Price range ($ per month)
               </label>
-              <div className={`${styles.smallFormFieldContainer} ${styles.priceRangeContainer}`} id="priceRangeContainer">
+              <div
+                className={`${styles.smallFormFieldContainer} ${styles.priceRangeContainer}`}
+                id="priceRangeContainer"
+              >
                 <div className={styles.lowerBoundContainer}>
                   <InputNumber
                     name={"priceLowerBound"}
@@ -212,10 +215,16 @@ export function Form(props) {
   } else if (props.page == "lookupResults") {
     return (
       <div className={`${styles.lookupResultsInteraction}`}>
-        <div className={`${styles.button} ${styles.secondary}`}><Link href="/">
+        <div className={`${styles.button} ${styles.secondary}`}>
+          <Link href="/">
             <a>Back to Lookup</a>
-          </Link></div>
-        <input className={`${styles.button} ${styles.primary}`} type="submit" value="Save" />
+          </Link>
+        </div>
+        {props.isSaved ? (
+          <div className={`${styles.button} ${styles.secondary}`}>Saved!</div>
+        ) : (
+          <input className={`${styles.button} ${styles.primary}`} type="submit" value="Save" onClick={props.handleSubmit}/>
+        )}
       </div>
     );
   } else if (props.page == "choiceAdd") {
@@ -234,9 +243,11 @@ export function Form(props) {
   } else if (props.page == "comparisonRemove") {
     return (
       <div className={styles.comparisonInteraction}>
-        <div className={`${styles.button} ${styles.secondary}`}><FontAwesomeIcon icon={faCircleMinus} style={{ fontSize: "1rem", opacity: "0.75", marginRight: "0.5rem"}} /> Remove from comparison</div>
+        <div className={`${styles.button} ${styles.secondary}`}>
+          <FontAwesomeIcon icon={faCircleMinus} style={{ fontSize: "1rem", opacity: "0.75", marginRight: "0.5rem" }} />{" "}
+          Remove from comparison
+        </div>
       </div>
     );
   } else return;
 }
-

@@ -37,7 +37,7 @@ export default function SearchResultsPage() {
     let clonedFlatList = JSON.parse(JSON.stringify(searchResults.flatList));
 
     if (clonedFlatList[flatObject.index]["flat_status"] == "rented-out") {
-      postData("/api/v1/savedFlats/:userToken", {
+      postData(`/api/v1/savedFlats/:userToken`, {
         //TODO: usertoken
         block: flatObject.block,
         street_name: flatObject.street,
@@ -88,7 +88,7 @@ export default function SearchResultsPage() {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log(result);
+          console.log("searchRentedFlats", result);
           let data = result["data"];
           setSearchResults({
             aggData: {

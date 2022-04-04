@@ -26,7 +26,7 @@ export function LookupResults(props) {
           {/* <Map /> */}
         </div>
       </div>
-      <Form page="lookupResults" formState={form} /> {/*TODO: What does the save button need? It needs flatID*/}
+      <Form page="lookupResults" formState={form} handleSubmit={props.handleSubmit} isSaved={props.isSaved}/> {/*TODO: What does the save button need? It needs flatID*/}
     </div>
   );
 }
