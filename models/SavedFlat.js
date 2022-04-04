@@ -2,7 +2,6 @@ const dbConn = require('../config/dbConfig');
 
 // Attributes of SavedFlat object
 const SavedFlat = function(savedflat) {
-    this.id = savedflat.id;
     this.town = savedflat.town;
     this.block = savedflat.block;
     this.street_name = savedflat.street_name;

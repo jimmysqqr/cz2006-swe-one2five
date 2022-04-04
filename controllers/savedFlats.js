@@ -84,7 +84,6 @@ const createSavedFlat = async (req, res) => {
 
     // Create the new saved flat object
     const newSavedFlat = new SavedFlat({
-        id: null,
         town: req.body.town,
         block: req.body.block,
         street_name: req.body.street_name,
