@@ -84,17 +84,16 @@ const createSavedFlat = async (req, res) => {
 
     // Create the new saved flat object
     const newSavedFlat = new SavedFlat({
-        id: null,
         town: req.body.town,
         block: req.body.block,
         street_name: req.body.street_name,
         flat_type: req.body.flat_type,
         flat_status: 'saved',
-        monthly_rent: null,
+        monthly_rent: (req.body.monthly_rent? req.body.monthly_rent: null),
         latitude: lat,
         longitude: lon,
         userToken: req.params.userToken,
-        rented_out_id: req.body.rented_out_id
+        rented_out_id: (req.body.rented_out_id ? req.body.rented_out_id: null)
     });
 
     // Save the new saved flat in the database
