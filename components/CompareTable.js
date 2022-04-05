@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
@@ -19,7 +19,7 @@ export function CompareTable(props) {
 
   const [flatsCompared, setFlatsCompared] = useState([]);
   const [inputAddress, setInputAddress] = useState("");
-  const [distances, setDistances] = useState(Array(props.ids? props.ids.length : 0).fill(""));
+  const [distances, setDistances] = useState(Array(props.ids ? props.ids.length : 0).fill(""));
 
   useEffect(() => {
     if (flatsCompared.length) {
@@ -113,8 +113,24 @@ export function CompareTable(props) {
 export function FlatColumn(props) {
   let savedInfo = props.info;
 
+  const [currentIDHighlight, setCurrentIDHighlight] = useState("");
+  const [center, setCenter] = useState({ lat: 1.3521, lng: 103.8198 });
+
+  useEffect(() => {
+    setCenter({ lat: savedInfo.savedFlat.latitude, lng: savedInfo.savedFlat.longitude });
+  }, [savedInfo]);
+
   function onRemove_inter() {
     props.onRemove(savedInfo.savedFlat.id, {});
+  }
+
+  function handleMarkerClick(placeID) {
+    setCurrentIDHighlight(placeID);
+  }
+
+  function handleAmenityItemClick(placeID, latLng) {
+    setCurrentIDHighlight(placeID);
+    setCenter(latLng);
   }
 
   return (
@@ -129,10 +145,21 @@ export function FlatColumn(props) {
           {capitalizeTheFirstLetterOfEachWord(savedInfo.savedFlat.flat_type)}
         </div>
         <div className={`${styles.amenities} ${styles.row}`}>
-          <div className={styles.mapContainer}>{/* <AmenityMap /> */}</div>
+          <div className={styles.mapContainer}>
+            <AmenityMap
+              amenities={savedInfo.amenities.amenityList}
+              latLong={{ lat: savedInfo.savedFlat.latitude, lng: savedInfo.savedFlat.longitude }}
+              center={center}
+              onMarkerClick={handleMarkerClick}
+            />
+          </div>
           <div className={styles.mapInfoCard}>
             <div className={styles.amenityListContainer}>
-              <AmenityList amenities={savedInfo.amenities.amenityList} />
+              <AmenityList
+                amenities={savedInfo.amenities.amenityList}
+                currentIDHighlight={currentIDHighlight}
+                onClick={handleAmenityItemClick}
+              />
             </div>
           </div>
         </div>
@@ -196,7 +223,6 @@ export function HeaderColumn(props) {
 export function AddColumn(props) {
   const [canChoose, setCanChoose] = useState(false);
   const [moreChoices, setMoreChoices] = useState([]);
-
 
   useEffect(() => {
     loadData(`/api/v1/savedFlats/${props.uuid}`, {})

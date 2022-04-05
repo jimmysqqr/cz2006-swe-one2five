@@ -4,7 +4,7 @@ $container-padding: 1.75rem 1.75rem;
 $footer-padding: 0.75rem 1.75rem;
 $header-btm-margin: 1.25rem;
 $section-btm-margin: 1.75rem;
-$section-header-btm-margin: 1rem;
+$section-header-btm-margin: 0.75rem;
 
 $label-top-margin: 0.25rem;
 $price-line-top-margin: 0.5rem;
@@ -140,6 +140,9 @@ $amenity-btm-margin: 0.35rem;
 
 .amenityListContainer {
   overflow-y: auto;
+  background: rgba(u.$primary-light, 0.075);
+  border-radius: 4px;
+  max-height: 14rem;
   
   &::-webkit-scrollbar {
     width: 3px;
@@ -173,14 +176,24 @@ $amenity-btm-margin: 0.35rem;
 .amenityList {
   display: flex;
   flex-flow: column;
-  max-height: 12.5rem;
-  padding-right: 0.5rem;
 
   .amenity {
+    padding: $amenity-btm-margin 0.5rem;
+    border-radius: 2px;
     font-size: u.$x-small;
-    margin-bottom: $amenity-btm-margin;
+    // margin-bottom: $amenity-btm-margin;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
+
+    &.highlight {
+      background-color: u.$secondary-light;
+      color: u.$white;
+    }
+    &:hover {
+      background-color: u.$secondary-light;
+      color: u.$white;
+    }
   }
 }
 

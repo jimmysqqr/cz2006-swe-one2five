@@ -165,6 +165,7 @@ $text-extra-padding: 1rem;
       .amenityListContainer {
         overflow-y: auto;
         height: 100%;
+        max-height: 7rem;
 
         &::-webkit-scrollbar {
           width: 3px;

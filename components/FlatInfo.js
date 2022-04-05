@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { loadData } from "/components/data/httpRequestControl";
 import { CustomLocationInput, DistanceResults, handleDistanceKeyPressHook } from "/components/CustomLocation";
+import amenityPin from "/public/amenity_pin.png";
+import locationPin from "/public/location_pin.png";
 
 import styles from "./FlatInfo.module.scss";
-
-// import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 export function AggregateInfo(props) {
   return (
@@ -34,7 +35,11 @@ export function SingleInfo(props) {
         <div className={styles.sectionHeader}>Nearby Amenities</div>
         <div className={styles.sectionContent}>
           <div className={styles.amenityListContainer}>
-            <AmenityList amenities={props.amenities} />
+            <AmenityList
+              amenities={props.amenities}
+              currentIDHighlight={props.currentIDHighlight}
+              onClick={props.onClick}
+            />
           </div>
         </div>
       </div>
@@ -85,7 +90,9 @@ export function PriceRange(props) {
         <div className={styles.priceRange}>
           <div className={styles.numberGroup}>
             <div className={`${styles.number} ${styles.primary}`}>$ {Math.round(props.calPrice)}</div>
-            <div className={styles.label}>{props.approvalDate ? "Rental price" : "Not enough data to show price distribution"}</div>
+            <div className={styles.label}>
+              {props.approvalDate ? "Rental price" : "Not enough data to show price distribution"}
+            </div>
           </div>
         </div>
       )}
@@ -120,7 +127,16 @@ export function AmenityList(props) {
     <ul className={styles.amenityList}>
       {arr.length ? (
         arr.map((value) => (
-          <li className={styles.amenity} key={value.place_id}>
+          <li
+            className={`${styles.amenity} ${value.place_id === props.currentIDHighlight ? styles.highlight : ""}`}
+            key={value.place_id}
+            onClick={() =>
+              props.onClick(value.place_id, {
+                lat: value.geometry.location.lat,
+                lng: value.geometry.location.lng,
+              })
+            }
+          >
             <div className={styles.amenityName}>{value.name}</div>
             <div className={styles.amenityDistance}>
               {value["dist_from_flat"]["value"] > 999
@@ -138,128 +154,142 @@ export function AmenityList(props) {
 
 export function AmenityMap(props) {
   console.log(props);
+  let zoom = props.latLong ? 15.5 : 10;
+  if (typeof window !== "undefined") {
+    console.log(window.google)
+  }
 
-  const key = process.env.Dist_Coords_GGMapsAPIKey;
-
-  let src = "https://www.google.com/maps/embed/v1/place?" + "key=" + key + "&q=NTU+North+Spine,Singapore";
+  // function onClick(event) {
+  //   console.log("click", event);
+  // }
+  // function onIdle(event) {
+  //   console.log("idle", event);
+  // }
 
   return (
-    <div>
-      {/* <iframe 
-        id="mapIframe"
-        className={styles.mapContainer}
-        frameborder="0"
-        loading="lazy"
-        allowfullscreen
-        referrerpolicy="no-referrer-when-downgrade"
-        src={src}
+    <Wrapper apiKey={process.env.AMENITIES_GGMapsAPIKey}>
+      <Map
+        center={props.center}
+        // onClick={onClick}
+        // onIdle={onIdle}
+        zoom={zoom}
+        style={{ flexGrow: "1", height: "100%" }}
       >
-      </iframe> */}
-    </div>
+        <Marker
+          key={"flat"}
+          onClick={() => props.onMarkerClick("")}
+          position={props.latLong}
+          icon={{
+            url: locationPin.src,
+            scaledSize: new window.google.maps.Size(50, 50),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(25, 50),
+          }}
+        />
+        {props.amenities
+          ? props.amenities.map((amenity) => (
+              <Marker
+                key={amenity.place_id}
+                onClick={() => props.onMarkerClick(amenity.place_id)}
+                position={{
+                  lat: amenity.geometry.location.lat,
+                  lng: amenity.geometry.location.lng,
+                }}
+                icon={{
+                  url: amenityPin.src,
+                  size: new window.google.maps.Size(32, 32),
+                  origin: new google.maps.Point(0, 0),
+                  anchor: new google.maps.Point(16, 32),
+                }}
+              />
+            ))
+          : ""}
+      </Map>
+    </Wrapper>
   );
-
-  // let src = "https://maps.googleapis.com/maps/api/js? +
-  // "key=" + process.env.Dist_Coords_GGMapsAPIKey +
-  // "&callback=initMap" +
-  // "&v=weekly&channel=2";
-
-  // function initMap() {
-  //   const middleSG = { lat: 1.34791, lng: 103.83288 };
-
-  //   map = new google.maps.Map(document.getElementById("map"), {
-  //     zoom: 11,
-  //     center: middleSG,
-  //     fullScreenControl: true, // allow user to enlarge map
-  //     gestureHandling: "cooperative", // only zoom in when ctrl button pressed (if not, greedy)
-  //     //restriction: { north: northLat, south: southLat, west: -180, east: 180 }; // to restrict how much user zooms out
-  //   });
-  // }
-
-  // const [clicks, setClicks] = React.useState();
-  // const [zoom, setZoom] = React.useState(3); // initial zoom
-  // const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
-  //   lat: 0,
-  //   lng: 0,
-  // });
-
-  // const render = (status) => {
-  //   return <h1>{status}</h1>;
-  // };
-
-  // const Map = ({
-  //   onClick,
-  //   onIdle,
-  //   children,
-  //   style,
-  //   ...options
-  // }) => {
-  //   const ref = React.useRef<HTMLDivElement>(null);
-  //   const [map, setMap] = React.useState();
-
-  //   React.useEffect(() => {
-  //     if (ref.current && !map) {
-  //       setMap(new window.google.maps.Map(ref.current, {}));
-  //     }
-  //   }, [ref, map]);
-
-  //   return (
-  //     <>
-  //       <div ref={ref} style={style} />
-  //       {React.Children.map(children, (child) => {
-  //         if (React.isValidElement(child)) {
-  //           // set the map prop on the child component
-  //           return React.cloneElement(child, { map });
-  //         }
-  //       })}
-  //     </>
-  //   );
-  // }
-
-  // return (
-  //   <div style={{ display: "flex", height: "100%" }}>
-  //   <Wrapper apiKey={"AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM"} render={render}>
-  //     <Map
-  //       center={center}
-  //       //onClick={onClick}
-  //       //onIdle={onIdle}
-  //       zoom={zoom}
-  //       style={{ flexGrow: "1", height: "100%" }}
-  //     >
-  //       {clicks.map((latLng, i) => (
-  //         <Marker key={i} position={latLng} />
-  //       ))}
-  //     </Map>
-  //   </Wrapper>
-
-  // </div>
-  // );
-
-  //   const middleSG = { lat: 1.34791, lng: 103.83288 };
-
-  //   map = new google.maps.Map(document.getElementById("map"), {
-  //     zoom: 11,
-  //     center: middleSG,
-  //   });
-
-  // return (
-  //   <Wrapper apiKey={"AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM"} >
-  //     <></>
-  //   </Wrapper>
-  // );
-
-  // return (
-  //   <div>
-  //     <script async defer
-  //     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlwgdCh6_NyNSZXy5S_rqIMGf81SIwlj8&callback=initMap&v=weekly&channel=2"
-  //   ></script>
-  //     <Wrapper apiKey={"AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM"} >
-  //       <Map></Map>
-  //     </Wrapper>
-  //   </div>
-  // )
-
-  return <div className={styles.mapContainer}>Hi Im map centred on {props.latLong}</div>;
 }
+
+function Map(props) {
+  const ref = useRef(null);
+  const [map, setMap] = useState();
+
+  useEffect(() => {
+    if (ref.current && !map) {
+      setMap(new window.google.maps.Map(ref.current, {}));
+    }
+  }, [ref, map]);
+
+  // because React does not do deep comparisons, a custom hook is used
+  // see discussion in https://github.com/googlemaps/js-samples/issues/946
+  useEffect(() => {
+    if (map) {
+      map.setOptions({ center: props.center, zoom: props.zoom });
+    }
+  }, [map, props.center, props.zoom]);
+
+  // useEffect(() => {
+  //   if (map) {
+  //     ["click", "idle"].forEach((eventName) =>
+  //       google.maps.event.clearListeners(map, eventName)
+  //     );
+
+  //     if (props.onClick) {
+  //       map.addListener("click", props.onClick);
+  //     }
+
+  //     if (props.onIdle) {
+  //       map.addListener("idle", () => props.onIdle(map));
+  //     }
+  //   }
+  // }, [map, props]);
+
+  return (
+    <>
+      <div ref={ref} style={props.style} />
+      {React.Children.map(props.children, (child) => {
+        if (React.isValidElement(child)) {
+          // set the map prop on the child component
+          return React.cloneElement(child, { map });
+        }
+      })}
+    </>
+  );
+}
+
+const Marker = (options) => {
+  const [marker, setMarker] = React.useState();
+
+  useEffect(() => {
+    if (!marker) {
+      setMarker(new google.maps.Marker());
+    }
+
+    // remove marker from map on unmount
+    return () => {
+      if (marker) {
+        marker.setMap(null);
+      }
+    };
+  }, [marker]);
+
+  useEffect(() => {
+    if (marker) {
+      ["click"].forEach((eventName) => google.maps.event.clearListeners(marker, eventName));
+
+      if (options.onClick) {
+        marker.addListener("click", options.onClick);
+      }
+    }
+  }, [marker, options.onClick]);
+
+  useEffect(() => {
+    if (marker) {
+      marker.setOptions(options);
+    }
+  }, [marker, options]);
+
+  return null;
+};
 
 export function FlatInfo_CustomLocation(props) {
   const [distance, setDistance] = useState("");

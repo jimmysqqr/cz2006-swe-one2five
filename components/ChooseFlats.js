@@ -20,7 +20,7 @@ export function ChooseFlats(props) {
     latLong: "",
     amenities: "",
   });
-  const [flatListStyles, setFlatListStyles] = useState(Array(props.savedFlats.length).fill(false));
+  const [flatListStyles, setFlatListStyles] = useState(Array(props.savedFlats? props.savedFlats.length : 0).fill(false));
   const [chosenChoices, setChosenChoices] = useState([]);
 
   useEffect(() => {
