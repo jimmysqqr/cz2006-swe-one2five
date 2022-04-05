@@ -155,9 +155,6 @@ export function AmenityList(props) {
 export function AmenityMap(props) {
   console.log(props);
   let zoom = props.latLong ? 15.5 : 10;
-  if (typeof window !== "undefined") {
-    console.log(window.google)
-  }
 
   // function onClick(event) {
   //   console.log("click", event);
@@ -165,6 +162,41 @@ export function AmenityMap(props) {
   // function onIdle(event) {
   //   console.log("idle", event);
   // }
+  let locationIcon = {};
+  let amenityIcon = {};
+  if (typeof window !== "undefined") {
+    console.log(window.google);
+    locationIcon = {
+      url: locationPin.src,
+      scaledSize: new window.google.maps.Size(50, 50),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(25, 50),
+    };
+    amenityIcon = {
+      url: amenityPin.src,
+      size: new window.google.maps.Size(32, 32),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(16, 32),
+    };
+  }
+
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     console.log(window.google);
+  //     locationIcon = {
+  //       url: locationPin.src,
+  //       scaledSize: new window.google.maps.Size(50, 50),
+  //       origin: new google.maps.Point(0, 0),
+  //       anchor: new google.maps.Point(25, 50),
+  //     };
+  //     amenityIcon = {
+  //       url: amenityPin.src,
+  //       size: new window.google.maps.Size(32, 32),
+  //       origin: new google.maps.Point(0, 0),
+  //       anchor: new google.maps.Point(16, 32),
+  //     };
+  //   }
+  // }, [window]);
 
   return (
     <Wrapper apiKey={process.env.AMENITIES_GGMapsAPIKey}>
@@ -175,17 +207,7 @@ export function AmenityMap(props) {
         zoom={zoom}
         style={{ flexGrow: "1", height: "100%" }}
       >
-        <Marker
-          key={"flat"}
-          onClick={() => props.onMarkerClick("")}
-          position={props.latLong}
-          icon={{
-            url: locationPin.src,
-            scaledSize: new window.google.maps.Size(50, 50),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(25, 50),
-          }}
-        />
+        <Marker key={"flat"} onClick={() => props.onMarkerClick("")} position={props.latLong} icon={locationIcon} />
         {props.amenities
           ? props.amenities.map((amenity) => (
               <Marker
@@ -195,12 +217,7 @@ export function AmenityMap(props) {
                   lat: amenity.geometry.location.lat,
                   lng: amenity.geometry.location.lng,
                 }}
-                icon={{
-                  url: amenityPin.src,
-                  size: new window.google.maps.Size(32, 32),
-                  origin: new google.maps.Point(0, 0),
-                  anchor: new google.maps.Point(16, 32),
-                }}
+                icon={amenityIcon}
               />
             ))
           : ""}
