@@ -27,8 +27,8 @@ export function DistanceResults(props) {
 export async function handleDistanceKeyPressHook(inputAddress, flatLatLong) {
   // use inputAddress and flatAddress to get straight line distance
   return loadData("/api/v1/distance", {
-    flatLat: flatLatLong[0],
-    flatLng: flatLatLong[1],
+    flatLat: flatLatLong? flatLatLong[0] : 0,
+    flatLng: flatLatLong? flatLatLong[1] : 0,
     dst: inputAddress,
   })
     .then((res) => res.json())
