@@ -16,7 +16,7 @@ const calcDist = require('./routes/calcDist');
 
 // middleware
 app.use(express.json());
-const allowedOrigins = ['http://localhost:3000', 'https://localhost:3000'];
+const allowedOrigins = ['https://rentigo.herokuapp.com/', 'http://localhost:3000', 'https://localhost:3000'];
 app.use(cors({
     origin: function(origin, callback){
         // allow requests with no origin 
