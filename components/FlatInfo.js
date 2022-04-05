@@ -164,20 +164,22 @@ export function AmenityMap(props) {
   // }
   let locationIcon = {};
   let amenityIcon = {};
-  if (typeof window !== "undefined" & typeof window.google !== "undefined") {
-    console.log(window.google);
-    locationIcon = {
-      url: locationPin.src,
-      scaledSize: new window.google.maps.Size(50, 50),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(25, 50),
-    };
-    amenityIcon = {
-      url: amenityPin.src,
-      size: new window.google.maps.Size(32, 32),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(16, 32),
-    };
+  if (typeof window !== "undefined") {
+    if (typeof window.google !== undefined) {
+      console.log(window.google);
+      locationIcon = {
+        url: locationPin.src,
+        scaledSize: new window.google.maps.Size(50, 50),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(25, 50),
+      };
+      amenityIcon = {
+        url: amenityPin.src,
+        size: new window.google.maps.Size(32, 32),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(16, 32),
+      };
+    }
   }
 
   // useEffect(() => {
