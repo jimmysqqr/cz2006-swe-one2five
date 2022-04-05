@@ -19,7 +19,7 @@ export function CompareTable(props) {
 
   const [flatsCompared, setFlatsCompared] = useState([]);
   const [inputAddress, setInputAddress] = useState("");
-  const [distances, setDistances] = useState(Array(props.ids.length).fill(""));
+  const [distances, setDistances] = useState(Array(props.ids? props.ids.length : 0).fill(""));
 
   useEffect(() => {
     if (flatsCompared.length) {
