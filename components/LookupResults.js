@@ -49,19 +49,23 @@ export function LookupResults(props) {
           />
         </div>
         <div className={styles.space3}>
-          <AmenityMap
-            amenities={form.amenities}
-            latLong={
-              form.latLong
-                ? {
-                    lat: form.latLong[0],
-                    lng: form.latLong[1],
-                  }
-                : center
-            }
-            center={center}
-            onMarkerClick={handleMarkerClick}
-          />
+          {typeof window !== "undefined" ? (
+            <AmenityMap
+              amenities={form.amenities}
+              latLong={
+                form.latLong
+                  ? {
+                      lat: form.latLong[0],
+                      lng: form.latLong[1],
+                    }
+                  : center
+              }
+              center={center}
+              onMarkerClick={handleMarkerClick}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <Form page="lookupResults" formState={form} handleSubmit={props.handleSubmit} isSaved={props.isSaved} />
