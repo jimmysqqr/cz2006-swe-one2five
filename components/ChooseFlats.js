@@ -27,8 +27,7 @@ export function ChooseFlats(props) {
     setFlatListStyles(Array(props.savedFlats.length).fill(false));
     setShowInfoAction(false);
     let setID = new Set(props.savedFlats.map((flat) => flat.id));
-    let newChosenChoices = [...chosenChoices];
-    setChosenChoices(newChosenChoices.filter((flat) => setID.has(flat.id)));
+    setChosenChoices(chosenChoices => chosenChoices.filter((flat) => setID.has(flat.id)));
   }, [props.savedFlats]);
 
   function handleSubmit() {

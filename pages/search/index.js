@@ -50,7 +50,7 @@ export default function SearchPage() {
         <main>
           <div className="pageTitleContainer">
             <div className="pageTitle">Search Rented Flats</div>
-            <div className="pageSubtitle">Don't know which flat you want to rent? Want to know whether it is worth having more rooms?</div>
+            <div className="pageSubtitle">Don&#39t know which flat you want to rent? Want to know whether it is worth having more rooms?</div>
             <div className="pageSubtitle">Use the filters below to narrow down your search!</div>
           </div>
           <div className="pageContentContainer">

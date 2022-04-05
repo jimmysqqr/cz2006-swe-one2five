@@ -32,7 +32,7 @@ export default function SideBySidePage() {
           console.log(error);
         }
       );
-  }, [uuid]);
+  }, [uuid, router.query.ids]);
 
   return (
     <div className="pageContainer">
