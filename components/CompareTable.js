@@ -146,12 +146,12 @@ export function FlatColumn(props) {
         </div>
         <div className={`${styles.amenities} ${styles.row}`}>
           <div className={styles.mapContainer}>
-          {typeof window !== "undefined" ? <AmenityMap
+            <AmenityMap
               amenities={savedInfo.amenities.amenityList}
               latLong={{ lat: savedInfo.savedFlat.latitude, lng: savedInfo.savedFlat.longitude }}
               center={center}
               onMarkerClick={handleMarkerClick}
-            /> : ""}
+            />
           </div>
           <div className={styles.mapInfoCard}>
             <div className={styles.amenityListContainer}>

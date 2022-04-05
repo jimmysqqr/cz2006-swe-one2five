@@ -162,25 +162,25 @@ export function AmenityMap(props) {
   // function onIdle(event) {
   //   console.log("idle", event);
   // }
-  let locationIcon = {};
-  let amenityIcon = {};
-  if (typeof window !== "undefined") {
-    if (typeof window.google !== undefined) {
-      console.log(window.google);
-      locationIcon = {
-        url: locationPin.src,
-        scaledSize: new window.google.maps.Size(50, 50),
-        origin: new window.google.maps.Point(0, 0),
-        anchor: new window.google.maps.Point(25, 50),
-      };
-      amenityIcon = {
-        url: amenityPin.src,
-        size: new window.google.maps.Size(32, 32),
-        origin: new window.google.maps.Point(0, 0),
-        anchor: new window.google.maps.Point(16, 32),
-      };
-    }
-  }
+  let locationIcon = {url: locationPin.src};
+  let amenityIcon = {url: amenityPin.src};
+  // if (typeof window !== "undefined") {
+  //   if (typeof window.google !== undefined) {
+  //     console.log(window.google);
+  //     locationIcon = {
+  //       url: locationPin.src,
+  //       scaledSize: new window.google.maps.Size(50, 50),
+  //       origin: new window.google.maps.Point(0, 0),
+  //       anchor: new window.google.maps.Point(25, 50),
+  //     };
+  //     amenityIcon = {
+  //       url: amenityPin.src,
+  //       size: new window.google.maps.Size(32, 32),
+  //       origin: new window.google.maps.Point(0, 0),
+  //       anchor: new window.google.maps.Point(16, 32),
+  //     };
+  //   }
+  // }
 
   // useEffect(() => {
   //   if (typeof window !== "undefined" & typeof window.google !== "undefined") {
