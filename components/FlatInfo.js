@@ -170,14 +170,14 @@ export function AmenityMap(props) {
       locationIcon = {
         url: locationPin.src,
         scaledSize: new window.google.maps.Size(50, 50),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(25, 50),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(25, 50),
       };
       amenityIcon = {
         url: amenityPin.src,
         size: new window.google.maps.Size(32, 32),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(16, 32),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(16, 32),
       };
     }
   }
