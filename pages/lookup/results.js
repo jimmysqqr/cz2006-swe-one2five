@@ -40,6 +40,7 @@ export default function LookupResultsPage() {
         street_name: form.street,
         town: form.town,
         flat_type: form.roomType,
+        monthly_rent: form.calPrice,
       })
         .then((res) => res.json())
         .then(

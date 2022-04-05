@@ -5,6 +5,7 @@ $list-item-content-spacing: 1rem;
 .listItemFlat {
   background: u.$white;
   display: flex;
+  position: relative; // for its child chosenMark to be positioned absolute
 
   &.search {
     border-radius: 4px 0px 0px 4px;
@@ -125,4 +126,11 @@ $list-item-content-spacing: 1rem;
   padding: 0 calc($list-item-content-spacing / 2);
 }
 .compare .typePriceContainer {
+}
+
+.chosenMark {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.5rem;
+  color: u.$secondary-light;
 }

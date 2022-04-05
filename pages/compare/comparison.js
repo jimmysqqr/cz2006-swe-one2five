@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from 'next/router'
@@ -11,9 +12,27 @@ import { CompareTable } from "/components/CompareTable";
 
 export default function SideBySidePage() {
   const router = useRouter();
+  console.log(router.query);
 
   const [uuid, setUuid] = useLocalStorage("uuid", v4());
+  const [flatsCompared, setFlatsCompared] = useState([]);
 
+
+  useEffect(() => {
+    loadData(`/api/v1/compare/${uuid}`, {
+      ids: router.query.ids, // ids=1,2,3
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log("Compare Page get initial choices", result);
+          setSavedFlats(result["data"]);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, [uuid]);
 
   return (
     <div className="pageContainer">
@@ -33,7 +52,7 @@ export default function SideBySidePage() {
         </div>
         <main>
           <div className="pageContentContainer">
-            <CompareTable />
+            <CompareTable uuid={uuid}/>
           </div>
         </main>
       </div>

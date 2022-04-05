@@ -26,7 +26,7 @@ export function Form(props) {
             name={"targetStreet"}
             formValue={props.formState.targetAddr}
             onChange={handleClick}
-            placeholder={"eg. Bishan St / Tampines Rd"}
+            placeholder={"eg. Bishan St 22 / Ang Mo Kio Ave 5"}
           />
         </div>
         <div className={styles.mainFormFieldContainer}>
@@ -223,21 +223,42 @@ export function Form(props) {
         {props.isSaved ? (
           <div className={`${styles.button} ${styles.secondary}`}>Saved!</div>
         ) : (
-          <input className={`${styles.button} ${styles.primary}`} type="submit" value="Save" onClick={props.handleSubmit}/>
+          <input
+            className={`${styles.button} ${styles.primary}`}
+            type="submit"
+            value="Save"
+            onClick={props.handleSubmit}
+          />
         )}
       </div>
     );
-  } else if (props.page == "choiceAdd") {
+  } else if (props.page == "choiceAddRemove") {
     return (
       <div className={styles.choicesInteraction}>
-        <div className={`${styles.button} ${styles.secondary}`} onClick={props.onUnsave} >Unsave</div>
-        <input className={`${styles.button} ${styles.primary}`} type="submit" value="Add to Comparison" onClick={props.onAdd}/>
+        <div className={`${styles.button} ${styles.secondary}`} onClick={props.onUnsave}>
+          Unsave
+        </div>
+        {props.isRemove ? (
+          <input
+            className={`${styles.button} ${styles.primary}`}
+            type="submit"
+            value="Remove from Comparison"
+            onClick={props.onRemove}
+          />
+        ) : (
+          <input
+            className={`${styles.button} ${styles.primary}`}
+            type="submit"
+            value="Add to Comparison"
+            onClick={props.onAdd}
+          />
+        )}
       </div>
     );
   } else if (props.page == "choiceSubmit") {
     return (
       <div className={styles.summaryInteraction}>
-        <input className={`${styles.button} ${styles.primary}`} type="submit" value="Compare Flats" />
+        <input className={`${styles.button} ${styles.primary}`} type="submit" value="Compare Flats" onClick={props.handleSubmit}/>
       </div>
     );
   } else if (props.page == "comparisonRemove") {

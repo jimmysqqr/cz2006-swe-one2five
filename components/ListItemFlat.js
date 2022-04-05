@@ -1,17 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { faBookmark as savedBookmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import { capitalizeTheFirstLetterOfEachWord } from "/components/data/formOptions";
 import styles from "./ListItemFlat.module.scss";
 
 export function ListItemFlat(props) {
-
   function selectFlat_inter() {
     props.onClick(props.flatID, {
       approvalDate: props.approvalDate,
       latLong: props.latLong,
-      index: props.index
+      index: props.index,
     });
   }
 
@@ -21,7 +21,8 @@ export function ListItemFlat(props) {
       street: props.street,
       block: props.block,
       roomType: props.roomType,
-      isSaved: props.isSaved
+      isSaved: props.isSaved,
+      price: props.price,
     });
   }
 
@@ -34,7 +35,6 @@ export function ListItemFlat(props) {
     });
   }
 
-  
   let highlight = "";
   if (props.highlight) {
     highlight = styles.highlight;
@@ -49,7 +49,7 @@ export function ListItemFlat(props) {
   let styleType = "";
   if (props.type == "search") {
     styleType = styles.search;
-  
+
     // <li className={`${styles.listItemFlat} ${styleType}`} onClick={props.onClick}>
     //     <div className={styles.saveContainer}>
     //       <FontAwesomeIcon icon={faBookmark} style={{ fontSize: "1.1rem" }} />
@@ -71,7 +71,9 @@ export function ListItemFlat(props) {
         </div>
         <div className={styles.clickContainer} onClick={selectFlat_inter}>
           <div className={styles.nameAmenityContainer}>
-            <div className={styles.name}>{capitalizeTheFirstLetterOfEachWord(props.street) + " Blk " + props.block}</div>
+            <div className={styles.name}>
+              {capitalizeTheFirstLetterOfEachWord(props.street) + " Blk " + props.block}
+            </div>
             <div className={styles.amenity}>{capitalizeTheFirstLetterOfEachWord(props.town)}</div>
           </div>
           <div className={styles.typePriceContainer}>
@@ -81,7 +83,6 @@ export function ListItemFlat(props) {
         </div>
       </li>
     );
-
   } else if (props.type == "compare") {
     styleType = styles.compare;
 
@@ -99,6 +100,13 @@ export function ListItemFlat(props) {
             <div className={styles.price}>$ {Math.round(props.price)}</div>
           </div>
         </div>
+        {props.isChosen ? (
+          <div className={styles.chosenMark}>
+            <FontAwesomeIcon icon={faArrowRightArrowLeft} style={{ fontSize: "0.75rem" }} />
+          </div>
+        ) : (
+          ""
+        )}
       </li>
     );
   }

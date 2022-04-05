@@ -151,6 +151,17 @@
 .choicesInteraction {
   display: flex;
   justify-content: space-between;
+
+  .button {
+    padding: 0.5rem 1.5rem;
+  }
+  .secondary {
+    background: rgb(110, 30, 30);
+    border: none;
+  }
+  .primary {
+    background: u.$secondary-light;
+  }
 }
 
 .summaryInteraction {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { v4 } from "uuid";
 
 import { useLocalStorage } from "/components/data/localStorageControl";
@@ -11,9 +10,6 @@ import bg from "/public/compare_bg.jpg";
 import { ChooseFlats } from "/components/ChooseFlats";
 
 export default function ComparePage() {
-  const router = useRouter();
-
-  const [form, setForm] = useState([]);
   const [savedFlats, setSavedFlats] = useState([]);
   const [uuid, setUuid] = useLocalStorage("uuid", v4());
 
@@ -30,11 +26,6 @@ export default function ComparePage() {
         }
       );
   }, [uuid]);
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.log(form);
-  }
 
   function handleUnsave(id) {
     let newSavedFlats = savedFlats.map((flat) => {
@@ -83,9 +74,6 @@ export default function ComparePage() {
           </div>
           <div className="pageContentContainer">
             <ChooseFlats
-              formState={form}
-              setFormState={setForm}
-              handleSubmit={handleSubmit}
               onUnsave={handleUnsave}
               savedFlats={savedFlats}
               uuid={uuid}

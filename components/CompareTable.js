@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Form } from "/components/Form";
+import { loadData, postData } from "/components/data/httpRequestControl";
 import { AmenityList, AmenityMap, PriceRange, PriceFuture } from "/components/FlatInfo";
 import { CustomLocationInput, DistanceResults, handleDistanceKeyPressHook } from "/components/CustomLocation";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -49,17 +50,17 @@ export function FlatColumn(props) {
             <AmenityMap />
           </div>
           <div className={styles.amenityList}>
-            <AmenityList />
+            {/* <AmenityList /> */}
           </div>
         </div>
         <div className={`${styles.customLocation} ${styles.row}`}>
-          <DistanceResults distance={props.distance} />
+          {/* <DistanceResults distance={props.distance} /> */}
         </div>
         <div className={`${styles.price} ${styles.row}`}>
-          <PriceRange />
+          {/* <PriceRange /> */}
         </div>
         <div className={`${styles.estimate} ${styles.row}`}>
-          <PriceFuture />
+          {/* <PriceFuture /> */}
         </div>
       </div>
       <div className={styles.endSection}>

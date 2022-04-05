@@ -36,7 +36,6 @@ export default function SearchResultsPage() {
   function handleSubmit(event) {
     event.preventDefault();
     console.log(form);
-    // TODO: loadData again
     router.replace(
       {
         pathname: `/search/results`,
@@ -51,7 +50,7 @@ export default function SearchResultsPage() {
     loadData("/api/v1/searchRentedFlats", {
       town: router.query.town,
       flatType: router.query.roomType,
-      numericFilters: `price>=${router.query.priceLowerBound}, price<=${router.query.priceUpperBound}`,
+      numericFilters: `price>=${router.query.priceLowerBound},price<=${router.query.priceUpperBound}`,
       amenityType: router.query.nearbyAmenity,
       amenityDist: router.query.nearbyAmenityDistance,
     })
@@ -70,7 +69,7 @@ export default function SearchResultsPage() {
             },
             flatList: data["filteredFlatList"],
           });
-          setFlatListStyles(Array(searchResults.flatList.length).fill(false));
+          setFlatListStyles(Array(data["filteredFlatList"].length).fill(false));
           setShowSingle(false);
         },
         (error) => {
@@ -90,7 +89,7 @@ export default function SearchResultsPage() {
           console.log(error);
         }
       );
-  }, [router.query, uuid, searchResults.flatList.length]);
+  }, [router.query, uuid]);
 
   function onSavedClick(flatID, flatObject) {
     let newSavedFlats = savedFlats.map((flat) => {
@@ -102,6 +101,7 @@ export default function SearchResultsPage() {
         block: flatObject.block,
         street_name: flatObject.street,
         flat_type: flatObject.roomType,
+        monthly_rent: flatObject.price,
         rented_out_id: flatID,
       })
         .then((res) => res.json())
@@ -116,7 +116,7 @@ export default function SearchResultsPage() {
           }
         );
     } else {
-      let flatToUnsave = newSavedFlats.find((flat) => flat.rented_out_id === flatID); // TODO: make sure I get back a rented_out_id after creating a saved flat so that I can use it here
+      let flatToUnsave = newSavedFlats.find((flat) => flat.rented_out_id === flatID);
       deleteData(`/api/v1/savedFlats/${uuid}/${flatToUnsave.id}`, {})
         .then((res) => res.json())
         .then(

@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 
 import { Form } from "/components/Form";
@@ -9,6 +10,8 @@ import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import styles from "./ChooseFlats.module.scss";
 
 export function ChooseFlats(props) {
+  const router = useRouter();
+
   const [showInfoAction, setShowInfoAction] = useState(false);
   const [selectedFlat, setSelectedFlat] = useState({
     id: "",
@@ -25,8 +28,16 @@ export function ChooseFlats(props) {
     setShowInfoAction(false);
     let setID = new Set(props.savedFlats.map((flat) => flat.id));
     let newChosenChoices = [...chosenChoices];
-    setChosenChoices(newChosenChoices.filter((flat)=>setID.has(flat.id)));
+    setChosenChoices(newChosenChoices.filter((flat) => setID.has(flat.id)));
   }, [props.savedFlats]);
+
+  function handleSubmit() {
+    console.log("before route", chosenChoices);
+    router.push({
+      pathname: `/compare/comparison`,
+      query: { ids: chosenChoices.map((flat) => flat.id) },
+    });
+  }
 
   function handleAdd() {
     if ((chosenChoices.length < 3) & !chosenChoices.find((choice) => choice.id === selectedFlat.id)) {
@@ -37,6 +48,11 @@ export function ChooseFlats(props) {
       console.log("already added!");
     }
   }
+  function handleRemove() {
+    console.log("removing", selectedFlat);
+    let newChosenChoices = [...chosenChoices];
+    setChosenChoices(newChosenChoices.filter((choice) => choice.id !== selectedFlat.id));
+  }
 
   function handleUnsave_inter() {
     props.onUnsave(selectedFlat.id);
@@ -44,6 +60,7 @@ export function ChooseFlats(props) {
 
   function handleListItemClick(savedFlatID, flatObject) {
     // if selecting a flat for the first time, so data needed, or selecting another flat while one is already selected
+    console.log(selectedFlat, savedFlatID);
     if (selectedFlat.id !== savedFlatID) {
       setShowInfoAction(true);
       let newFlatListStyles = Array(props.savedFlats.length).fill(false);
@@ -87,18 +104,17 @@ export function ChooseFlats(props) {
           savedFlats={props.savedFlats}
           showInfoAction={showInfoAction}
           flatListStyles={flatListStyles}
+          isRemove={chosenChoices.filter((flat) => flat.id === selectedFlat.id).length}
+          chosenChoices={chosenChoices}
+          selectedFlat={selectedFlat}
           onClick={handleListItemClick}
           onAdd={handleAdd}
+          onRemove={handleRemove}
           onUnsave={handleUnsave_inter}
         />
       </div>
       <div className={styles.choiceSummaryContainer}>
-        <ChoiceSummary
-          formState={props.formState}
-          setFormState={props.setFormState}
-          handleSubmit={props.handleSubmit}
-          chosenChoices={chosenChoices}
-        />
+        <ChoiceSummary handleSubmit={handleSubmit} chosenChoices={chosenChoices} />
       </div>
     </div>
   );
@@ -121,6 +137,7 @@ function FlatChoices(props) {
                 roomType={value.flat_type}
                 price={value.monthly_rent}
                 highlight={props.flatListStyles[index]}
+                isChosen={props.chosenChoices.filter((flat) => flat.id === value.id).length}
                 index={index}
               />
             ))
@@ -129,7 +146,13 @@ function FlatChoices(props) {
       {props.showInfoAction ? (
         // TODO: show saved flat information
         <div className={styles.compareAddInteraction}>
-          <Form page="choiceAdd" onAdd={props.onAdd} onUnsave={props.onUnsave} />
+          <Form
+            page="choiceAddRemove"
+            onAdd={props.onAdd}
+            onRemove={props.onRemove}
+            onUnsave={props.onUnsave}
+            isRemove={props.isRemove}
+          />
         </div>
       ) : (
         ""
@@ -139,12 +162,12 @@ function FlatChoices(props) {
 }
 
 function ChoiceSummary(props) {
-  console.log("choiceSummary", props.chosenChoices);
+  console.log("ChoiceSummary", props.chosenChoices);
   return (
     <div className={styles.choiceSummary}>
       <div className={styles.header}>
         <FontAwesomeIcon icon={faArrowRightArrowLeft} style={{ fontSize: "1.25rem", marginRight: "0.25rem" }} />{" "}
-        Currently comparing:
+        Currently comparing (max 3):
       </div>
       <ul className={styles.summaryList}>
         {props.chosenChoices.length
@@ -157,22 +180,19 @@ function ChoiceSummary(props) {
                   block={value.block}
                   index={index}
                 />
-                {index !== props.chosenChoices.length - 1 ? <div className={styles.vs}>VS</div> : ""}
+                {index !== props.chosenChoices.length - 1 ? (
+                  <div className={styles.vs} key={(value.id.toString() + "VS")}>
+                    VS
+                  </div>
+                ) : (
+                  ""
+                )}
               </>
             ))
           : ""}
       </ul>
       <div className={styles.summaryActionContainer}>
-        {props.chosenChoices.length >= 2 ? (
-          <Form
-            page="choiceSubmit"
-            formState={props.formState}
-            setFormState={props.setFormState}
-            handleSubmit={props.handleSubmit}
-          />
-        ) : (
-          ""
-        )}
+        {props.chosenChoices.length >= 2 ? <Form page="choiceSubmit" handleSubmit={props.handleSubmit} /> : ""}
       </div>
     </div>
   );
