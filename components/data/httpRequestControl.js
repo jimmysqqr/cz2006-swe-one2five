@@ -1,4 +1,4 @@
-const SERVER_IP_PORT = "http://localhost:5000";
+const SERVER_IP_PORT = "http://119.8.186.79";
 
 export function loadData(endpoint, data) {
   let address = SERVER_IP_PORT + endpoint + "?";
