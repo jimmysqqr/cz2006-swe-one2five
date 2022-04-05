@@ -15,24 +15,7 @@ export default function SideBySidePage() {
   console.log(router.query);
 
   const [uuid, setUuid] = useLocalStorage("uuid", v4());
-  const [flatsCompared, setFlatsCompared] = useState([]);
 
-
-  useEffect(() => {
-    loadData(`/api/v1/compare/${uuid}`, {
-      ids: router.query.ids, // ids=1,2,3
-    })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          console.log("Compare Page get initial choices", result);
-          setSavedFlats(result["data"]);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }, [uuid, router.query.ids]);
 
   return (
     <div className="pageContainer">
@@ -52,7 +35,7 @@ export default function SideBySidePage() {
         </div>
         <main>
           <div className="pageContentContainer">
-            <CompareTable uuid={uuid}/>
+            <CompareTable uuid={uuid} ids={router.query.ids}/>
           </div>
         </main>
       </div>

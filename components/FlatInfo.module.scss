@@ -138,12 +138,9 @@ $amenity-btm-margin: 0.35rem;
   }
 }
 
-.amenityList {
-  display: flex;
-  flex-flow: column;
-  max-height: 12.5rem;
+.amenityListContainer {
   overflow-y: auto;
-  padding-right: 1rem;
+  
   &::-webkit-scrollbar {
     width: 3px;
     height: 3px;
@@ -171,6 +168,13 @@ $amenity-btm-margin: 0.35rem;
   &::-webkit-scrollbar-corner {
     background: transparent;
   }
+}
+
+.amenityList {
+  display: flex;
+  flex-flow: column;
+  max-height: 12.5rem;
+  padding-right: 0.5rem;
 
   .amenity {
     font-size: u.$x-small;
@@ -205,5 +209,5 @@ $amenity-btm-margin: 0.35rem;
   right: 0;
   padding: $footer-padding;
   font-size: u.$xx-small;
-  color: u.$grey;
+  color: u.$off-grey;
 }

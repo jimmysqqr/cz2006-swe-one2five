@@ -18,28 +18,31 @@ export function DistanceResults(props) {
   console.log("distance output", props);
   return (
     <div className={styles.distanceResults}>
-      <div className={styles.distanceOutput}>{props.distance}</div>
+      <div className={styles.distanceOutput}>{props.distance ? parseInt(props.distance).toFixed(1) : ""}</div>
       <div className={styles.distanceMeasurement}>km</div>
     </div>
   );
 }
 
 export async function handleDistanceKeyPressHook(inputAddress, flatLatLong) {
-  // use inputAddress and flatAddress to get straight line distance
-  return loadData("/api/v1/distance", {
-    flatLat: flatLatLong? flatLatLong[0] : 0,
-    flatLng: flatLatLong? flatLatLong[1] : 0,
-    dst: inputAddress,
-  })
-    .then((res) => res.json())
-    .then(
-      (result) => {
-        console.log("success", result);
-        return result["distance"] === undefined ? "-" : Math.round((result["distance"]["value"] / 1000) * 10) / 10;
-      },
-      (error) => {
-        console.log("error", error);
-        return "";
-      }
-    );
+  // use inputAddress and flatLatLong to get straight line distance
+
+  if (inputAddress) {
+    return loadData("/api/v1/distance", {
+      flatLat: flatLatLong ? flatLatLong[0] : 0,
+      flatLng: flatLatLong ? flatLatLong[1] : 0,
+      dst: inputAddress,
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log("success", result);
+          return result["distance"] === undefined ? "-" : Math.round((result["distance"]["value"] / 1000) * 10) / 10;
+        },
+        (error) => {
+          console.log("error", error);
+          return "";
+        }
+      );
+  } else return "";
 }

@@ -21,6 +21,15 @@ $list-item-content-spacing: 1rem;
     width: 22rem;
     flex-shrink: 0;
   }
+  &.compareSideBySide {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.1rem;
+    cursor: pointer;
+    &:hover {
+      background: u.$primary-light-off;
+      color: u.$white;
+    }
+  }
 }
 .listItemFlat.highlight {
   background: u.$primary-light-off;

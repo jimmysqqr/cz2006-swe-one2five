@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/router'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { Form } from "/components/Form";
 import { loadData, postData } from "/components/data/httpRequestControl";
+import { capitalizeTheFirstLetterOfEachWord } from "/components/data/formOptions";
+import { ListItemFlat } from "/components/ListItemFlat";
 import { AmenityList, AmenityMap, PriceRange, PriceFuture } from "/components/FlatInfo";
 import { CustomLocationInput, DistanceResults, handleDistanceKeyPressHook } from "/components/CustomLocation";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,8 +15,39 @@ import { CustomLocationInput, DistanceResults, handleDistanceKeyPressHook } from
 import styles from "./CompareTable.module.scss";
 
 export function CompareTable(props) {
+  const router = useRouter();
+
+  const [flatsCompared, setFlatsCompared] = useState([]);
   const [inputAddress, setInputAddress] = useState("");
-  let distance = handleDistanceKeyPressHook(inputAddress, props.flatAddress);
+  const [distances, setDistances] = useState(Array(props.ids.length).fill(""));
+
+  useEffect(() => {
+    if (flatsCompared.length) {
+      console.log("debug useEffect", flatsCompared);
+      let distancePromises = flatsCompared.map((flat) =>
+        handleDistanceKeyPressHook(inputAddress, [flat.data.savedFlat.latitude, flat.data.savedFlat.longitude]).then(
+          (result) => result
+        )
+      );
+      Promise.all(distancePromises).then((newDistances) => setDistances(newDistances));
+    }
+  }, [inputAddress, flatsCompared]);
+
+  useEffect(() => {
+    loadData(`/api/v1/compare/${props.uuid}`, {
+      ids: props.ids, // ids: [1,2,3]
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log("Compare Page get initial choices", result);
+          setFlatsCompared(result);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, [props.uuid, props.ids]);
 
   function handleKeyPress(event) {
     if (event.key === "Enter") {
@@ -21,59 +57,114 @@ export function CompareTable(props) {
     }
   }
 
+  function handleRemove(savedFlatID, flatObject) {
+    console.log("removing:", savedFlatID);
+    let cloneArray = JSON.parse(JSON.stringify(flatsCompared));
+    setFlatsCompared(cloneArray.filter((savedFlat) => savedFlat.data.savedFlat.id !== savedFlatID));
+  }
+
+  function handleAdd(savedFlatID, flatObject) {
+    console.log("adding:", savedFlatID);
+    let queryList = flatsCompared.map((flat) => flat["data"]["savedFlat"]["id"]);
+    queryList.push(savedFlatID);
+    router.replace(
+      {
+        pathname: `/compare/comparison`,
+        query: { ids: queryList },
+      },
+      undefined,
+      { shallow: true }
+    );
+  }
+
   return (
     <div className={styles.compareTable}>
       <div className={styles.compareTableBackground}>
         <div className={styles.headerColumnContainer}>
           <HeaderColumn onKeyPress={handleKeyPress} />
         </div>
-        <div className={styles.flatColumnList}>
-          <FlatColumn type="target" distance={distance} />
-          <FlatColumn type="existing" distance={distance} />
-          <FlatColumn type="target" distance={distance} />
-        </div>
+        <ul className={styles.flatColumnList}>
+          {flatsCompared.length ? (
+            flatsCompared.map((value, index) => (
+              <FlatColumn
+                type="target"
+                distance={distances[index]}
+                key={value["data"]["savedFlat"]["id"]}
+                info={value["data"]}
+                isGroup={parseInt(value["data"]["savedFlat"]["monthly_rent"]) == Math.round(value["data"]["avgPrice"])}
+                onRemove={handleRemove}
+              />
+            ))
+          ) : (
+            <></>
+          )}
+          <AddColumn
+            key={"columnToAddMoreFlats"}
+            uuid={props.uuid}
+            onAdd={handleAdd}
+            idsCompared={new Set(flatsCompared.map((flat) => flat["data"]["savedFlat"]["id"]))}
+          />
+        </ul>
       </div>
     </div>
   );
 }
 
 export function FlatColumn(props) {
+  let savedInfo = props.info;
+
+  function onRemove_inter() {
+    props.onRemove(savedInfo.savedFlat.id, {});
+  }
+
   return (
-    <div className={`${styles.column} ${styles.flat}`}>
+    <li className={`${styles.column} ${styles.flat}`}>
       <div className={styles.headerSection}>
-        <div className={`${styles.location} ${styles.row}`}>Woodlands Crescent Avenue 6 Block 35</div>
+        <div className={`${styles.location} ${styles.row}`}>
+          {capitalizeTheFirstLetterOfEachWord(savedInfo.savedFlat.street_name) + " Blk " + savedInfo.savedFlat.block}
+        </div>
       </div>
       <div className={styles.contentSection}>
-        <div className={`${styles.flatType} ${styles.row}`}>2-Room</div>
+        <div className={`${styles.flatType} ${styles.row}`}>
+          {capitalizeTheFirstLetterOfEachWord(savedInfo.savedFlat.flat_type)}
+        </div>
         <div className={`${styles.amenities} ${styles.row}`}>
-          <div className={styles.mapContainer}>
-            <AmenityMap />
-          </div>
-          <div className={styles.amenityList}>
-            {/* <AmenityList /> */}
+          <div className={styles.mapContainer}>{/* <AmenityMap /> */}</div>
+          <div className={styles.mapInfoCard}>
+            <div className={styles.amenityListContainer}>
+              <AmenityList amenities={savedInfo.amenities.amenityList} />
+            </div>
           </div>
         </div>
         <div className={`${styles.customLocation} ${styles.row}`}>
-          {/* <DistanceResults distance={props.distance} /> */}
+          <DistanceResults distance={props.distance} />
         </div>
         <div className={`${styles.price} ${styles.row}`}>
-          {/* <PriceRange /> */}
+          {props.isGroup ? (
+            <PriceRange
+              calPrice={savedInfo.avgPrice}
+              percentile10={savedInfo.ninetyPer}
+              percentile90={savedInfo.tenPer}
+            />
+          ) : (
+            <PriceRange
+              calPrice={savedInfo.savedFlat.monthly_rent}
+              percentile10={savedInfo.savedFlat.monthly_rent}
+              percentile90={savedInfo.savedFlat.monthly_rent}
+              approvalDate={"placeholder"}
+            />
+          )}
         </div>
         <div className={`${styles.estimate} ${styles.row}`}>
-          {/* <PriceFuture /> */}
+          <PriceFuture futureEst={savedInfo.predictedPrice} />
         </div>
       </div>
       <div className={styles.endSection}>
         <div className={`${styles.actions} ${styles.row}`}>
-          <Form
-            page="comparisonRemove"
-            formState={props.formState}
-            setFormState={props.setFormState}
-            handleSubmit={props.handleSubmit}
-          />
+          <Form page="comparisonRemove" onRemove={onRemove_inter} />
         </div>
       </div>
-    </div>
+    </li>
   );
 }
 
@@ -99,5 +190,69 @@ export function HeaderColumn(props) {
         <div className={`${styles.actions} ${styles.rowHeader}`}></div>
       </div>
     </div>
+  );
+}
+
+export function AddColumn(props) {
+  const [canChoose, setCanChoose] = useState(false);
+  const [moreChoices, setMoreChoices] = useState([]);
+
+
+  useEffect(() => {
+    loadData(`/api/v1/savedFlats/${props.uuid}`, {})
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log("Getting more options", result);
+          let newMoreChoices = result["data"].filter((savedFlat) => !props.idsCompared.has(savedFlat.id));
+          setMoreChoices(newMoreChoices);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, [props.uuid, props.idsCompared]);
+
+  function openChoices() {
+    setCanChoose(true);
+  }
+
+  function handleOnAdd_inter(savedFlatID, flatObject) {
+    setCanChoose(false);
+    props.onAdd(savedFlatID, flatObject);
+  }
+
+  return (
+    <li className={`${styles.column} ${styles.add}`}>
+      <div className={styles.headerSection}></div>
+      <div className={styles.contentSection}>
+        <div className={styles.addContainer}>
+          {canChoose ? (
+            <ul className={styles.addList}>
+              {moreChoices.length
+                ? moreChoices.map((value) => (
+                    <ListItemFlat
+                      type="compareSideBySide"
+                      key={value.id}
+                      savedFlatID={value.id}
+                      onAdd={handleOnAdd_inter}
+                      street={value.street_name}
+                      block={value.block}
+                    />
+                  ))
+                : "No additional saved flats"}
+            </ul>
+          ) : (
+            <div className={styles.addInfo} onClick={openChoices}>
+              <div className={styles.addCircleIcon}>
+                <FontAwesomeIcon icon={faPlus} />
+              </div>
+              <div className={styles.addText}>Add more to comparison</div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className={styles.endSection}></div>
+    </li>
   );
 }

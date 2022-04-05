@@ -35,6 +35,10 @@ export function ListItemFlat(props) {
     });
   }
 
+  function AddFlatSideBySide_inter() {
+    props.onAdd(props.savedFlatID, {});
+  }
+
   let highlight = "";
   if (props.highlight) {
     highlight = styles.highlight;
@@ -107,6 +111,21 @@ export function ListItemFlat(props) {
         ) : (
           ""
         )}
+      </li>
+    );
+  } else if (props.type == "compareSideBySide") {
+    styleType = styles.compareSideBySide;
+
+    return (
+      <li className={`${styles.listItemFlat} ${styleType}`} onClick={AddFlatSideBySide_inter}>
+        <div className={styles.name}>{capitalizeTheFirstLetterOfEachWord(props.street) + " Blk " + props.block}</div>
+        {/* {props.isChosen ? (
+          <div className={styles.chosenMark}>
+            <FontAwesomeIcon icon={faArrowRightArrowLeft} style={{ fontSize: "0.75rem" }} />
+          </div>
+        ) : (
+          ""
+        )} */}
       </li>
     );
   }

@@ -33,7 +33,9 @@ export function SingleInfo(props) {
       <div className={styles.section}>
         <div className={styles.sectionHeader}>Nearby Amenities</div>
         <div className={styles.sectionContent}>
-          <AmenityList amenities={props.amenities} />
+          <div className={styles.amenityListContainer}>
+            <AmenityList amenities={props.amenities} />
+          </div>
         </div>
       </div>
       <div className={styles.section}>
@@ -42,7 +44,13 @@ export function SingleInfo(props) {
           <FlatInfo_CustomLocation latLong={props.latLong} />
         </div>
       </div>
-      <div className={styles.footer}>{props.approvalDate}</div>
+      <div className={styles.footer}>
+        Rental Approval Date:{" "}
+        {new Date(props.approvalDate).toLocaleDateString("en-US", {
+          month: "long",
+          year: "numeric",
+        })}
+      </div>
     </div>
   );
 }
@@ -50,7 +58,7 @@ export function SingleInfo(props) {
 export function PriceRange(props) {
   return (
     <>
-      {Math.round(props.percentile10) != Math.round(props.percentile90) ? (
+      {!props.approvalDate | (Math.round(props.percentile10) != Math.round(props.percentile90)) ? (
         <div className={styles.priceRange}>
           <div className={styles.priceRangeNumberContainer}>
             <div className={styles.numberGroup}>
@@ -75,9 +83,10 @@ export function PriceRange(props) {
         </div>
       ) : (
         <div className={styles.priceRange}>
-            <div className={styles.numberGroup}>
-              <div className={`${styles.number} ${styles.primary}`}>$ {Math.round(props.calPrice)}</div>
-            </div>
+          <div className={styles.numberGroup}>
+            <div className={`${styles.number} ${styles.primary}`}>$ {Math.round(props.calPrice)}</div>
+            <div className={styles.label}>{props.approvalDate ? "Rental price" : "Not enough data to show price distribution"}</div>
+          </div>
         </div>
       )}
     </>
@@ -102,10 +111,9 @@ export function PriceFuture(props) {
 }
 
 export function AmenityList(props) {
-
   let arr = props.amenities;
   if (arr.length) {
-    arr.sort((a, b) => a["dist_from_flat"]["value"] <= b["dist_from_flat"]["value"]? -1 : 1);
+    arr.sort((a, b) => (a["dist_from_flat"]["value"] <= b["dist_from_flat"]["value"] ? -1 : 1));
   }
 
   return (
@@ -114,7 +122,11 @@ export function AmenityList(props) {
         arr.map((value) => (
           <li className={styles.amenity} key={value.place_id}>
             <div className={styles.amenityName}>{value.name}</div>
-            <div className={styles.amenityDistance}>{value["dist_from_flat"]["value"] > 999 ? `${(Math.round(value["dist_from_flat"]["value"]/100)/10).toFixed(1)}km` : `${value["dist_from_flat"]["value"]}m`}</div>
+            <div className={styles.amenityDistance}>
+              {value["dist_from_flat"]["value"] > 999
+                ? `${(Math.round(value["dist_from_flat"]["value"] / 100) / 10).toFixed(1)}km`
+                : `${value["dist_from_flat"]["value"]}m`}
+            </div>
           </li>
         ))
       ) : (
@@ -125,14 +137,11 @@ export function AmenityList(props) {
 }
 
 export function AmenityMap(props) {
-
   console.log(props);
 
-   const key = process.env.Dist_Coords_GGMapsAPIKey;
-  
-  let src = "https://www.google.com/maps/embed/v1/place?" + 
-    "key=" + key +
-    "&q=NTU+North+Spine,Singapore";
+  const key = process.env.Dist_Coords_GGMapsAPIKey;
+
+  let src = "https://www.google.com/maps/embed/v1/place?" + "key=" + key + "&q=NTU+North+Spine,Singapore";
 
   return (
     <div>
@@ -147,16 +156,16 @@ export function AmenityMap(props) {
       >
       </iframe> */}
     </div>
-  )
+  );
 
-  // let src = "https://maps.googleapis.com/maps/api/js? + 
+  // let src = "https://maps.googleapis.com/maps/api/js? +
   // "key=" + process.env.Dist_Coords_GGMapsAPIKey +
-  // "&callback=initMap" + 
+  // "&callback=initMap" +
   // "&v=weekly&channel=2";
 
   // function initMap() {
   //   const middleSG = { lat: 1.34791, lng: 103.83288 };
-  
+
   //   map = new google.maps.Map(document.getElementById("map"), {
   //     zoom: 11,
   //     center: middleSG,
@@ -166,15 +175,13 @@ export function AmenityMap(props) {
   //   });
   // }
 
-
-
   // const [clicks, setClicks] = React.useState();
   // const [zoom, setZoom] = React.useState(3); // initial zoom
   // const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
   //   lat: 0,
   //   lng: 0,
   // });
-  
+
   // const render = (status) => {
   //   return <h1>{status}</h1>;
   // };
@@ -188,7 +195,7 @@ export function AmenityMap(props) {
   // }) => {
   //   const ref = React.useRef<HTMLDivElement>(null);
   //   const [map, setMap] = React.useState();
-  
+
   //   React.useEffect(() => {
   //     if (ref.current && !map) {
   //       setMap(new window.google.maps.Map(ref.current, {}));
@@ -228,12 +235,11 @@ export function AmenityMap(props) {
   // );
 
   //   const middleSG = { lat: 1.34791, lng: 103.83288 };
-  
+
   //   map = new google.maps.Map(document.getElementById("map"), {
   //     zoom: 11,
   //     center: middleSG,
   //   });
- 
 
   // return (
   //   <Wrapper apiKey={"AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM"} >

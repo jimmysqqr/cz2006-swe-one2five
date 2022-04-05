@@ -264,7 +264,7 @@ export function Form(props) {
   } else if (props.page == "comparisonRemove") {
     return (
       <div className={styles.comparisonInteraction}>
-        <div className={`${styles.button} ${styles.secondary}`}>
+        <div className={`${styles.button} ${styles.secondary}`} onClick={props.onRemove}>
           <FontAwesomeIcon icon={faCircleMinus} style={{ fontSize: "1rem", opacity: "0.75", marginRight: "0.5rem" }} />{" "}
           Remove from comparison
         </div>
