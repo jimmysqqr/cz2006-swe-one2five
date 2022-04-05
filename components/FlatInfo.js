@@ -164,7 +164,7 @@ export function AmenityMap(props) {
   // }
   let locationIcon = {};
   let amenityIcon = {};
-  if (typeof window !== "undefined") {
+  if (typeof window !== "undefined" & typeof window.google !== "undefined") {
     console.log(window.google);
     locationIcon = {
       url: locationPin.src,
@@ -181,8 +181,8 @@ export function AmenityMap(props) {
   }
 
   // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     console.log(window.google);
+  //   if (typeof window !== "undefined" & typeof window.google !== "undefined") {
+  //     console.log("window.google", window.google);
   //     locationIcon = {
   //       url: locationPin.src,
   //       scaledSize: new window.google.maps.Size(50, 50),
