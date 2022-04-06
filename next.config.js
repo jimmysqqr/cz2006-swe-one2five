@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    AMENITIES_GGMapsAPIKey: "AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM",
+    AMENITIES_GGMAPSAPIKEY: "AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM",
   },
 };
 
