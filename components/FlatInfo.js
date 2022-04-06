@@ -46,7 +46,7 @@ export function SingleInfo(props) {
       <div className={styles.section}>
         <div className={styles.sectionHeader}>Distance to Custom Location</div>
         <div className={styles.sectionContent}>
-          <FlatInfo_CustomLocation latLong={props.latLong} />
+          <FlatInfo_CustomLocation latLng={{ lat: props.lat, lng: props.lng }} />
         </div>
       </div>
       <div className={styles.footer}>
@@ -154,7 +154,7 @@ export function AmenityList(props) {
 
 export function AmenityMap(props) {
   console.log(props);
-  let zoom = props.latLong ? 15.5 : 10;
+  let zoom = (props.center.lat == props.latLng.lat) & (props.center.lang == props.latLng.lng) ? 15.5 : 17;
 
   // function onClick(event) {
   //   console.log("click", event);
@@ -162,8 +162,8 @@ export function AmenityMap(props) {
   // function onIdle(event) {
   //   console.log("idle", event);
   // }
-  let locationIcon = {url: locationPin.src};
-  let amenityIcon = {url: amenityPin.src};
+  let locationIcon = { url: locationPin.src };
+  let amenityIcon = { url: amenityPin.src };
   // if (typeof window !== "undefined") {
   //   if (typeof window.google !== undefined) {
   //     console.log(window.google);
@@ -209,7 +209,7 @@ export function AmenityMap(props) {
         zoom={zoom}
         style={{ flexGrow: "1", height: "100%" }}
       >
-        <Marker key={"flat"} onClick={() => props.onMarkerClick("")} position={props.latLong} icon={locationIcon} />
+        <Marker key={"flat"} onClick={() => props.onMarkerClick("")} position={props.latLng} icon={locationIcon} />
         {props.amenities
           ? props.amenities.map((amenity) => (
               <Marker
@@ -317,7 +317,7 @@ export function FlatInfo_CustomLocation(props) {
     if (event.key === "Enter") {
       let changedValue = event.target.value;
       console.log(changedValue);
-      handleDistanceKeyPressHook(changedValue, props.latLong).then((result) => {
+      handleDistanceKeyPressHook(changedValue, props.latLng).then((result) => {
         console.log("hook done", result);
         setDistance(result);
       });

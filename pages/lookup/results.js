@@ -24,10 +24,10 @@ export default function LookupResultsPage() {
     percentile10: "",
     percentile90: "",
     futureEst: "",
-    map: "",
+    lat: "",
+    lng: "",
     amenities: "",
     similarCount: "",
-    approvalDate: "",
   });
   const [uuid, setUuid] = useLocalStorage("uuid", v4());
   const [isSaved, setIsSaved] = useState(false);
@@ -64,7 +64,7 @@ export default function LookupResultsPage() {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log(result);
+          console.log("Lookup", result);
           let data = result["data"];
           setForm({
             street: data["targetFlat"]["street_name"],
@@ -75,7 +75,8 @@ export default function LookupResultsPage() {
             percentile10: data["tenPer"],
             percentile90: data["ninetyPer"],
             futureEst: data["predictedPrice"],
-            latLong: [data["targetFlat"]["latitude"], data["targetFlat"]["longitude"]],
+            lat: data["targetFlat"]["latitude"],
+            lng: data["targetFlat"]["longitude"],
             amenities: data["amenities"]["amenityList"],
             similarCount: data["similarFlatsFound"],
           }); // does not have approval date as lookup flat does not return it

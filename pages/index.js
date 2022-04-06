@@ -13,10 +13,11 @@ import { roomValuetoDisplay } from "/components/data/formOptions";
 export default function LookupPage() {
   const router = useRouter();
 
+  let roomOptions_compulsory = roomValuetoDisplay.slice(1)
   const [form, setForm] = useState({
     targetStreet: "",
     targetBlock: "",
-    roomType: roomValuetoDisplay[0][0],
+    roomType: roomOptions_compulsory[0][0],
   });
   const [uuid, setUuid] = useLocalStorage("uuid", v4());
 
@@ -58,7 +59,7 @@ export default function LookupPage() {
             <div className="pageSubtitle">Enter its address here and find out!</div>
           </div>
           <div className="pageContentContainer">
-            <Form page="lookup" formState={form} setFormState={setForm} handleSubmit={handleSubmit} options={{roomType: roomValuetoDisplay}}/>
+            <Form page="lookup" formState={form} setFormState={setForm} handleSubmit={handleSubmit} options={{roomType: roomOptions_compulsory}}/>
           </div>
         </main>
       </div>

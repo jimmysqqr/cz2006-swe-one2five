@@ -17,7 +17,8 @@ export function ChooseFlats(props) {
     id: "",
     street: "",
     block: "",
-    latLong: "",
+    lat: "",
+    lng: "",
     amenities: "",
   });
   const [flatListStyles, setFlatListStyles] = useState(Array(props.savedFlats? props.savedFlats.length : 0).fill(false));
@@ -73,7 +74,8 @@ export function ChooseFlats(props) {
       //       let data = result["data"];
       setSelectedFlat({
         id: savedFlatID,
-        latLong: flatObject.latLong,
+        lat: flatObject.lat,
+        lng: flatObject.lng,
         street: flatObject.street,
         block: flatObject.block,
         // amenities: data.amenityList

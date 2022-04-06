@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./SearchResults.module.scss";
 
 import { Form } from "/components/Form";
@@ -8,9 +8,32 @@ import { AggregateInfo, SingleInfo, AmenityMap } from "/components/FlatInfo";
 import { amenityValueToDisplay, roomValuetoDisplay } from "/components/data/formOptions";
 
 export function SearchResults(props) {
-
   let aggData = props.results.aggData;
   let flatList = props.results.flatList;
+
+  const [currentIDHighlight, setCurrentIDHighlight] = useState("");
+  const [center, setCenter] = useState({ lat: 1.3521, lng: 103.8198 });
+
+
+  useEffect(() => {
+    if (props.selectedFlat.lat & props.selectedFlat.lng) {
+      setCenter({ lat: props.selectedFlat.lat, lng: props.selectedFlat.lng });
+    }
+  }, [props.selectedFlat]);
+
+  function handleMarkerClick(placeID) {
+    setCurrentIDHighlight(placeID);
+  }
+
+  function handleAmenityItemClick(placeID, latLng) {
+    setCurrentIDHighlight(placeID);
+    setCenter(latLng);
+  }
+
+  function handleListItemClick_inter(flatID, flatObject) {
+    setCurrentIDHighlight("");
+    props.handleListItemClick(flatID, flatObject);
+  }
 
   return (
     <div className={styles.searchResultsContainer}>
@@ -25,7 +48,7 @@ export function SearchResults(props) {
         <div className={styles.sizeLeft}>
           <div className={styles.scrollContainer}>
             <ListSearchedFlats
-              onClick={props.handleListItemClick}
+              onClick={handleListItemClick_inter}
               onSavedClick={props.onSavedClick}
               results={flatList}
               flatListStyles={props.flatListStyles}
@@ -47,12 +70,20 @@ export function SearchResults(props) {
               <div className={styles.space1}>
                 <SingleInfo
                   amenities={props.selectedFlat.amenities}
-                  latLong={props.selectedFlat.latLong}
+                  lat={props.selectedFlat.lat}
+                  lng={props.selectedFlat.lng}
                   approvalDate={props.selectedFlat.approvalDate}
+                  currentIDHighlight={currentIDHighlight}
+                  onClick={handleAmenityItemClick}
                 />
               </div>
               <div className={styles.space2}>
-                <AmenityMap amenities={props.selectedFlat.amenities} latLong={props.selectedFlat.latLong} />
+                <AmenityMap
+                  amenities={props.selectedFlat.amenities}
+                  center={center}
+                  onMarkerClick={handleMarkerClick}
+                  latLng={{ lat: props.selectedFlat.lat, lng: props.selectedFlat.lng }}
+                />
               </div>
             </React.Fragment>
           )}
@@ -80,7 +111,8 @@ export function ListSearchedFlats(props) {
             roomType={value.flat_type}
             price={value.monthly_rent}
             approvalDate={value.rental_approval_date}
-            latLong={[value.latitude, value.longitude]}
+            lat={value.latitude}
+            lng={value.longitude}
             highlight={props.flatListStyles[index]}
             index={index}
             isSaved={savedFlatIDs.has(value.id)}

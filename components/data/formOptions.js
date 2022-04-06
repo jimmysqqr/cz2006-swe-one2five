@@ -4,6 +4,8 @@ export var roomValuetoDisplay = [
   ["2-room", "2-Room"],
   ["3-room", "3-Room"],
   ["4-room", "4-Room"],
+  ["5-room", "5-Room"],
+  ["executive", "Executive"],
 ];
 
 export var amenityValueToDisplay = [

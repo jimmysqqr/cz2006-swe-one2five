@@ -24,13 +24,13 @@ export function DistanceResults(props) {
   );
 }
 
-export async function handleDistanceKeyPressHook(inputAddress, flatLatLong) {
-  // use inputAddress and flatLatLong to get straight line distance
+export async function handleDistanceKeyPressHook(inputAddress, flatLatLng) {
+  // use inputAddress and flatLatLng to get straight line distance
 
   if (inputAddress) {
     return loadData("/api/v1/distance", {
-      flatLat: flatLatLong ? flatLatLong[0] : 0,
-      flatLng: flatLatLong ? flatLatLong[1] : 0,
+      flatLat: flatLatLng.lat,
+      flatLng: flatLatLng.lng,
       dst: inputAddress,
     })
       .then((res) => res.json())

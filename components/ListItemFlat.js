@@ -10,7 +10,8 @@ export function ListItemFlat(props) {
   function selectFlat_inter() {
     props.onClick(props.flatID, {
       approvalDate: props.approvalDate,
-      latLong: props.latLong,
+      lat: props.lat,
+      lng: props.lng,
       index: props.index,
     });
   }
@@ -28,7 +29,8 @@ export function ListItemFlat(props) {
 
   function selectSavedFlat_inter() {
     props.onClick(props.savedFlatID, {
-      latLong: props.latLong,
+      lat: props.lat,
+      lng: props.lng,
       index: props.index,
       street: props.street,
       block: props.block,

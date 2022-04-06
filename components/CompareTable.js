@@ -23,7 +23,6 @@ export function CompareTable(props) {
 
   useEffect(() => {
     if (flatsCompared.length) {
-      console.log("debug useEffect", flatsCompared);
       let distancePromises = flatsCompared.map((flat) =>
         handleDistanceKeyPressHook(inputAddress, [flat.data.savedFlat.latitude, flat.data.savedFlat.longitude]).then(
           (result) => result
@@ -40,7 +39,7 @@ export function CompareTable(props) {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log("Compare Page get initial choices", result);
+          console.log("Compare Table get compared flats", result);
           setFlatsCompared(result);
         },
         (error) => {
@@ -148,7 +147,7 @@ export function FlatColumn(props) {
           <div className={styles.mapContainer}>
             <AmenityMap
               amenities={savedInfo.amenities.amenityList}
-              latLong={{ lat: savedInfo.savedFlat.latitude, lng: savedInfo.savedFlat.longitude }}
+              latLng={{ lat: savedInfo.savedFlat.latitude, lng: savedInfo.savedFlat.longitude }}
               center={center}
               onMarkerClick={handleMarkerClick}
             />
@@ -170,8 +169,8 @@ export function FlatColumn(props) {
           {props.isGroup ? (
             <PriceRange
               calPrice={savedInfo.avgPrice}
-              percentile10={savedInfo.ninetyPer}
-              percentile90={savedInfo.tenPer}
+              percentile10={savedInfo.tenPer}
+              percentile90={savedInfo.ninetyPer}
             />
           ) : (
             <PriceRange

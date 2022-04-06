@@ -12,9 +12,10 @@ export function LookupResults(props) {
   const [currentIDHighlight, setCurrentIDHighlight] = useState("");
   const [center, setCenter] = useState({ lat: 1.3521, lng: 103.8198 });
 
+  
   useEffect(() => {
-    if (form.latLong) {
-      setCenter({ lat: form.latLong[0], lng: form.latLong[1] });
+    if (form.lat & form.lng) {
+      setCenter({ lat: form.lat, lng: form.lng });
     }
   }, [form]);
 
@@ -42,8 +43,8 @@ export function LookupResults(props) {
         <div className={styles.space2}>
           <SingleInfo
             amenities={form.amenities}
-            latLong={form.latLong}
-            approvalDate={form.approvalDate}
+            lat={form.lat}
+            lng={form.lng}
             currentIDHighlight={currentIDHighlight}
             onClick={handleAmenityItemClick}
           />
@@ -51,14 +52,10 @@ export function LookupResults(props) {
         <div className={styles.space3}>
           <AmenityMap
             amenities={form.amenities}
-            latLong={
-              form.latLong
-                ? {
-                    lat: form.latLong[0],
-                    lng: form.latLong[1],
-                  }
-                : center
-            }
+            latLng={{
+              lat: form.lat,
+              lng: form.lng,
+            }}
             center={center}
             onMarkerClick={handleMarkerClick}
           />

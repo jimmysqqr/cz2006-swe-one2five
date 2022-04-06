@@ -27,7 +27,8 @@ export default function SearchResultsPage() {
   const [flatListStyles, setFlatListStyles] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState({
     flatID: "",
-    latLong: "",
+    lat: "",
+    lng: "",
     amenities: "",
     approvalDate: "",
   });
@@ -149,7 +150,8 @@ export default function SearchResultsPage() {
             let data = result["data"];
             setSelectedFlat({
               flatID: flatID,
-              latLong: flatObject.latLong,
+              lat: flatObject.lat,
+              lng: flatObject.lng,
               amenities: data.amenityList,
               approvalDate: flatObject.approvalDate,
             });
