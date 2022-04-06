@@ -201,7 +201,7 @@ export function AmenityMap(props) {
   // }, [window]);
 
   return (
-    <Wrapper apiKey={process.env.AMENITIES_GGMAPSAPIKEY}>
+    <Wrapper apiKey={"AIzaSyB4C3UfSaq-9qQXITAIHjCFCUqBWP2nUzM"}>
       <Map
         center={props.center}
         // onClick={onClick}
