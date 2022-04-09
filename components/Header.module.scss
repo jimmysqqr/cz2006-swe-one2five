@@ -61,7 +61,7 @@
         justify-content: center;
         border-radius: 50%;
         color: u.$white;
-        background-color: u.$secondary-light;
+        background-color: u.$primary-accent;
         font-family: 'Quicksand';
         font-weight: 400;
         font-size: u.$xx-small;
@@ -74,7 +74,7 @@
     }
     a.active {
       border: none;
-      background: u.$primary-light-off;
+      background: u.$secondary-light;
     }
   }
 }

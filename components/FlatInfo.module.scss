@@ -187,11 +187,11 @@ $amenity-btm-margin: 0.35rem;
     cursor: pointer;
 
     &.highlight {
-      background-color: u.$secondary-light;
+      background-color: u.$primary-accent;
       color: u.$white;
     }
     &:hover {
-      background-color: u.$secondary-light;
+      background-color: u.$primary-accent;
       color: u.$white;
     }
   }
