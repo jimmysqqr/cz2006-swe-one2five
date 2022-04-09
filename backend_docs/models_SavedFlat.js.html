@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/SavedFlat.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/SavedFlat.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const dbConn = require('../config/dbConfig');
+
+// Attributes of SavedFlat object
+const SavedFlat = function(savedflat) {
+    this.town = savedflat.town;
+    this.block = savedflat.block;
+    this.street_name = savedflat.street_name;
+    this.flat_type = savedflat.flat_type;
+    this.flat_status = savedflat.flat_status;
+    this.monthly_rent = savedflat.monthly_rent;
+    this.latitude = savedflat.latitude;
+    this.longitude = savedflat.longitude;
+    this.userToken = savedflat.userToken;
+    this.rented_out_id = savedflat.rented_out_id;
+};
+
+/**
+ * Method to get all saved flats for a userToken
+ * 
+ * @param {string} userToken 
+ * @param {*} result 
+ */
+SavedFlat.getAll = (userToken, result) => {
+    dbConn.query(`SELECT * FROM savedflats WHERE userToken = '${userToken}'`, (err, res) => {
+        if (err) {
+            console.log(err);
+            result(err, null);
+            return;
+        }
+        console.log("All saved flats fetched")
+        result(null, res);
+    })
+};
+
+/**
+ * Method to get a saved flat by id for a userToken
+ * 
+ * @param {number|string} id 
+ * @param {string} userToken 
+ * @returns {Promise}
+ */
+SavedFlat.getById = async (id, userToken) => {
+    return dbConn.promise().execute(`SELECT * FROM savedflats WHERE id = ${id} AND userToken = '${userToken}'`);
+};
+
+/**
+ * Method to create a new saved flat
+ * 
+ * @param {SavedFlat} newSavedFlat 
+ * @param {*} result 
+ */
+SavedFlat.create = (newSavedFlat, result) => {
+    dbConn.query(`INSERT INTO savedflats SET ?`, newSavedFlat, (err, res) => {
+        if (err) {
+            console.log(err);
+            result(err, null);
+            return;
+        }
+        result(null, { id: res.insertId, ...newSavedFlat });
+        console.log("save flat! ", { id: res.insertId, ...newSavedFlat });
+    });
+};
+
+/**
+ * Method to delete a saved flat of id for a userToken
+ * 
+ * @param {number|string} id 
+ * @param {string} userToken 
+ * @param {*} result 
+ */
+SavedFlat.remove = (id, userToken, result) => {
+    dbConn.query(`DELETE FROM savedflats WHERE id = ${id} AND userToken = '${userToken}'`, (err, res) => {
+        if (err) {
+            console.log(err);
+            result(null, err);
+            return;
+        }
+        if (res.affectedRows == 0) {
+            // cannot find saved flat with the given id
+            console.log(`No saved flat with id ${id}`);
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("Deleted saved flat with id ", id);
+        result(null, res);
+    });
+};
+
+module.exports = SavedFlat;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#amenityTypes">amenityTypes</a></li><li><a href="global.html#avgCalc">avgCalc</a></li><li><a href="global.html#calcCusLocDist">calcCusLocDist</a></li><li><a href="global.html#calcDistance">calcDistance</a></li><li><a href="global.html#calcDistanceMD">calcDistanceMD</a></li><li><a href="global.html#compare">compare</a></li><li><a href="global.html#compare1">compare1</a></li><li><a href="global.html#createSavedFlat">createSavedFlat</a></li><li><a href="global.html#deleteSavedFlat">deleteSavedFlat</a></li><li><a href="global.html#findAllNearbyAmenities">findAllNearbyAmenities</a></li><li><a href="global.html#findCoords">findCoords</a></li><li><a href="global.html#findFlatCoords">findFlatCoords</a></li><li><a href="global.html#findNearbyAmenities">findNearbyAmenities</a></li><li><a href="global.html#findSimilarFlats">findSimilarFlats</a></li><li><a href="global.html#flatTypes">flatTypes</a></li><li><a href="global.html#getAllRentedFlats">getAllRentedFlats</a></li><li><a href="global.html#getAllSavedFlats">getAllSavedFlats</a></li><li><a href="global.html#getHDB">getHDB</a></li><li><a href="global.html#getRentedFlat">getRentedFlat</a></li><li><a href="global.html#getSavedFlat">getSavedFlat</a></li><li><a href="global.html#lookup">lookup</a></li><li><a href="global.html#percentileCalc">percentileCalc</a></li><li><a href="global.html#predictPrice">predictPrice</a></li><li><a href="global.html#searchByAmenity">searchByAmenity</a></li><li><a href="global.html#searchRentedFlats">searchRentedFlats</a></li><li><a href="global.html#town_legend">town_legend</a></li><li><a href="global.html#viewFlatDetails">viewFlatDetails</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Apr 09 2022 16:02:03 GMT+0800 (Singapore Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

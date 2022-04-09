@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start -p $PORT",
     "lint": "next lint",
-    "test": "nodemon app.js"
+    "test": "nodemon app.js",
+    "doc": "jsdoc -c backend_jsdoc.json"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.0",
@@ -34,6 +35,7 @@
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
     "express-async-errors": "^3.1.1",
+    "jsdoc": "^3.6.10",
     "nodemon": "^2.0.15",
     "sass": "^1.49.9"
   }

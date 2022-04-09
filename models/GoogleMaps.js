@@ -1,6 +1,5 @@
 const axios = require('axios');
 const {Client} = require("@googlemaps/google-maps-services-js");
-require('dotenv').config();
 
 /**
  * Function to find nearby amenities of a particular type around a particular flat
@@ -45,7 +44,7 @@ const findCoords = async (address) => {
 /**
  * Function to find the road distance between src (1 place - coords) and dst (address)
  * 
- * @param {[]} src 
+ * @param {number[]|string[]} src 
  * @param {string} dst 
  * @returns {Promise}
  */
@@ -61,9 +60,9 @@ const calcDistance = async (src, dst) => {
 /**
  * Function to find the road distance between src (1 place - coords) and dst (addresses)
  * 
- * @param {[]} src 
- * @param {[]} dst 
- * @returns 
+ * @param {number[]|string[]} src 
+ * @param {string[]} dst 
+ * @returns {Promise}
  */
 const calcDistanceMD = async (src, dst) => {
     let url = 'https://maps.googleapis.com/maps/api/distancematrix/json?' +

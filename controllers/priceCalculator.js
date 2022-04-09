@@ -1,7 +1,7 @@
 /**
  * Function to calculate the average price of a list of flats
  * 
- * @param {[]} flatList 
+ * @param {*} flatList 
  * @returns {number}
  */
 const avgCalc = (flatList) => {
@@ -15,7 +15,7 @@ const avgCalc = (flatList) => {
 /**
  * Function to calculate the 10th and 90th percentile price of a list of flats
  * 
- * @param {[]} flatList 
+ * @param {*} flatList 
  * @returns {number[]}
  */
 const percentileCalc = (flatList) => {
@@ -39,7 +39,7 @@ const percentileCalc = (flatList) => {
 /**
  * Function to predict the future price of a specific flat based on rented-out flats that are similar to the Target Flat
  * 
- * @param {[]} flatList 
+ * @param {*} flatList 
  * @returns {number}
  */
 const predictPrice = (flatList) => {
