@@ -206,7 +206,7 @@ export function HeaderColumn(props) {
         <div className={`${styles.customLocation}`}>
           <div className={styles.rowHeader}>Distance to</div>
           <div className={styles.customInputContainer}>
-            <CustomLocationInput onKeyPress={props.handleKeyPress} />
+            <CustomLocationInput onKeyPress={props.onKeyPress} />
           </div>
         </div>
         <div className={`${styles.price} ${styles.rowHeader}`}>Calculated Market Price</div>
