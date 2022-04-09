@@ -1,4 +1,9 @@
-// Method to calculate the average price of a list of flats
+/**
+ * Function to calculate the average price of a list of flats
+ * 
+ * @param {[]} flatList 
+ * @returns {number}
+ */
 const avgCalc = (flatList) => {
 	let sum = 0;
 	for (let flat of flatList) {
@@ -7,7 +12,12 @@ const avgCalc = (flatList) => {
 	return sum / flatList.length;
 };
 
-// Method to calculate the 10th and 90th percentile price of a list of flats
+/**
+ * Function to calculate the 10th and 90th percentile price of a list of flats
+ * 
+ * @param {[]} flatList 
+ * @returns {number[]}
+ */
 const percentileCalc = (flatList) => {
 	const asc = (arr) => arr.sort((a, b) => a - b); // sort array ascending
 	const priceList = asc(flatList.map((flat) => parseInt(flat.monthly_rent)));
@@ -26,7 +36,12 @@ const percentileCalc = (flatList) => {
 	return [pctl(priceList, 0.1), pctl(priceList, 0.9)];
 };
 
-// Method to predict the future price of a specific flat based on rented-out flats that are similar to the Target Flat
+/**
+ * Function to predict the future price of a specific flat based on rented-out flats that are similar to the Target Flat
+ * 
+ * @param {[]} flatList 
+ * @returns {number}
+ */
 const predictPrice = (flatList) => {
 	// adapted from https://www.geeksforgeeks.org/linear-regression-python-implementation/
 

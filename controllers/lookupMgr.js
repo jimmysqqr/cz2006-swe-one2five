@@ -4,7 +4,21 @@ const {findAllNearbyAmenities} = require('../controllers/googleMapsTool');
 const findSimilarFlats = require('./similarFlatFinder');
 const {avgCalc, percentileCalc, predictPrice} = require('./priceCalculator');
 
+/**
+ * Function to lookup a Target Flat
+ * 
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ */
 const lookup = async (req, res) => {
+    // Check if all input fields are provided
+    if (!req.query.block || !req.query.street_name || !req.query.flatType) {
+        console.log(`Error: Lacking input field(s)!`);
+        res.status(400).json({
+            message: "Error: Lacking input field(s)!"
+        });
+    }
+    
     // Check if the inputted HDB address is valid
     const [rows, fields] = await getHDB(req.query.block, req.query.street_name).catch((err) => {
         console.log(err);
@@ -33,8 +47,13 @@ const lookup = async (req, res) => {
     const coords = await findFlatCoords(req.query.block, req.query.street_name).catch((err) => {
         console.log(err);
     });
-    if (coords.data.found == 0)
+    if (coords.data.found == 0) {
         console.log("Cannot find the coordinates of the TargetFlat");
+        res.status(500).json({
+            message: "Cannot find the coordinates of the TargetFlat"
+        });
+        return;
+    }
     else {
         lat = parseFloat(coords.data.results[0].LATITUDE);
         lon = parseFloat(coords.data.results[0].LONGITUDE);

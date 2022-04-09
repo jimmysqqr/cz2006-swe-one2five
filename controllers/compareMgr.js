@@ -3,6 +3,13 @@ const {findAllNearbyAmenities} = require('../controllers/googleMapsTool');
 const findSimilarFlats = require('./similarFlatFinder');
 const {avgCalc, percentileCalc, predictPrice} = require('./priceCalculator');
 
+/**
+ * Function to fetch all info for 1 saved flat for comparison
+ * 
+ * @param {number|string} id
+ * @param {string} userToken
+ * @returns {Promise} All info of 1 saved flat used for comparison
+ */
 const compare1 = async (id, userToken) => {
     // Fetch the saved flats used for comparison
     const [rows, fields] = await SavedFlat.getById(id, userToken).catch(err => {
@@ -76,6 +83,12 @@ const compare1 = async (id, userToken) => {
     }));
 }
 
+/**
+ * Function to compare side-by-side between saved flats
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const compare = async (req, res) => {
     // Process input - What are the saved flats (according to id) used for comparison?
     let ids = req.query.ids;

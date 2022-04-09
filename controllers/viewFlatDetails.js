@@ -2,6 +2,13 @@ const {findAllNearbyAmenities} = require('../controllers/googleMapsTool');
 const RentedOutFlat = require('../models/RentedOutFlat');
 const SavedFlat = require('../models/SavedFlat');
 
+
+/**
+ * Function to fetch all info of a particular flat
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const viewFlatDetails = async (req, res) => {
     if (req.query.flatStatus == "rented-out") {
         // Find the rented-out flat with that id

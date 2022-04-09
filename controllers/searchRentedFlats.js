@@ -1,11 +1,81 @@
 const RentedOutFlat = require('../models/RentedOutFlat');
+const {town_legend, flatTypes} = require('../models/HDB');
+const amenityTypes = require('../models/Amenity');
 const {searchByAmenity} = require('./googleMapsTool');
 const {avgCalc, percentileCalc, predictPrice} = require('./priceCalculator');
 
-// Search for rented-out flats based on town, flat_type, price, and nearby amenity
+/**
+ * Function to search for rented-out flats based on town, flat_type, price, and nearby amenity
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const searchRentedFlats = async (req, res) => {
     const { town, flatType, numericFilters, amenityType, amenityDist } = req.query;
-    // console.log(town, flatType, numericFilters, amenityType, amenityDist);
+
+    // Prevent users from searching with only the amenity filter
+    if (!(town || flatType || numericFilters) && amenityType) {
+        console.log("Operation will overflow Google API Credits");
+        res.status(400).json(
+            {
+                message: "Cannot carry out the operation because of Google API Credits limit"
+            }
+        );
+        return;
+    }
+
+    // Check town's validity
+    if(town && !(Object.values(town_legend).includes(town.toUpperCase()))) {
+        console.log("Invalid Town");
+        res.status(400).json(
+            {
+                message: "Invalid Town"
+            }
+        );
+        return;
+    }
+
+    // Check flatType's validity
+    if (flatType && !(flatTypes.includes(flatType.toUpperCase()))) {
+        console.log("Invalid Flat Type");
+        res.status(400).json(
+            {
+                message: "Invalid Flat Type"
+            }
+        );
+        return;
+    }
+
+    // Check amenity filters' validity
+    if (!amenityType && amenityDist) {
+        console.log("Amenity Distance must be empty if Amenity Type is empty");
+        res.status(400).json(
+            {
+                message: "Amenity Distance must be empty if Amenity Type is empty"
+            }
+        );
+        return;
+    }
+
+    if (amenityType && !(amenityTypes.includes(amenityType))) {
+        console.log("Invalid Amenity Type");
+        res.status(400).json(
+            {
+                message: "Invalid Amenity Type"
+            }
+        );
+        return;
+    }
+
+    if (amenityDist && (Number.isNaN(amenityDist) || amenityDist < 50)) {
+        console.log("Amenity Distance must be a number");
+        res.status(400).json(
+            {
+                message: "Amenity Distance must be a positive number larger than or equal to 50"
+            }
+        );
+        return;
+    }
 
     // // If no search filter is inputted, return the whole list of rented-out flats
     // if (!(town || flatType || numericFilters || amenityType || amenityDist)) {
@@ -61,8 +131,19 @@ const searchRentedFlats = async (req, res) => {
             }
         );
     });
-    console.log("Search performed!");
-    console.log(`${rows.length} results`);
+    //console.log("Search performed!");
+    //console.log(`${rows.length} results`);
+
+    // Only perform the search if no. of Nearby API requests is fewer than or equal to 2000
+    if (amenityType && rows.length > 2000) {
+        console.log("Cannot search by amenities on more than 2000 flat results");
+        res.status(400).json(
+            {
+                message: "Cannot search by amenities on more than 2000 flat results"
+            }
+        );
+        return;
+    }
 
     // Check if amenityType param is not null
     if (amenityType) { // Search_by_amenity
@@ -73,8 +154,8 @@ const searchRentedFlats = async (req, res) => {
                 }
             );
         });
-        console.log("SearchByAmenity performed!");
-        console.log(`${rows.length} results`);
+        //console.log("SearchByAmenity performed!");
+        //console.log(`${rows.length} results`);
     }
     // Calc aggregated price statistics
     const avgPrice = avgCalc(rows);
@@ -101,8 +182,12 @@ const searchRentedFlats = async (req, res) => {
     }
 }
 
-
-// Get all rented-out flats
+/**
+ * Function to get all rented-out flats
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res
+ */
 const getAllRentedFlats = (req, res) => {
     RentedOutFlat.getAll((err, data) => {
         if (err)
@@ -118,7 +203,12 @@ const getAllRentedFlats = (req, res) => {
     })
 }
 
-// Get a rented-out flat by id
+/**
+ * Function to get a rented-out flat by id
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res
+ */ 
 const getRentedFlat = async (req, res) => {
     const [rows, fields] = await RentedOutFlat.getById(req.params.id).catch(err => {
         console.log(err);

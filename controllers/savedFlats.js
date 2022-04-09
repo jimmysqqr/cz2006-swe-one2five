@@ -1,7 +1,12 @@
 const SavedFlat = require('../models/SavedFlat');
 const findFlatCoords = require('../models/OneMap');
 
-// Get all saved flats
+/**
+ * Function to get all saved flats
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const getAllSavedFlats = (req, res) => {
     SavedFlat.getAll(req.params.userToken, (err, data) => {
         if (err) {
@@ -16,7 +21,12 @@ const getAllSavedFlats = (req, res) => {
     })
 }
 
-// Get saved flat by id
+/**
+ * Function to get saved flat by id
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const getSavedFlat = async (req, res) => {
     const [rows, fields] = await SavedFlat.getById(req.params.id, req.params.userToken).catch(err => {
         console.log(err);
@@ -38,7 +48,12 @@ const getSavedFlat = async (req, res) => {
     }
 }
 
-// Create a new saved flat
+/**
+ * Function to create a new saved flat
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const createSavedFlat = async (req, res) => {
     // Check if input is empty
     if (!req.body) {
@@ -110,7 +125,12 @@ const createSavedFlat = async (req, res) => {
     });
 }
 
-// Delete a saved flat
+/**
+ * Function to delete a saved flat
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const deleteSavedFlat = (req, res) => {
     // res.send('delete saved flat of id x');
     SavedFlat.remove(req.params.id, req.params.userToken, (err, data) => {

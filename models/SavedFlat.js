@@ -14,7 +14,12 @@ const SavedFlat = function(savedflat) {
     this.rented_out_id = savedflat.rented_out_id;
 };
 
-// Method to get all saved flats for a userToken
+/**
+ * Method to get all saved flats for a userToken
+ * 
+ * @param {string} userToken 
+ * @param {*} result 
+ */
 SavedFlat.getAll = (userToken, result) => {
     dbConn.query(`SELECT * FROM savedflats WHERE userToken = '${userToken}'`, (err, res) => {
         if (err) {
@@ -27,12 +32,23 @@ SavedFlat.getAll = (userToken, result) => {
     })
 };
 
-// Method to get a saved flat by id for a userToken
+/**
+ * Method to get a saved flat by id for a userToken
+ * 
+ * @param {number|string} id 
+ * @param {string} userToken 
+ * @returns {Promise}
+ */
 SavedFlat.getById = async (id, userToken) => {
     return dbConn.promise().execute(`SELECT * FROM savedflats WHERE id = ${id} AND userToken = '${userToken}'`);
 };
 
-// Method to create a new saved flat
+/**
+ * Method to create a new saved flat
+ * 
+ * @param {SavedFlat} newSavedFlat 
+ * @param {*} result 
+ */
 SavedFlat.create = (newSavedFlat, result) => {
     dbConn.query(`INSERT INTO savedflats SET ?`, newSavedFlat, (err, res) => {
         if (err) {
@@ -45,7 +61,13 @@ SavedFlat.create = (newSavedFlat, result) => {
     });
 };
 
-// Method to delete a saved flat of id for a userToken
+/**
+ * Method to delete a saved flat of id for a userToken
+ * 
+ * @param {number|string} id 
+ * @param {string} userToken 
+ * @param {*} result 
+ */
 SavedFlat.remove = (id, userToken, result) => {
     dbConn.query(`DELETE FROM savedflats WHERE id = ${id} AND userToken = '${userToken}'`, (err, res) => {
         if (err) {
