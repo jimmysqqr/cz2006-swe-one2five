@@ -13,12 +13,21 @@ const RentedOutFlat = (rentedoutflat) => {
     this.longitude = rentedoutflat.longitude;
 };
 
-// Method to get a rented-out flat by id
+/**
+ * Method to get a rented-out flat by id
+ * 
+ * @param {number|string} id 
+ * @returns {Promise}
+ */
 RentedOutFlat.getById = async (id) => {
     return dbConn.promise().execute(`SELECT * FROM rentedoutflats WHERE id = ${id}`);
 };
 
-// Method to get all rented-out flats
+/**
+ * Method to get all rented-out flats
+ * 
+ * @param {*} result 
+ */
 RentedOutFlat.getAll = (result) => {
     dbConn.query('SELECT * FROM rentedoutflats', (err, res) => {
         if (err) {
@@ -31,7 +40,15 @@ RentedOutFlat.getAll = (result) => {
     })
 };
 
-// Method to search for rented-out flats based on town, flat_type, and price
+/**
+ * Method to search for rented-out flats based on town, flat_type, and price
+ * 
+ * @param {string} town 
+ * @param {string} flatType 
+ * @param {number|string} loPrBound 
+ * @param {number|string} hiPrBound 
+ * @returns {Promise}
+ */
 RentedOutFlat.search = async (town, flatType, loPrBound, hiPrBound) => {
     // Handle the search filters
     let sql = "SELECT * FROM rentedoutflats";

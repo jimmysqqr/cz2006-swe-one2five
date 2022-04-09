@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start -p $PORT",
     "lint": "next lint",
-    "test": "nodemon app.js"
+    "test": "nodemon app.js",
+    "doc": "jsdoc -c backend_jsdoc.json"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.0",
@@ -22,9 +23,7 @@
     "@types/google-maps": "^3.2.3",
     "axios": "^0.26.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "next": "12.1.0",
     "react": "17.0.2",
@@ -32,9 +31,11 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "dotenv": "^16.0.0",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
     "express-async-errors": "^3.1.1",
+    "jsdoc": "^3.6.10",
     "nodemon": "^2.0.15",
     "sass": "^1.49.9"
   }

@@ -1,5 +1,11 @@
 const {calcDistance} = require('./googleMapsTool');
 
+/**
+ * Function to calculate the driving distance between a Flat and a Custom Location
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ */
 const calcCusLocDist = async (req, res) => {
     const distanceRes = await calcDistance([req.query.flatLat, req.query.flatLng], req.query.dst);
     if (distanceRes.status == 200) {
