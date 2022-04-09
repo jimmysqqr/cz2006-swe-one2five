@@ -24,7 +24,7 @@ export function CompareTable(props) {
   useEffect(() => {
     if (flatsCompared.length) {
       let distancePromises = flatsCompared.map((flat) =>
-        handleDistanceKeyPressHook(inputAddress, [flat.data.savedFlat.latitude, flat.data.savedFlat.longitude]).then(
+        handleDistanceKeyPressHook(inputAddress, {lat: flat.data.savedFlat.latitude, lng: flat.data.savedFlat.longitude}).then(
           (result) => result
         )
       );
