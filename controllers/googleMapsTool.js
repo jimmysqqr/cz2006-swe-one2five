@@ -25,8 +25,8 @@ const searchByAmenity = async (rentedOutFlatList, amenityType, amenityDist = 100
         }
         // else if (response.data.status === 'ZERO_RESULTS')
         //     console.log("Not found amenities...");
-        // else
-        //     console.log(response.data.status);
+        else
+            console.log(response.data.status);
     };
 
     return new Promise((resolve) => {
