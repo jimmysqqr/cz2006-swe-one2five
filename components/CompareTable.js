@@ -15,6 +15,12 @@ import { CustomLocationInput, DistanceResults, handleDistanceKeyPressHook } from
 import styles from "./CompareTable.module.scss";
 
 export function CompareTable(props) {
+  /*
+  Inputs
+  - uuid: user UUID
+  - ids: IDs of saved flats belonging to the user
+  */
+
   const router = useRouter();
 
   const [flatsCompared, setFlatsCompared] = useState([]);
@@ -86,7 +92,6 @@ export function CompareTable(props) {
           {flatsCompared.length ? (
             flatsCompared.map((value, index) => (
               <FlatColumn
-                type="target"
                 distance={distances[index]}
                 key={value["data"]["savedFlat"]["id"]}
                 info={value["data"]}
@@ -110,6 +115,14 @@ export function CompareTable(props) {
 }
 
 export function FlatColumn(props) {
+  /*
+  Inputs
+  - distance: distances from flat to the custom location
+  - info: information about the saved flat
+  - isGroup: whether flat is a searched flat or a lookup flat
+  - onRemove: callback when a column is removed
+  */
+
   let savedInfo = props.info;
 
   const [currentIDHighlight, setCurrentIDHighlight] = useState("");
@@ -195,6 +208,11 @@ export function FlatColumn(props) {
 }
 
 export function HeaderColumn(props) {
+  /*
+  Inputs
+  - onKeyPress: callback when a key is pressed in the custom location input box 
+  */
+
   return (
     <div className={`${styles.column} ${styles.header}`}>
       <div className={styles.headerSection}>

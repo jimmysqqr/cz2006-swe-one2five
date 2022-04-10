@@ -9,6 +9,14 @@ import locationPin from "/public/location_pin.png";
 import styles from "./FlatInfo.module.scss";
 
 export function AggregateInfo(props) {
+  /*
+  Inputs
+  - similarCount: no. of similar flats
+  - calPrice: calculated price
+  - percentile10: 10 percentile price
+  - percentile90: 90 percentile price
+  - futureEst: future estimate price
+  */
   return (
     <div className={`${styles.aggregate} ${styles.container}`}>
       <div className={styles.header}>Based on {props.similarCount} similar flat(s) in the same town,</div>
@@ -29,6 +37,16 @@ export function AggregateInfo(props) {
 }
 
 export function SingleInfo(props) {
+  /*
+  Inputs
+  - amenities: list of amenity objects
+  - lat: latitude of flat
+  - lng: longitude of flat
+  - approvalDate: rented-out flat date of approval of rental
+  - currentIDHighlight: ID of amenity that is currently being highlighted
+  - onClick: callback when an amenity is clicked
+  */
+
   return (
     <div className={`${styles.single} ${styles.container}`}>
       <div className={styles.section}>
@@ -61,6 +79,14 @@ export function SingleInfo(props) {
 }
 
 export function PriceRange(props) {
+  /*
+  Inputs
+  - calPrice: calculated price
+  - percentile10: 10 percentile price
+  - percentile90: 90 percentile price
+  - approvalDate: rented-out flat date of approval of rental
+  */
+ 
   return (
     <>
       {!props.approvalDate | (Math.round(props.percentile10) != Math.round(props.percentile90)) ? (
@@ -101,6 +127,11 @@ export function PriceRange(props) {
 }
 
 export function PriceFuture(props) {
+  /*
+  Inputs
+  - futureEst: future estimate price
+  */
+
   return (
     <div className={styles.priceFuture}>
       <div className={styles.numberGroup}>
@@ -118,6 +149,12 @@ export function PriceFuture(props) {
 }
 
 export function AmenityList(props) {
+  /*
+  - amenities: list of amenity objects
+  - currentIDHighlight: ID of current amenity highlighted
+  - onClick: callback when an amenity is selected
+  */
+
   let arr = props.amenities;
   if (arr.length) {
     arr.sort((a, b) => (a["dist_from_flat"]["value"] <= b["dist_from_flat"]["value"] ? -1 : 1));
@@ -153,6 +190,14 @@ export function AmenityList(props) {
 }
 
 export function AmenityMap(props) {
+  /*
+  Inputs:
+  - amenities: list of amenity objects
+  - latLng: latitude and longitude of flat
+  - center: center of map
+  - onMarkerClick: callback when a marker is clicked
+  */
+
   console.log(props);
   let zoom = (props.center.lat == props.latLng.lat) & (props.center.lang == props.latLng.lng) ? 15.5 : 17;
 
@@ -229,6 +274,11 @@ export function AmenityMap(props) {
 }
 
 function Map(props) {
+  /*
+  Inputs:
+  - center: center of map
+  - zoom: zoom level of map
+  */
   const ref = useRef(null);
   const [map, setMap] = useState();
 

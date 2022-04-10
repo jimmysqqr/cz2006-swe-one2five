@@ -7,6 +7,13 @@ import { AggregateInfo, SingleInfo, AmenityMap } from "/components/FlatInfo";
 import { Form } from "/components/Form";
 
 export function LookupResults(props) {
+  /*
+  Inputs:
+  - formState: React state of form
+  - handleSubmit: callback when form is submitted
+  - isSaved: whether a flat is saved
+  */
+
   let form = props.formState;
 
   const [currentIDHighlight, setCurrentIDHighlight] = useState("");

@@ -7,6 +7,28 @@ import { capitalizeTheFirstLetterOfEachWord } from "/components/data/formOptions
 import styles from "./ListItemFlat.module.scss";
 
 export function ListItemFlat(props) {
+  /*
+  Inputs:
+  - type: type of list item
+  - onSavedClick: callback when a savedFlat is clicked
+  - flatID: ID of flat
+  - approvalDate: approval date of rented-out flat
+  - lat: latitude
+  - lng: longitude
+  - isSaved: whether a flat is saved
+  - onAdd: callback when a flat is added to comparison
+  - savedFlatID: ID of saved flat
+  - onClick: callback when flat is clicked
+  - street: street name of flat
+  - block: block # of flat
+  - town: name of town
+  - roomType: flat-type
+  - price: price in dollars
+  - highlight: whether a flat is highlighted
+  - isChosen: whether a flat is currently selected 
+  - index: index of flat in list
+  */
+
   function selectFlat_inter() {
     props.onClick(props.flatID, {
       approvalDate: props.approvalDate,

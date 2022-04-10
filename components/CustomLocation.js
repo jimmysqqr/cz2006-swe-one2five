@@ -4,6 +4,11 @@ import { loadData } from "/components/data/httpRequestControl";
 import styles from "./CustomLocation.module.scss";
 
 export function CustomLocationInput(props) {
+  /*
+  Inputs
+  - ononKeyPress: callback when a key is pressed in the input box
+  */
+ 
   return (
     <InputText
       textAlign="left"
@@ -15,6 +20,11 @@ export function CustomLocationInput(props) {
 }
 
 export function DistanceResults(props) {
+  /*
+  Inputs
+  - distance: distances from flat to the custom location
+  */
+
   console.log("distance output", props);
   return (
     <div className={styles.distanceResults}>
@@ -25,7 +35,13 @@ export function DistanceResults(props) {
 }
 
 export async function handleDistanceKeyPressHook(inputAddress, flatLatLng) {
-  // use inputAddress and flatLatLng to get straight line distance
+  /*
+  Inputs
+  - inputAddress: Address of custom location
+  - flatLatLng: latitude and longitude of flat
+  Outputs
+  - distance to flat
+  */
 
   if (inputAddress) {
     return loadData("/api/v1/distance", {

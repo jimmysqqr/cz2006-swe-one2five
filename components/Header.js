@@ -8,6 +8,13 @@ import logo from "/public/logo.svg";
 import { loadData } from "/components/data/httpRequestControl";
 
 export default function Header(props) {
+  /*
+  Inputs
+  - uuid: UUID of user
+  - isSaved: whether a flat on the Lookup Results page is saved
+  - savedFlats: the list of currently saved flats
+  */
+
   // let activeTab = "fun";
   const router = useRouter();
   // let activeTab = router.asPath == "/"? "/" : router.asPath.slice(0,router.asPath.slice(1).indexOf("/")+1)

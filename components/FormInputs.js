@@ -2,6 +2,17 @@ import styles from "./FormInputs.module.scss";
 import { renderOptions } from "./data/formOptions";
 
 export function InputText(props) {
+  /*
+  Inputs:
+  - textAlign: textAlign style value
+  - placeholder: placeholder text
+  - size: size of input
+  - onKeyPress: callback when key is pressed inside input
+  - label: label text
+  - name: name of input
+  - formValue: value set by React state
+  - onChange: callback when value of input is changed
+  */
   let size = "";
   let wrap = "";
   let onKeyPress = () => {};
@@ -39,6 +50,13 @@ export function InputText(props) {
 }
 
 export function InputNumber(props) {
+  /*
+  Inputs:
+  - name: name of input
+  - formValue: value set by React state
+  - onChange: callback when value of input is changed
+  - placeholder: placeholder text
+  */
   let size = "";
   let onKeyPress = () => {};
   if (props.size == "small") {
@@ -73,6 +91,13 @@ export function InputNumber(props) {
 }
 
 export function Select(props) {
+  /*
+  Inputs:
+  - name: name of input
+  - formValue: value set by React state
+  - options: list of options for dropdown
+  - onChange: callback when value of input is changed
+  */
   let size = "";
   let wrap = "";
   if (props.size == "small") {

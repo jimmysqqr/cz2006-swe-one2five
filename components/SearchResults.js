@@ -8,6 +8,20 @@ import { AggregateInfo, SingleInfo, AmenityMap } from "/components/FlatInfo";
 import { amenityValueToDisplay, roomValuetoDisplay } from "/components/data/formOptions";
 
 export function SearchResults(props) {
+  /*
+  Inputs:
+  - results: list of search results
+  - formState: React state of form
+  - onSavedClick: callback when a flat is saved
+  - setFormState: callback to set the React state
+  - handleSubmit: callback when the form is submitted
+  - handleListItemClick: callback when a flat is clicked
+  - flatListStyles: list of styles for each search result
+  - savedFlats: list of currently saved flats
+  - selectedFlat: ID of currently selected flat
+  - showSingle: whether aggregateInfo or singleInfo is shown
+  */
+
   let aggData = props.results.aggData;
   let flatList = props.results.flatList;
 
@@ -94,6 +108,15 @@ export function SearchResults(props) {
 }
 
 export function ListSearchedFlats(props) {
+  /*
+  Inputs:
+  - onClick: callback when a flat is clicked
+  - onSavedClick: callback when a flat is saved
+  - results: list of search results
+  - flatListStyles: list of styles for each search result
+  - savedFlats: list of currently saved flats
+  */
+
   let savedFlatIDs = new Set(props.savedFlats.map((flat) => flat["rented_out_id"]));
   return (
     <ul className={styles.listContainer}>

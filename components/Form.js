@@ -7,6 +7,19 @@ import { InputText, InputNumber, Select } from "/components/FormInputs";
 import styles from "./Form.module.scss";
 
 export function Form(props) {
+  /*
+  Inputs:
+  - page: name of page
+  - onAdd: callback when a flat is added to the initial comparison
+  - onRemove: callback when a flat is removed from the initial comparison
+  - onUnsave: callback when a flat is unsaved
+  - isRemove: boolean whether a flat is removed from the saved flat list
+  - handleSubmit: callback when a submit button is pressed
+  - options: options for select dropdown
+  - isSaved: whether a flat is saved
+  - formState: React state of form inputs
+  - setFormState: callback to set the React state of form
+  */
   function handleClick(event) {
     let changedValue = event.target.value;
     let fieldChanged = event.target.name;

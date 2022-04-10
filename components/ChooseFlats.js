@@ -10,6 +10,13 @@ import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import styles from "./ChooseFlats.module.scss";
 
 export function ChooseFlats(props) {
+  /*
+  Inputs
+  - onUnsave: callback when the "Unsave button is clicked"
+  - savedFlats: data structure containing the list of saved flats
+  - uuid: user UUID
+  */
+
   const router = useRouter();
 
   const [showInfoAction, setShowInfoAction] = useState(false);
