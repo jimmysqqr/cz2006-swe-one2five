@@ -1,6 +1,7 @@
 @use "/styles/utils" as u;
 
 $list-item-content-spacing: 1rem;
+$saveContainer-width: 3rem;
 
 .listItemFlat {
   background: u.$white;
@@ -26,13 +27,13 @@ $list-item-content-spacing: 1rem;
     margin-bottom: 0.1rem;
     cursor: pointer;
     &:hover {
-      background: u.$primary-light-off;
+      background: u.$secondary-light;
       color: u.$white;
     }
   }
 }
 .listItemFlat.highlight {
-  background: u.$primary-light-off;
+  background: u.$secondary-light;
 }
 
 
@@ -41,7 +42,7 @@ $list-item-content-spacing: 1rem;
   align-items: center;
   justify-content: center;
   padding: 0 calc($list-item-content-spacing / 2);
-  flex: 0.75;
+  width: $saveContainer-width;
   color: u.$black;
 }
 .highlight .saveContainer {
@@ -49,12 +50,12 @@ $list-item-content-spacing: 1rem;
 }
 .saved.saveContainer,
 .highlight .saved.saveContainer {
-  color: u.$secondary-light;
+  color: u.$primary-accent;
 }
 
 .clickContainer {
   display: flex;
-  flex: 9.25;
+  width: calc(100% - $saveContainer-width);
   .nameAmenityContainer {
     flex: 7.5
   }
@@ -111,6 +112,7 @@ $list-item-content-spacing: 1rem;
   flex-flow: column;
   justify-content: flex-end;
   align-items: flex-end;
+  white-space: nowrap;
 
   .roomType {
     font-family: 'Quicksand';
@@ -141,5 +143,5 @@ $list-item-content-spacing: 1rem;
   position: absolute;
   top: 0.1rem;
   right: 0.5rem;
-  color: u.$secondary-light;
+  color: u.$primary-accent;
 }
