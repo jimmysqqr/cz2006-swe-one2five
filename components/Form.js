@@ -40,7 +40,7 @@ export function Form(props) {
         </div>
         <div className={`${styles.smallFormFieldContainer} ${styles.reducedWidth}`}>
           <Select
-            label="Room Type"
+            label="Flat Type"
             name={"roomType"}
             formValue={props.formState.roomType}
             size={"small"}
@@ -65,7 +65,7 @@ export function Form(props) {
         </div>
         <div className={styles.mainFormFieldContainer}>
           <Select
-            label="Room Type"
+            label="Flat Type"
             name={"roomType"}
             formValue={props.formState.roomType}
             options={props.options.roomType}
@@ -138,7 +138,7 @@ export function Form(props) {
             </div>
             <div className={styles.smallFormFieldContainer}>
               <Select
-                label="Room Type"
+                label="Flat Type"
                 name={"roomType"}
                 formValue={props.formState.roomType}
                 size={"small"}
