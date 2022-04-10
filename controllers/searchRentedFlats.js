@@ -106,6 +106,20 @@ const searchRentedFlats = async (req, res) => {
 
                 if(isNaN(hiPrBound)) {
                     console.log("Error: Please enter a numeric higher price bound");
+                    res.status(400).json(
+                        {
+                            message: "Error: Please enter a numeric higher price bound"
+                        }
+                    );
+                    return;
+                }
+                else if(hiPrBound < 0) {
+                    console.log("Error: Please enter a positive number for higher price bound");
+                    res.status(400).json(
+                        {
+                            message: "Error: Please enter a positive number for higher price bound"
+                        }
+                    );
                     return;
                 }
             }
@@ -116,9 +130,43 @@ const searchRentedFlats = async (req, res) => {
 
                 if(isNaN(loPrBound)) {
                     console.log("Error: Please enter a numeric lower price bound");
+                    res.status(400).json(
+                        {
+                            message: "Error: Please enter a numeric lower price bound"
+                        }
+                    );
+                    return;
+                }
+                else if(loPrBound < 0) {
+                    console.log("Error: Please enter a positive number for lower price bound");
+                    res.status(400).json(
+                        {
+                            message: "Error: Please enter a positive number for lower price bound"
+                        }
+                    );
                     return;
                 }
             }
+        }
+
+        if ((!hiPrBound && loPrBound) || (hiPrBound && !loPrBound)){
+            console.log("Higher price bound and lower price bound must either both be present or both be absent");
+            res.status(400).json(
+                {
+                    message: "Higher price bound and lower price bound must either both be present or both be absent"
+                }
+            );
+            return;
+        }
+
+        if (loPrBound > hiPrBound) {
+            console.log("Higher price bound cannot be smaller than lower price bound");
+            res.status(400).json(
+                {
+                    message: "Higher price bound cannot be smaller than lower price bound"
+                }
+            );
+            return;
         }
     }
 
